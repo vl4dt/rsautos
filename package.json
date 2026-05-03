@@ -9,6 +9,8 @@
     "confirm:env": "node scripts/confirm-production-env.mjs",
     "lint": "eslint .",
     "sanity:deploy": "sanity deploy",
+    "seed:sanity": "node scripts/seed-sample-listings.mjs",
+    "seed:sanity:dry": "node scripts/seed-sample-listings.mjs --dry-run",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

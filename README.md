@@ -41,3 +41,14 @@ Inventory pages use ISR with a 1-hour revalidation window. To show newly publish
 - Trigger: create, update, and delete events for `carListing`
 
 The endpoint revalidates `/inventory` and `/` without exposing internal listing fields.
+
+## Sample Inventory Seed
+
+When the production Sanity dataset has limited inventory, seed QA listings from the curated vehicle images:
+
+1. Create a Sanity API token with write access.
+2. Set `SANITY_API_WRITE_TOKEN` locally, or add it to `.env.production.local`.
+3. Preview the seed data with `npm run seed:sanity:dry`.
+4. Write the sample listings with `npm run seed:sanity`.
+
+The seed script creates or replaces four public documents with stable `sample-*` ids. It only writes buyer-facing fields and does not include `usaAuctionPrice` or `priceBreakdown`.

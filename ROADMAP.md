@@ -16,7 +16,7 @@ Core trust promise: every public vehicle experience should help the buyer compar
 - [x] Add curated RS Autos logo and vehicle imagery as public assets.
 - [x] Connect production Sanity dataset and Vercel deployment.
 - [x] Confirm production env variables for business name, market, location, WhatsApp phone, site URL, and Sanity config.
-- [ ] Add seeded sample listings that match the visual references for QA when Sanity has limited data.
+- [x] Add seeded sample listings that match the visual references for QA when Sanity has limited data.
 
 ## Phase 2: Brand System and UI Polish
 
