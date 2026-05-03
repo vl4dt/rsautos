@@ -8,5 +8,6 @@ export const env = {
   sanityDataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production",
   sanityApiVersion:
     process.env.NEXT_PUBLIC_SANITY_API_VERSION ?? "2026-05-01",
+  sanityRevalidateSecret: process.env.SANITY_REVALIDATE_SECRET,
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
 } as const;
