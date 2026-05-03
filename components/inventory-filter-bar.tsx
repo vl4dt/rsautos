@@ -24,14 +24,14 @@ export function InventoryFilterBar({
   return (
     <form
       action="/inventory"
-      className="glass-card grid gap-4 p-4 md:grid-cols-2 lg:grid-cols-[1.1fr_0.85fr_0.85fr_1.1fr_1.2fr_auto_auto]"
+      className="glass-card neon-panel grid gap-4 p-4 md:grid-cols-2 lg:grid-cols-[1.1fr_0.85fr_0.85fr_1.35fr_1.2fr_auto_auto]"
     >
-      <div className="flex items-center gap-2 md:col-span-2 lg:col-span-7">
+      <div className="relative z-10 flex items-center gap-2 md:col-span-2 lg:col-span-7">
         <Filter aria-hidden className="text-brandRed" size={20} />
         <h2 className="text-lg font-black">Filtros de inventario</h2>
       </div>
 
-      <label className="space-y-2">
+      <label className="relative z-10 space-y-2">
         <span className="text-xs font-bold uppercase text-muted">Marca</span>
         <select className="field px-3" defaultValue={values.make ?? ""} name="make">
           <option value="">Todas</option>
@@ -43,7 +43,7 @@ export function InventoryFilterBar({
         </select>
       </label>
 
-      <label className="space-y-2">
+      <label className="relative z-10 space-y-2">
         <span className="text-xs font-bold uppercase text-muted">Ano minimo</span>
         <input
           className="field px-3"
@@ -57,7 +57,7 @@ export function InventoryFilterBar({
         />
       </label>
 
-      <label className="space-y-2">
+      <label className="relative z-10 space-y-2">
         <span className="text-xs font-bold uppercase text-muted">Ano maximo</span>
         <input
           className="field px-3"
@@ -71,7 +71,7 @@ export function InventoryFilterBar({
         />
       </label>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="relative z-10 grid grid-cols-2 gap-3">
         <label className="space-y-2">
           <span className="text-xs font-bold uppercase text-muted">Precio min</span>
           <input
@@ -80,7 +80,7 @@ export function InventoryFilterBar({
             inputMode="numeric"
             min={filters.bounds.minPrice}
             name="minPrice"
-            placeholder="USD"
+            placeholder="$"
             type="number"
           />
         </label>
@@ -92,13 +92,13 @@ export function InventoryFilterBar({
             inputMode="numeric"
             min={filters.bounds.minPrice}
             name="maxPrice"
-            placeholder="USD"
+            placeholder="$"
             type="number"
           />
         </label>
       </div>
 
-      <label className="space-y-2">
+      <label className="relative z-10 space-y-2">
         <span className="text-xs font-bold uppercase text-muted">Estado</span>
         <select
           className="field px-3"
@@ -114,7 +114,7 @@ export function InventoryFilterBar({
         </select>
       </label>
 
-      <label className="space-y-2">
+      <label className="relative z-10 space-y-2">
         <span className="text-xs font-bold uppercase text-muted">Ordenar</span>
         <select
           className="field px-3"
@@ -129,7 +129,7 @@ export function InventoryFilterBar({
         </select>
       </label>
 
-      <div className="flex items-end gap-2">
+      <div className="relative z-10 flex items-end gap-2">
         <button className="btn-primary w-full px-4" type="submit">
           <Search aria-hidden size={18} />
           Buscar

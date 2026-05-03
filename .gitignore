@@ -26,6 +26,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# Local curated ChatGPT session references
+chatgpt-sessions/
+
 # OS and editor files
 .DS_Store
 Thumbs.db

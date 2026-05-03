@@ -13,7 +13,7 @@ export function getSanityClient() {
     projectId: env.sanityProjectId,
     dataset: env.sanityDataset,
     apiVersion: env.sanityApiVersion,
-    useCdn: true,
+    useCdn: false,
     perspective: "published",
     stega: false
   });

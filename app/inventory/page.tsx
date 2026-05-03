@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { BadgeCheck, CarFront, LayoutGrid, ShieldCheck } from "lucide-react";
 
 import { EmptyInventory } from "@/components/empty-inventory";
 import { InventoryFilterBar } from "@/components/inventory-filter-bar";
@@ -30,6 +31,11 @@ const emptyFilters: InventoryFiltersData = {
   bounds: {}
 };
 
+const sanityFetchOptions =
+  process.env.NODE_ENV === "development"
+    ? { cache: "no-store" as const }
+    : { next: { revalidate } };
+
 export default async function InventoryPage({
   searchParams
 }: InventoryPageProps) {
@@ -42,12 +48,12 @@ export default async function InventoryPage({
         sanityClient.fetch<PublicVehicleCard[]>(
           buildInventoryQuery(filters),
           filters,
-          { next: { revalidate } }
+          sanityFetchOptions
         ),
         sanityClient.fetch<InventoryFiltersData>(
           inventoryFiltersQuery,
           {},
-          { next: { revalidate } }
+          sanityFetchOptions
         )
       ])
     : [[], emptyFilters];
@@ -55,14 +61,14 @@ export default async function InventoryPage({
   return (
     <main className="px-4 py-10 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <section className="mb-8">
-          <p className="text-sm font-black uppercase text-brandRed">
-            Inventario transparente
-          </p>
-          <div className="mt-3 grid gap-4 lg:grid-cols-[1fr_24rem] lg:items-end">
+        <section className="mb-8 overflow-hidden rounded-[var(--radius)] border border-white/10 bg-black/35 p-6 shadow-glass">
+          <div className="grid gap-6 lg:grid-cols-[1fr_24rem] lg:items-end">
             <div>
-              <h1 className="metal-heading text-4xl leading-tight sm:text-5xl">
-                Vehiculos importados disponibles
+              <p className="text-sm font-black uppercase tracking-[0.18em] text-brandRed">
+                Inventario transparente
+              </p>
+              <h1 className="metal-heading mt-3 text-4xl uppercase leading-tight sm:text-5xl">
+                Vehiculos importados verificados
               </h1>
               <p className="mt-4 max-w-3xl text-muted">
                 Filtra por marca, ano, precio y estado de importacion. Cada
@@ -70,18 +76,37 @@ export default async function InventoryPage({
                 subasta y estado actual cuando abras su ficha tecnica.
               </p>
             </div>
-            <div className="glass-card p-4">
-              <p className="text-sm font-bold text-muted">Ubicacion</p>
-              <p className="mt-1 text-xl font-black">{env.businessLocation}</p>
+            <div className="glass-card p-5">
+              <p className="flex items-center gap-2 text-sm font-bold text-muted">
+                <ShieldCheck aria-hidden className="text-brandRed" size={18} />
+                Ubicacion y respaldo
+              </p>
+              <p className="mt-2 text-xl font-black">{env.businessLocation}</p>
+              <p className="mt-2 text-sm leading-6 text-muted">
+                Contacto directo y datos visibles antes de coordinar visita o
+                compra.
+              </p>
             </div>
           </div>
         </section>
 
         <InventoryFilterBar filters={filterData} values={filters} />
 
+        <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="flex items-center gap-3 text-lg font-black text-white">
+            <CarFront aria-hidden className="text-brandRed" size={22} />
+            <span className="text-brandRed">{vehicles.length}</span>
+            vehiculos encontrados
+          </p>
+          <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-sm font-bold text-muted">
+            <LayoutGrid aria-hidden size={18} />
+            Vista de tarjetas
+          </div>
+        </div>
+
         <section
           aria-live="polite"
-          className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3"
+          className="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-3"
         >
           {vehicles.map((vehicle) => (
             <VehicleCard key={vehicle._id} vehicle={vehicle} />
@@ -93,6 +118,20 @@ export default async function InventoryPage({
             <EmptyInventory />
           </div>
         ) : null}
+
+        <section className="mt-10 grid gap-5 lg:grid-cols-3">
+          {[
+            ["VIN verificable", "Historial y datos visibles para comparar antes de comprar."],
+            ["Revision clara", "Estado mecanico, kilometraje y condicion actual en una ficha simple."],
+            ["Asesoria por WhatsApp", "Coordinacion directa para inventario, importacion o venta."]
+          ].map(([title, text]) => (
+            <div className="glass-card p-5" key={title}>
+              <BadgeCheck aria-hidden className="text-brandRed" size={26} />
+              <h2 className="mt-4 text-lg font-black">{title}</h2>
+              <p className="mt-2 text-sm leading-6 text-muted">{text}</p>
+            </div>
+          ))}
+        </section>
       </div>
     </main>
   );

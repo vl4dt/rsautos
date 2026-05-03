@@ -4,15 +4,15 @@
 
 :root {
   --bg: #05070a;
-  --panel: rgba(14, 18, 28, 0.68);
-  --panel-strong: rgba(10, 14, 22, 0.86);
-  --border: rgba(255, 255, 255, 0.12);
+  --panel: rgba(13, 18, 27, 0.72);
+  --panel-strong: rgba(7, 10, 16, 0.9);
+  --border: rgba(190, 210, 235, 0.16);
   --text: #ffffff;
-  --muted: #a7afbf;
-  --red: #e30613;
-  --blue: #0b53d7;
-  --silver: #d2d7df;
-  --radius: 18px;
+  --muted: #a9b3c1;
+  --red: #e50914;
+  --blue: #006bff;
+  --silver: #d6dbe4;
+  --radius: 16px;
 }
 
 * {
@@ -29,12 +29,31 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(circle at top left, rgba(227, 6, 19, 0.18), transparent 34rem),
-    radial-gradient(circle at top right, rgba(11, 83, 215, 0.2), transparent 32rem),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.035) 25%, transparent 25%) 0 0 / 12px 12px,
-    linear-gradient(180deg, #070a10 0%, #05070a 42%, #020305 100%);
+    radial-gradient(circle at 78% 4%, rgba(229, 9, 20, 0.22), transparent 28rem),
+    radial-gradient(circle at 34% 0%, rgba(0, 107, 255, 0.18), transparent 26rem),
+    linear-gradient(180deg, #070a10 0%, #05070a 44%, #020305 100%);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", sans-serif;
+}
+
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.026) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    repeating-linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.018) 0,
+      rgba(255, 255, 255, 0.018) 1px,
+      transparent 1px,
+      transparent 10px
+    );
+  background-size: 70px 70px, 70px 70px, 24px 24px;
+  content: "";
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.76), transparent 80%);
+  pointer-events: none;
 }
 
 a {
@@ -62,17 +81,57 @@ select {
 @layer components {
   .glass-card {
     background: linear-gradient(
-      180deg,
-      rgba(18, 24, 36, 0.78),
-      rgba(8, 11, 17, 0.62)
+      135deg,
+      rgba(17, 24, 36, 0.86),
+      rgba(7, 11, 18, 0.68)
     );
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--border);
     border-radius: var(--radius);
     box-shadow:
-      0 24px 60px rgba(0, 0, 0, 0.35),
+      0 24px 60px rgba(0, 0, 0, 0.48),
       inset 0 1px 0 rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
+  }
+
+  .neon-panel {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .neon-panel::before {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+      linear-gradient(90deg, rgba(0, 107, 255, 0.42), transparent 28%),
+      linear-gradient(270deg, rgba(229, 9, 20, 0.45), transparent 30%);
+    content: "";
+    opacity: 0.22;
+    pointer-events: none;
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: white;
+    font-size: clamp(1.55rem, 2vw, 2.1rem);
+    font-weight: 950;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .section-title::before {
+    width: 2.5rem;
+    height: 0.85rem;
+    background: repeating-linear-gradient(
+      110deg,
+      var(--red) 0 0.42rem,
+      transparent 0.42rem 0.7rem
+    );
+    content: "";
+    filter: drop-shadow(0 0 10px rgba(229, 9, 20, 0.55));
   }
 
   .btn-primary {
@@ -82,16 +141,20 @@ select {
     justify-content: center;
     gap: 0.5rem;
     border-radius: 0.75rem;
-    background: linear-gradient(180deg, #ff1f1f, #b80000);
+    background: linear-gradient(135deg, #ff1f2d, #c90009 58%, #9b0007);
     color: white;
     font-weight: 800;
-    box-shadow: 0 12px 30px rgba(227, 6, 19, 0.35);
+    box-shadow:
+      0 12px 30px rgba(229, 9, 20, 0.36),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.16);
     transition: transform 160ms ease, box-shadow 160ms ease;
   }
 
   .btn-primary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 16px 40px rgba(227, 6, 19, 0.44);
+    box-shadow:
+      0 16px 40px rgba(229, 9, 20, 0.48),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.22);
   }
 
   .btn-secondary {
@@ -102,7 +165,7 @@ select {
     gap: 0.5rem;
     border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 0.75rem;
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(3, 7, 13, 0.58);
     color: white;
     font-weight: 700;
     transition: border-color 160ms ease, background 160ms ease;
@@ -114,18 +177,20 @@ select {
   }
 
   .metal-heading {
-    background: linear-gradient(180deg, #ffffff 0%, #d8dde7 48%, #8f98aa 100%);
+    background: linear-gradient(180deg, #ffffff 0%, #dde3ec 44%, #929aa8 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     font-weight: 900;
+    letter-spacing: 0;
+    text-shadow: 0 16px 34px rgba(0, 0, 0, 0.42);
   }
 
   .field {
     min-height: 2.75rem;
     width: 100%;
     border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: 0.75rem;
+    border-radius: 0.8rem;
     background: rgba(2, 4, 8, 0.72);
     color: white;
     outline: none;
@@ -134,5 +199,19 @@ select {
   .field:focus {
     border-color: rgba(11, 83, 215, 0.8);
     box-shadow: 0 0 0 3px rgba(11, 83, 215, 0.22);
+  }
+
+  .vehicle-card-shell {
+    border-color: rgba(190, 210, 235, 0.17);
+    transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+  }
+
+  .vehicle-card-shell:hover {
+    border-color: rgba(229, 9, 20, 0.36);
+    box-shadow:
+      0 24px 64px rgba(0, 0, 0, 0.58),
+      0 0 26px rgba(229, 9, 20, 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transform: translateY(-3px);
   }
 }

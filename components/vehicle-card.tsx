@@ -10,9 +10,10 @@ import { buildWhatsappUrl } from "@/lib/whatsapp";
 
 type VehicleCardProps = {
   vehicle: PublicVehicleCard;
+  compact?: boolean;
 };
 
-export function VehicleCard({ vehicle }: VehicleCardProps) {
+export function VehicleCard({ compact = false, vehicle }: VehicleCardProps) {
   const imageUrl = vehicle.heroImage ? urlForImage(vehicle.heroImage) : "";
   const leadVehicle = {
     title: vehicle.title,
@@ -22,7 +23,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
   };
 
   return (
-    <article className="glass-card group overflow-hidden">
+    <article className="glass-card vehicle-card-shell group overflow-hidden">
       <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-zinc-950 via-slate-900 to-black">
         {imageUrl ? (
           <Image
@@ -37,22 +38,22 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
             <div className="h-20 w-48 rounded-full border border-white/15 bg-white/5 shadow-blueGlow" />
           </div>
         )}
-        <div className="absolute left-4 top-4 rounded-full border border-brandRed/40 bg-black/65 px-3 py-1 text-xs font-black shadow-redGlow">
+        <div className="absolute left-4 top-4 rounded-full border border-brandBlue/45 bg-black/65 px-3 py-1 text-xs font-black text-silver shadow-blueGlow">
           {importStatusLabels[vehicle.importStatus]}
         </div>
       </div>
 
-      <div className="p-5">
+      <div className={compact ? "p-4" : "p-5"}>
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-sm font-bold text-muted">
               {vehicle.year} {vehicle.make}
             </p>
-            <h2 className="mt-1 text-xl font-black text-white">
+            <h2 className={compact ? "mt-1 text-lg font-black text-white" : "mt-1 text-xl font-black text-white"}>
               {vehicle.model}
             </h2>
           </div>
-          <p className="text-right text-xl font-black text-brandRed">
+          <p className={compact ? "text-right text-lg font-black text-brandRed" : "text-right text-xl font-black text-brandRed"}>
             {formatUsd(vehicle.priceUsd)}
           </p>
         </div>
@@ -69,10 +70,10 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
         </div>
 
         <div className="mt-5 grid grid-cols-2 gap-3">
-          <Link className="btn-secondary px-4" href={`/inventory/${vehicle.slug}`}>
+          <Link className="btn-secondary px-4 text-sm" href={`/inventory/${vehicle.slug}`}>
             Ver detalles
           </Link>
-          <a className="btn-primary px-4" href={buildWhatsappUrl(leadVehicle)}>
+          <a className="btn-primary px-4 text-sm" href={buildWhatsappUrl(leadVehicle)}>
             <MessageCircle aria-hidden size={18} />
             WhatsApp
           </a>

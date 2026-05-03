@@ -1,0 +1,89 @@
+import { Facebook, Instagram, Mail, MapPin, Phone, Youtube } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+
+import { env } from "@/lib/env";
+import { buildWhatsappUrl } from "@/lib/whatsapp";
+
+const quickLinks = [
+  { href: "/", label: "Inicio" },
+  { href: "/inventory", label: "Inventario" },
+  { href: "/#proceso", label: "Importamos tu auto" },
+  { href: "/#respaldo", label: "Nosotros" },
+  { href: "/#contacto", label: "Contacto" }
+];
+
+export function SiteFooter() {
+  return (
+    <footer className="mt-14 border-t border-white/10 bg-black/55 px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1.2fr_1fr_1fr_0.8fr]">
+        <div>
+          <Image
+            alt={env.businessName}
+            className="h-auto w-44"
+            height={76}
+            src="/images/rs-autos/rs-autos-logo.png"
+            width={240}
+          />
+          <p className="mt-4 max-w-sm text-sm leading-6 text-muted">
+            Vehiculos importados verificados, documentacion clara y asesoria
+            directa para comprar con confianza en {env.primaryMarket}.
+          </p>
+        </div>
+
+        <div>
+          <h2 className="text-sm font-black uppercase tracking-wide text-white">
+            Enlaces rapidos
+          </h2>
+          <div className="mt-4 grid gap-3 text-sm font-semibold text-muted">
+            {quickLinks.map((link) => (
+              <Link className="transition hover:text-white" href={link.href} key={link.href}>
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h2 className="text-sm font-black uppercase tracking-wide text-white">
+            Contactanos
+          </h2>
+          <div className="mt-4 grid gap-3 text-sm text-muted">
+            <a className="flex items-center gap-3 transition hover:text-white" href={buildWhatsappUrl()}>
+              <Phone aria-hidden className="text-brandRed" size={18} />
+              {env.contactPhone || "WhatsApp directo"}
+            </a>
+            <span className="flex items-center gap-3">
+              <Mail aria-hidden className="text-brandBlue" size={18} />
+              Atencion por mensaje
+            </span>
+            <span className="flex items-center gap-3">
+              <MapPin aria-hidden className="text-silver" size={18} />
+              {env.businessLocation}
+            </span>
+          </div>
+        </div>
+
+        <div>
+          <h2 className="text-sm font-black uppercase tracking-wide text-white">
+            Siguenos
+          </h2>
+          <div className="mt-4 flex gap-3">
+            {[Facebook, Instagram, Youtube].map((Icon, index) => (
+              <span
+                className="grid h-11 w-11 place-items-center rounded-full border border-white/15 bg-white/[0.03] text-silver"
+                key={index}
+              >
+                <Icon aria-hidden size={18} />
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="mx-auto mt-10 flex max-w-7xl flex-col gap-3 border-t border-white/10 pt-5 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+        <span>(c) 2026 {env.businessName}. Todos los derechos reservados.</span>
+        <span>Confianza, transparencia y calidad en cada proceso.</span>
+      </div>
+    </footer>
+  );
+}
