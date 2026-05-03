@@ -29,6 +29,8 @@ Set these Vercel environment variables for Production, Preview, and Development 
 
 Sanity Studio is embedded at `/studio` and uses the same `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET` values as the public site. Add the final Vercel domain to the Sanity project CORS origins with credentials enabled so Studio can authenticate in production.
 
+Run `npm run confirm:env` after setting production values. The command confirms business metadata, WhatsApp, the production HTTPS site URL, Sanity config, and the ISR webhook secret without printing secret values.
+
 ## Sanity Publish Refresh
 
 Inventory pages use ISR with a 1-hour revalidation window. To show newly published listings immediately, set `SANITY_REVALIDATE_SECRET` in the deployment environment and create a Sanity webhook:

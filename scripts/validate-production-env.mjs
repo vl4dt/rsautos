@@ -56,8 +56,11 @@ if (siteUrl) {
   try {
     const parsedUrl = new URL(siteUrl);
 
-    if (!["https:", "http:"].includes(parsedUrl.protocol)) {
-      errors.push("NEXT_PUBLIC_SITE_URL must be an HTTP or HTTPS URL.");
+    if (
+      parsedUrl.protocol !== "https:" ||
+      ["localhost", "127.0.0.1", "::1"].includes(parsedUrl.hostname)
+    ) {
+      errors.push("NEXT_PUBLIC_SITE_URL must be a production HTTPS URL.");
     }
   } catch {
     errors.push("NEXT_PUBLIC_SITE_URL must be a valid absolute URL.");

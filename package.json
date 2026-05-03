@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "build:production": "node scripts/validate-production-env.mjs && next build",
+    "confirm:env": "node scripts/confirm-production-env.mjs",
     "lint": "eslint .",
     "sanity:deploy": "sanity deploy",
     "typecheck": "tsc --noEmit"
