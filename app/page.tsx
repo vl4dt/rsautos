@@ -326,7 +326,7 @@ export default async function HomePage() {
               <article className="glass-card p-6" key={testimonial.name}>
                 <Sparkles aria-hidden className="text-brandRed" size={24} />
                 <p className="mt-4 min-h-24 text-sm leading-6 text-silver">
-                  "{testimonial.quote}"
+                  &ldquo;{testimonial.quote}&rdquo;
                 </p>
                 <p className="mt-5 text-brandRed">*****</p>
                 <div className="mt-3">

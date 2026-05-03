@@ -14,7 +14,7 @@ Core trust promise: every public vehicle experience should help the buyer compar
 - [x] Add WhatsApp lead CTAs driven by environment configuration.
 - [x] Apply premium dark automotive glassmorphism styling to homepage, inventory, header, footer, cards, filters, and CTAs.
 - [x] Add curated RS Autos logo and vehicle imagery as public assets.
-- [ ] Connect production Sanity dataset and Vercel deployment.
+- [x] Connect production Sanity dataset and Vercel deployment.
 - [ ] Confirm production env variables for business name, market, location, WhatsApp phone, site URL, and Sanity config.
 - [ ] Add seeded sample listings that match the visual references for QA when Sanity has limited data.
 

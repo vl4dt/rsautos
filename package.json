@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "lint": "next lint",
+    "build:production": "node scripts/validate-production-env.mjs && next build",
+    "lint": "eslint .",
+    "sanity:deploy": "sanity deploy",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
