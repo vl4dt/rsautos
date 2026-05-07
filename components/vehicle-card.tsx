@@ -19,7 +19,8 @@ export function VehicleCard({ compact = false, vehicle }: VehicleCardProps) {
     title: vehicle.title,
     vin: vehicle.vin,
     slug: vehicle.slug,
-    importStatusLabel: importStatusLabels[vehicle.importStatus]
+    importStatusLabel: importStatusLabels[vehicle.importStatus],
+    leadSource: "inventory"
   };
 
   return (

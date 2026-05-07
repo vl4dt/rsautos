@@ -9,9 +9,9 @@ import { useState } from "react";
 const navItems = [
   { href: "/", label: "Inicio" },
   { href: "/inventory", label: "Inventario" },
-  { href: "/#proceso", label: "Importamos tu auto" },
+  { href: "/importamos-tu-auto", label: "Importamos tu auto" },
   { href: "/#respaldo", label: "Nosotros" },
-  { href: "/#contacto", label: "Contacto" }
+  { href: "/contacto", label: "Contacto" }
 ];
 
 type SiteHeaderClientProps = {
@@ -51,7 +51,8 @@ export function SiteHeaderClient({
             >
               {item.label}
               {(item.href === "/" && pathname === "/") ||
-              (item.href === "/inventory" && pathname.startsWith("/inventory")) ? (
+              (item.href === "/inventory" && pathname.startsWith("/inventory")) ||
+              (item.href !== "/" && pathname === item.href) ? (
                 <span className="absolute bottom-0 left-0 h-0.5 w-full rounded-full bg-brandRed shadow-redGlow" />
               ) : null}
             </Link>

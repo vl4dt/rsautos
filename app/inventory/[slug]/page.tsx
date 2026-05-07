@@ -96,7 +96,8 @@ export default async function VehicleDetailPage({
     title: vehicle.title,
     vin: vehicle.vin,
     slug: vehicle.slug,
-    importStatusLabel: statusLabel
+    importStatusLabel: statusLabel,
+    leadSource: "inventory_detail"
   });
   const specItems: Array<{
     label: string;

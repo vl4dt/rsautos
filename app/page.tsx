@@ -163,10 +163,10 @@ export default async function HomePage() {
               <Link className="btn-primary px-6" href="/inventory">
                 Ver inventario <ArrowRight aria-hidden size={20} />
               </Link>
-              <a className="btn-secondary px-6" href={buildWhatsappUrl()}>
+              <Link className="btn-secondary px-6" href="/importamos-tu-auto">
                 <MessageCircle aria-hidden size={19} />
-                Cotizar por WhatsApp
-              </a>
+                Cotizar importacion
+              </Link>
             </div>
             <div className="mt-7 flex flex-wrap gap-4 text-sm font-extrabold text-silver">
               <span className="flex items-center gap-2">
@@ -348,12 +348,12 @@ export default async function HomePage() {
             <h2 className="text-3xl font-black">Listo para tu proximo auto?</h2>
             <p className="mt-2 max-w-2xl text-muted">
               Escribenos por WhatsApp y recibe asesoria personalizada con
-              opciones disponibles, importacion o venta de tu vehiculo.
+              opciones disponibles, importacion o documentacion.
             </p>
           </div>
-          <a className="btn-primary relative z-10 px-7" href={buildWhatsappUrl()}>
-            Escribir por WhatsApp <ArrowRight aria-hidden size={20} />
-          </a>
+          <Link className="btn-primary relative z-10 px-7" href="/contacto">
+            Ir a contacto <ArrowRight aria-hidden size={20} />
+          </Link>
           <Image
             alt=""
             aria-hidden

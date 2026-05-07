@@ -40,12 +40,11 @@ Core trust promise: every public vehicle experience should help the buyer compar
 
 ## Phase 4: Lead and Conversion Flows
 
-- [ ] Build `Importamos tu auto` page with a guided import quote flow.
-- [ ] Build `Vende tu auto` page with valuation intake, photos, vehicle details, and WhatsApp handoff.
-- [ ] Build `Contacto` page with location, direct WhatsApp CTA, contact options, and response expectations.
-- [ ] Add reusable glass form patterns: icon fields, select controls, upload dropzones, progress/summary sidebar, and success state.
-- [ ] Add lead source tagging to WhatsApp messages for inventory, import, sell, contact, and detail pages.
-- [ ] Add optional CMS-backed FAQ sections for importing, buying, selling, and documentation.
+- [x] Build `Importamos tu auto` page with a guided import quote flow.
+- [x] Build `Contacto` page with location, direct WhatsApp CTA, contact options, and response expectations.
+- [x] Add reusable glass form patterns: icon fields, select controls, upload dropzones, progress/summary sidebar, and success state.
+- [x] Add lead source tagging to WhatsApp messages for inventory, import, contact, and detail pages.
+- [x] Add optional CMS-backed FAQ sections for importing and documentation.
 
 ## Phase 5: Content and Trust Pages
 

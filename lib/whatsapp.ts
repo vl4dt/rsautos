@@ -5,14 +5,32 @@ type VehicleLeadInput = {
   vin?: string;
   slug: string;
   importStatusLabel: string;
+  leadSource?: string;
 };
 
-export function buildWhatsappUrl(vehicle?: VehicleLeadInput): string {
+type WhatsappInput =
+  | VehicleLeadInput
+  | {
+      leadSource: string;
+      message: string;
+    };
+
+export function buildWhatsappUrl(input?: WhatsappInput): string {
   const phone = env.contactPhone.replace(/\D/g, "");
   const base = phone ? `https://wa.me/${phone}` : "https://wa.me/";
-  const message = vehicle
-    ? `Hola ${env.businessName}, quiero mas informacion sobre ${vehicle.title}${vehicle.vin ? ` VIN ${vehicle.vin}` : ""}. Estado actual: ${vehicle.importStatusLabel}. Enlace: ${env.siteUrl}/inventory/${vehicle.slug}`
-    : `Hola ${env.businessName}, quiero informacion sobre vehiculos importados disponibles en ${env.primaryMarket}.`;
+  const message = input
+    ? buildLeadMessage(input)
+    : `[Fuente: general] Hola ${env.businessName}, quiero informacion sobre vehiculos importados disponibles en ${env.primaryMarket}.`;
 
   return `${base}?text=${encodeURIComponent(message)}`;
+}
+
+function buildLeadMessage(input: WhatsappInput): string {
+  if ("message" in input) {
+    return `[Fuente: ${input.leadSource}] ${input.message}`;
+  }
+
+  const source = input.leadSource ?? "inventory";
+
+  return `[Fuente: ${source}] Hola ${env.businessName}, quiero mas informacion sobre ${input.title}${input.vin ? ` VIN ${input.vin}` : ""}. Estado actual: ${input.importStatusLabel}. Enlace: ${env.siteUrl}/inventory/${input.slug}`;
 }
