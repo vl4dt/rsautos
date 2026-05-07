@@ -28,7 +28,7 @@ export async function POST(request: Request) {
         ? body.type
         : null;
 
-  if (documentType && documentType !== "carListing") {
+  if (documentType && !["carListing", "siteSettings"].includes(documentType)) {
     return NextResponse.json({
       revalidated: false,
       message: "No matching paths for document type."
@@ -36,7 +36,9 @@ export async function POST(request: Request) {
   }
 
   const slug = resolveSlug(body);
-  const paths = slug
+  const paths = documentType === "siteSettings"
+    ? ["/", "/sobre-nosotros"]
+    : slug
     ? [...basePaths, `/inventory/${slug}`, `/inventory/${slug}/report`]
     : basePaths;
 

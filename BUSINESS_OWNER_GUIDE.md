@@ -689,6 +689,16 @@ Current completed platform:
 
 ## 25. New Pages and Forms
 
+### Site Settings
+
+Sanity Studio includes a `Site Settings` document. Use it to change decorative images without code changes:
+
+- Home hero image.
+- Home CTA background image.
+- About page hero image.
+
+If a slot is empty, the website uses the bundled fallback image in `public/images/rs-autos`.
+
 ### Importamos tu auto
 
 This page collects a guided import quote request. The visitor chooses vehicle preference, budget, fuel type, use case, timeline, name, and city. The form does not store the lead in the website database. It opens WhatsApp with a structured message and source tag.

@@ -38,6 +38,12 @@ export type VehicleImage = {
   };
 };
 
+export type SiteVisualSettings = {
+  homeHeroImage?: VehicleImage;
+  homeCtaImage?: VehicleImage;
+  aboutHeroImage?: VehicleImage;
+};
+
 export type PublicVehicleCard = {
   _id: string;
   title: string;
@@ -121,6 +127,14 @@ export const publicVehicleProjection = groq`
   drivetrain,
   fuelType,
   publishedAt
+`;
+
+export const siteVisualSettingsQuery = groq`
+  *[_type == "siteSettings" && _id == "siteSettings"][0]{
+    homeHeroImage{alt, asset},
+    homeCtaImage{alt, asset},
+    aboutHeroImage{alt, asset}
+  }
 `;
 
 export function buildInventoryQuery(params: InventorySearchParams): string {

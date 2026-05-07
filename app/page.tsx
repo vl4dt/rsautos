@@ -18,9 +18,12 @@ import { VehicleCard } from "@/components/vehicle-card";
 import { env } from "@/lib/env";
 import {
   publicVehicleProjection,
-  type PublicVehicleCard
+  siteVisualSettingsQuery,
+  type PublicVehicleCard,
+  type SiteVisualSettings
 } from "@/lib/queries";
 import { getSanityClient, isSanityConfigured } from "@/lib/sanity/client";
+import { urlForImage } from "@/lib/sanity/image";
 import { buildWhatsappUrl } from "@/lib/whatsapp";
 
 export const revalidate = 3600;
@@ -126,13 +129,26 @@ const sanityFetchOptions =
 
 export default async function HomePage() {
   const sanityClient = isSanityConfigured ? getSanityClient() : null;
-  const featuredVehicles = sanityClient
-    ? await sanityClient.fetch<PublicVehicleCard[]>(
-        `*[_type == "carListing" && isPublic == true && defined(slug.current)] | order(publishedAt desc)[0...4] { ${publicVehicleProjection} }`,
-        {},
-        sanityFetchOptions
-      )
-    : [];
+  const [featuredVehicles, siteVisuals] = sanityClient
+    ? await Promise.all([
+        sanityClient.fetch<PublicVehicleCard[]>(
+          `*[_type == "carListing" && isPublic == true && defined(slug.current)] | order(publishedAt desc)[0...4] { ${publicVehicleProjection} }`,
+          {},
+          sanityFetchOptions
+        ),
+        sanityClient.fetch<SiteVisualSettings | null>(
+          siteVisualSettingsQuery,
+          {},
+          sanityFetchOptions
+        )
+      ])
+    : [[], null];
+  const homeHeroImageUrl = siteVisuals?.homeHeroImage
+    ? urlForImage(siteVisuals.homeHeroImage)
+    : "/images/rs-autos/hero-car.png";
+  const homeCtaImageUrl = siteVisuals?.homeCtaImage
+    ? urlForImage(siteVisuals.homeCtaImage)
+    : "/images/rs-autos/cta-car.png";
 
   return (
     <main>
@@ -191,7 +207,7 @@ export default async function HomePage() {
               fill
               priority
               sizes="(min-width: 1024px) 54vw, 100vw"
-              src="/images/rs-autos/hero-car.png"
+              src={homeHeroImageUrl}
             />
           </div>
         </div>
@@ -361,7 +377,7 @@ export default async function HomePage() {
             aria-hidden
             className="absolute bottom-0 right-0 hidden h-full w-[44%] object-cover opacity-45 [mask-image:linear-gradient(90deg,transparent,#000_35%)] lg:block"
             height={360}
-            src="/images/rs-autos/cta-car.png"
+            src={homeCtaImageUrl}
             width={760}
           />
         </div>

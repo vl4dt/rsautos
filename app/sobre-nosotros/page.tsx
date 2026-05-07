@@ -20,6 +20,12 @@ import Link from "next/link";
 
 import { FaqSection, type FaqItem } from "@/components/faq-section";
 import { env } from "@/lib/env";
+import {
+  siteVisualSettingsQuery,
+  type SiteVisualSettings
+} from "@/lib/queries";
+import { getSanityClient, isSanityConfigured } from "@/lib/sanity/client";
+import { urlForImage } from "@/lib/sanity/image";
 import { buildWhatsappUrl } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
@@ -134,7 +140,25 @@ const businessStats: Array<{
   { label: "Promesa", value: "Datos publicos claros", Icon: ShieldCheck }
 ];
 
-export default function SobreNosotrosPage() {
+const sanityFetchOptions =
+  process.env.NODE_ENV === "development"
+    ? { cache: "no-store" as const }
+    : { next: { revalidate: 3600 } };
+
+export const revalidate = 3600;
+
+export default async function SobreNosotrosPage() {
+  const siteVisuals = isSanityConfigured
+    ? await getSanityClient().fetch<SiteVisualSettings | null>(
+        siteVisualSettingsQuery,
+        {},
+        sanityFetchOptions
+      )
+    : null;
+  const aboutHeroImageUrl = siteVisuals?.aboutHeroImage
+    ? urlForImage(siteVisuals.aboutHeroImage)
+    : "/images/rs-autos/hero-car.png";
+
   return (
     <main className="px-4 py-10 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -146,7 +170,7 @@ export default function SobreNosotrosPage() {
               fill
               priority
               sizes="50vw"
-              src="/images/rs-autos/hero-car.png"
+              src={aboutHeroImageUrl}
             />
           </div>
           <div className="relative max-w-3xl py-4 lg:py-10">

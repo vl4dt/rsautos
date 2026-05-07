@@ -689,6 +689,16 @@ Plataforma actual completada:
 
 ## 25. Nuevas Paginas y Formularios
 
+### Site Settings
+
+En Sanity Studio existe un documento llamado `Site Settings`. Use este documento para cambiar imagenes decorativas sin pedir cambios de codigo:
+
+- Imagen hero de la pagina de inicio.
+- Imagen de fondo del CTA en la pagina de inicio.
+- Imagen hero de Sobre nosotros.
+
+Si un espacio esta vacio, el sitio usa la imagen incluida por defecto en `public/images/rs-autos`.
+
 ### Importamos tu auto
 
 Esta pagina recoge una solicitud guiada para cotizar importacion. El visitante elige preferencia de vehiculo, presupuesto, combustible, uso principal, tiempo esperado, nombre y ciudad. El formulario no guarda el lead en la base de datos del sitio. Abre WhatsApp con un mensaje estructurado y etiqueta de origen.

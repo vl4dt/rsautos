@@ -15,6 +15,14 @@ Integration routes include `/api/vin/decode` for NHTSA vPIC VIN decoding, `/api/
 
 In Sanity Studio, the `VIN` field on `Car Listing` includes a NHTSA prefill helper. Enter a VIN, then click `Decodificar VIN y llenar ficha` to patch buyer-facing specs such as title, make, model, year, fuel type, drivetrain, and transmission.
 
+CMS-managed visual slots live in Studio under `Site Settings`. Use them to rotate decorative images without code changes:
+
+- Home hero image.
+- Home CTA background image.
+- About page hero image.
+
+If a slot is empty, the site falls back to the bundled image in `public/images/rs-autos`.
+
 ## QA Commands
 
 - `npm run typecheck` - TypeScript validation.

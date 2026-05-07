@@ -12,4 +12,4 @@
 - `/api/analytics` - Lightweight event collection endpoint for clicks, forms, reports, and page views.
 - `/sitemap.xml` - Dynamic sitemap for static pages and public inventory detail pages.
 - `/robots.txt` - Search crawler policy.
-- `/studio` - Sanity Studio route for content management.
+- `/studio` - Sanity Studio route for content management, including singleton Site Settings for decorative imagery.
