@@ -9,7 +9,7 @@ Spanish-first vehicle import transparency platform for Honduras, built with Next
 3. Install dependencies with `npm install`.
 4. Run `npm run dev`.
 
-The first implemented feature is the `/inventory` route with SEO-friendly server filtering through URL query parameters.
+Implemented public inventory routes include `/inventory` with SEO-friendly server filtering, `/inventory/[slug]` transparency detail pages, and `/inventory/[slug]/report` buyer-facing PDF reports generated from public data only.
 
 ## Production Deployment
 
@@ -33,7 +33,7 @@ Run `npm run confirm:env` after setting production values. The command confirms 
 
 ## Sanity Publish Refresh
 
-Inventory pages use ISR with a 1-hour revalidation window. To show newly published listings immediately, set `SANITY_REVALIDATE_SECRET` in the deployment environment and create a Sanity webhook:
+Inventory and vehicle detail pages use ISR with a 1-hour revalidation window. To show newly published listings immediately, set `SANITY_REVALIDATE_SECRET` in the deployment environment and create a Sanity webhook:
 
 - URL: `https://your-domain.com/api/revalidate`
 - Method: `POST`

@@ -30,6 +30,7 @@ export type InventorySearchParams = {
 };
 
 export type VehicleImage = {
+  _key?: string;
   alt: string;
   asset: {
     _ref: string;
@@ -53,6 +54,45 @@ export type PublicVehicleCard = {
   drivetrain?: string;
   fuelType?: string;
   publishedAt: string;
+};
+
+export type InspectionStatus = "verified" | "needsService" | "pending";
+
+export type PublicVehicleInspectionItem = {
+  _key: string;
+  label: string;
+  status: InspectionStatus;
+};
+
+export type PublicVehicleRepairLog = {
+  _key: string;
+  date?: string;
+  summary?: string;
+  details?: string;
+};
+
+export type PublicVehicleDocument = {
+  _key: string;
+  title: string;
+  description?: string;
+  url?: string;
+  status?: "available" | "pending" | "notApplicable";
+};
+
+export type PublicVehicleDetail = PublicVehicleCard & {
+  titleStatus?: string;
+  location?: string;
+  auctionState?: {
+    conditionSummary?: string;
+    images?: VehicleImage[];
+  };
+  currentState?: {
+    conditionSummary?: string;
+    images?: VehicleImage[];
+    repairLogs?: PublicVehicleRepairLog[];
+  };
+  inspection?: PublicVehicleInspectionItem[];
+  documents?: PublicVehicleDocument[];
 };
 
 export type InventoryFiltersData = {
@@ -128,6 +168,31 @@ export const inventoryFiltersQuery = groq`{
     "maxPrice": math::max(*[_type == "carListing" && isPublic == true].priceUsd)
   }
 }`;
+
+export const vehicleSlugsQuery = groq`
+  *[_type == "carListing" && isPublic == true && defined(slug.current)][]{
+    "slug": slug.current
+  }
+`;
+
+export const publicVehicleDetailQuery = groq`
+  *[_type == "carListing" && isPublic == true && slug.current == $slug][0]{
+    ${publicVehicleProjection},
+    titleStatus,
+    location,
+    auctionState{
+      conditionSummary,
+      images[]{_key, alt, asset}
+    },
+    currentState{
+      conditionSummary,
+      images[]{_key, alt, asset},
+      repairLogs[]{_key, date, summary, details}
+    },
+    inspection[]{_key, label, status},
+    documents[]{_key, title, description, url, status}
+  }
+`;
 
 function orderForSort(sort: InventorySearchParams["sort"]): string {
   switch (sort) {

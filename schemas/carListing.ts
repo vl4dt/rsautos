@@ -97,6 +97,16 @@ export const carListing = defineType({
       type: "string"
     }),
     defineField({
+      name: "titleStatus",
+      title: "Public title status",
+      type: "string"
+    }),
+    defineField({
+      name: "location",
+      title: "Public vehicle location",
+      type: "string"
+    }),
+    defineField({
       name: "auctionState",
       title: "Auction state",
       type: "object",
@@ -209,6 +219,47 @@ export const carListing = defineType({
                 ]
               },
               validation: (rule) => rule.required()
+            })
+          ]
+        })
+      ]
+    }),
+    defineField({
+      name: "documents",
+      title: "Public buyer documents and reports",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({
+              name: "title",
+              title: "Document title",
+              type: "string",
+              validation: (rule) => rule.required()
+            }),
+            defineField({
+              name: "description",
+              title: "Public description",
+              type: "text"
+            }),
+            defineField({
+              name: "url",
+              title: "Public URL",
+              type: "url"
+            }),
+            defineField({
+              name: "status",
+              title: "Status",
+              type: "string",
+              options: {
+                list: [
+                  { title: "Available", value: "available" },
+                  { title: "Pending", value: "pending" },
+                  { title: "Not applicable", value: "notApplicable" }
+                ]
+              },
+              initialValue: "pending"
             })
           ]
         })

@@ -82,6 +82,8 @@ const listings = [
     transmission: "Automatica",
     drivetrain: "AWD",
     fuelType: "Gasolina",
+    titleStatus: "Titulo limpio",
+    location: "Santa Rosa de Copan, Copan",
     imagePath: "public/images/rs-autos/vehicle-rav4.png",
     imageAlt: "Toyota RAV4 XLE blanca en presentacion premium RS Autos",
     auctionSummary:
@@ -104,6 +106,18 @@ const listings = [
       { label: "VIN verificado", status: "verified" },
       { label: "Motor y transmision", status: "verified" },
       { label: "Documentacion de importacion", status: "verified" }
+    ],
+    documents: [
+      {
+        title: "Verificacion VIN",
+        description: "VIN revisado contra la documentacion publica del vehiculo.",
+        status: "available"
+      },
+      {
+        title: "Reporte de inspeccion",
+        description: "Checklist mecanico y visual completado por RS Autos.",
+        status: "available"
+      }
     ]
   },
   {
@@ -120,6 +134,8 @@ const listings = [
     transmission: "Automatica",
     drivetrain: "AWD",
     fuelType: "Gasolina",
+    titleStatus: "Titulo en revision",
+    location: "Taller RS Autos",
     imagePath: "public/images/rs-autos/vehicle-crv.png",
     imageAlt: "Honda CR-V EX-L gris en vitrina oscura RS Autos",
     auctionSummary:
@@ -137,6 +153,13 @@ const listings = [
       { label: "VIN verificado", status: "verified" },
       { label: "Frenos", status: "verified" },
       { label: "Alineamiento", status: "pending" }
+    ],
+    documents: [
+      {
+        title: "Reporte de inspeccion",
+        description: "Inspeccion parcial en taller antes de entrega final.",
+        status: "pending"
+      }
     ]
   },
   {
@@ -153,6 +176,8 @@ const listings = [
     transmission: "Automatica",
     drivetrain: "AWD",
     fuelType: "Gasolina",
+    titleStatus: "Documentos en aduana",
+    location: "Aduana Honduras",
     imagePath: "public/images/rs-autos/vehicle-bmw.png",
     imageAlt: "BMW X3 xDrive30i negro con iluminacion premium RS Autos",
     auctionSummary:
@@ -164,6 +189,13 @@ const listings = [
       { label: "VIN verificado", status: "verified" },
       { label: "Documentos de importacion", status: "pending" },
       { label: "Inspeccion local", status: "pending" }
+    ],
+    documents: [
+      {
+        title: "Documentos de importacion",
+        description: "Proceso aduanero en seguimiento con RS Autos.",
+        status: "pending"
+      }
     ]
   },
   {
@@ -180,6 +212,8 @@ const listings = [
     transmission: "Automatica",
     drivetrain: "4x4",
     fuelType: "Diesel",
+    titleStatus: "Documentacion de embarque",
+    location: "En transito hacia Honduras",
     imagePath: "public/images/rs-autos/vehicle-hilux.png",
     imageAlt: "Toyota Hilux SR5 blanca con presencia de pickup premium",
     auctionSummary:
@@ -191,6 +225,13 @@ const listings = [
       { label: "VIN verificado", status: "verified" },
       { label: "Embarque", status: "verified" },
       { label: "Revision local", status: "pending" }
+    ],
+    documents: [
+      {
+        title: "Documentos de embarque",
+        description: "Soporte de transito revisado por RS Autos.",
+        status: "available"
+      }
     ]
   }
 ];
@@ -227,6 +268,8 @@ function toDocument(listing, image) {
     transmission: listing.transmission,
     drivetrain: listing.drivetrain,
     fuelType: listing.fuelType,
+    titleStatus: listing.titleStatus,
+    location: listing.location,
     auctionState: {
       conditionSummary: listing.auctionSummary,
       images: [image]
@@ -244,6 +287,11 @@ function toDocument(listing, image) {
       _key: `${listing.slug}-${item.label.toLowerCase().replaceAll(" ", "-")}`,
       _type: "object",
       ...item
+    })),
+    documents: listing.documents.map((document) => ({
+      _key: `${listing.slug}-${document.title.toLowerCase().replaceAll(" ", "-")}`,
+      _type: "object",
+      ...document
     }))
   };
 }

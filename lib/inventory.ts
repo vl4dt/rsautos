@@ -1,5 +1,6 @@
 import {
   importStatusOptions,
+  type InspectionStatus,
   sortOptions,
   type ImportStatus,
   type InventorySearchParams,
@@ -21,6 +22,12 @@ export const sortLabels: Record<InventorySort, string> = {
   priceAsc: "Precio: menor a mayor",
   priceDesc: "Precio: mayor a menor",
   mileageAsc: "Millaje: menor a mayor"
+};
+
+export const inspectionStatusLabels: Record<InspectionStatus, string> = {
+  verified: "Verificado",
+  needsService: "Requiere servicio",
+  pending: "Pendiente"
 };
 
 export function parseInventorySearchParams(

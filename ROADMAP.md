@@ -29,14 +29,14 @@ Core trust promise: every public vehicle experience should help the buyer compar
 
 ## Phase 3: Vehicle Transparency Detail
 
-- [ ] Build `/inventory/[slug]` detail pages with ISR (`revalidate = 3600`).
-- [ ] Implement the auction/current Transparency Toggle.
-- [ ] Add glass spec panels for VIN, mileage, drivetrain, fuel, transmission, title status, location, and import status.
-- [ ] Add inspection checklist and repair log presentation.
-- [ ] Add before/after image comparison galleries for auction-origin and current-state photos.
-- [ ] Add document/report cards for VIN verification, inspection report, Carfax or equivalent links, and import documents.
-- [ ] Add high-conversion WhatsApp CTAs that include vehicle title, slug, VIN when public, and import status.
-- [ ] Add PDF technical report generation for public buyer-facing data only.
+- [x] Build `/inventory/[slug]` detail pages with ISR (`revalidate = 3600`).
+- [x] Implement the auction/current Transparency Toggle.
+- [x] Add glass spec panels for VIN, mileage, drivetrain, fuel, transmission, title status, location, and import status.
+- [x] Add inspection checklist and repair log presentation.
+- [x] Add before/after image comparison galleries for auction-origin and current-state photos.
+- [x] Add document/report cards for VIN verification, inspection report, Carfax or equivalent links, and import documents.
+- [x] Add high-conversion WhatsApp CTAs that include vehicle title, slug, VIN when public, and import status.
+- [x] Add PDF technical report generation for public buyer-facing data only.
 
 ## Phase 4: Lead and Conversion Flows
 
