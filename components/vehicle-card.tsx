@@ -74,7 +74,12 @@ export function VehicleCard({ compact = false, vehicle }: VehicleCardProps) {
           <Link className="btn-secondary px-4 text-sm" href={`/inventory/${vehicle.slug}`}>
             Ver detalles
           </Link>
-          <a className="btn-primary px-4 text-sm" href={buildWhatsappUrl(leadVehicle)}>
+          <a
+            className="btn-primary px-4 text-sm"
+            data-analytics-event="whatsapp_click"
+            data-lead-source="inventory"
+            href={buildWhatsappUrl(leadVehicle)}
+          >
             <MessageCircle aria-hidden size={18} />
             WhatsApp
           </a>

@@ -1,5 +1,7 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { VinPrefillInput } from "@/components/studio/vin-prefill-input";
+
 export const carListing = defineType({
   name: "carListing",
   title: "Car Listing",
@@ -51,7 +53,12 @@ export const carListing = defineType({
     defineField({
       name: "vin",
       title: "VIN",
-      type: "string"
+      type: "string",
+      components: {
+        input: VinPrefillInput
+      },
+      description:
+        "Ingresa un VIN y usa el boton NHTSA para prellenar especificaciones publicas."
     }),
     defineField({
       name: "priceUsd",

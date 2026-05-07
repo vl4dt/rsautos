@@ -18,6 +18,7 @@ import {
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { TrackPageView } from "@/components/track-page-view";
 import { VehicleTransparencyView } from "@/components/vehicle-transparency-view";
 import { env } from "@/lib/env";
 import { formatDate, formatMileage, formatUsd } from "@/lib/format";
@@ -119,6 +120,7 @@ export default async function VehicleDetailPage({
 
   return (
     <main className="px-4 py-8 sm:px-6 lg:px-8">
+      <TrackPageView event="detail_view" source="vehicle_detail" />
       <div className="mx-auto max-w-7xl">
         <nav aria-label="Migas de pan" className="mb-6 text-sm text-muted">
           <Link className="hover:text-white" href="/inventory">
@@ -152,7 +154,12 @@ export default async function VehicleDetailPage({
               <p className="mt-1 text-4xl font-black text-brandRed">
                 {formatUsd(vehicle.priceUsd)}
               </p>
-              <a className="btn-primary mt-5 w-full px-4" href={whatsappUrl}>
+              <a
+                className="btn-primary mt-5 w-full px-4"
+                data-analytics-event="whatsapp_click"
+                data-lead-source="inventory_detail"
+                href={whatsappUrl}
+              >
                 <MessageCircle aria-hidden size={20} />
                 Consultar por WhatsApp
               </a>
@@ -251,6 +258,8 @@ export default async function VehicleDetailPage({
                 {document.url ? (
                   <a
                     className="btn-secondary mt-4 w-full px-4 text-sm"
+                    data-analytics-event="report_download"
+                    data-lead-source="vehicle_detail"
                     href={document.url}
                     rel="noreferrer"
                     target="_blank"
@@ -284,7 +293,12 @@ export default async function VehicleDetailPage({
                 documentos.
               </p>
             </div>
-            <a className="btn-primary px-6" href={whatsappUrl}>
+            <a
+              className="btn-primary px-6"
+              data-analytics-event="whatsapp_click"
+              data-lead-source="inventory_detail"
+              href={whatsappUrl}
+            >
               <MessageCircle aria-hidden size={20} />
               Hablar por WhatsApp
             </a>

@@ -11,6 +11,10 @@ Spanish-first vehicle import transparency platform for Honduras, built with Next
 
 Implemented public routes include `/inventory` with SEO-friendly server filtering, `/inventory/[slug]` transparency detail pages, `/inventory/[slug]/report` buyer-facing PDF reports generated from public data only, `/importamos-tu-auto` guided import quote flow, `/sobre-nosotros` transparency and trust content, and `/contacto` WhatsApp contact options.
 
+Integration routes include `/api/vin/decode` for NHTSA vPIC VIN decoding, `/api/import-estimate` for Honduras import estimate guidance, `/api/analytics` for lightweight event intake, `/sitemap.xml`, and `/robots.txt`.
+
+In Sanity Studio, the `VIN` field on `Car Listing` includes a NHTSA prefill helper. Enter a VIN, then click `Decodificar VIN y llenar ficha` to patch buyer-facing specs such as title, make, model, year, fuel type, drivetrain, and transmission.
+
 ## Production Deployment
 
 Deploy the app on Vercel from this repository. `vercel.json` uses `npm run build:production`, which validates the required production environment before `next build`.
@@ -40,7 +44,7 @@ Inventory and vehicle detail pages use ISR with a 1-hour revalidation window. To
 - Header: `x-revalidate-secret: your-secret`
 - Trigger: create, update, and delete events for `carListing`
 
-The endpoint revalidates `/inventory` and `/` without exposing internal listing fields.
+The endpoint revalidates `/inventory`, `/`, content pages, and matching detail/report paths when a webhook payload includes `slug.current`, without exposing internal listing fields.
 
 ## Sample Inventory Seed
 

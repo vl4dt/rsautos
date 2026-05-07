@@ -25,6 +25,8 @@ export function InventoryFilterBar({
     <form
       action="/inventory"
       className="glass-card neon-panel grid gap-4 p-4 md:grid-cols-2 lg:grid-cols-[1.1fr_0.85fr_0.85fr_1.35fr_1.2fr_auto_auto]"
+      data-analytics-event="filter_submit"
+      data-lead-source="inventory_filter"
     >
       <div className="relative z-10 flex items-center gap-2 md:col-span-2 lg:col-span-7">
         <Filter aria-hidden className="text-brandRed" size={20} />

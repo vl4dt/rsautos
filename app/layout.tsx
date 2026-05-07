@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { AnalyticsListener } from "@/components/analytics-listener";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { env } from "@/lib/env";
@@ -28,9 +29,30 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const localBusinessJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "AutoDealer",
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "HN",
+      addressLocality: env.businessLocation
+    },
+    areaServed: env.primaryMarket,
+    name: env.businessName,
+    telephone: env.contactPhone || undefined,
+    url: env.siteUrl
+  };
+
   return (
     <html lang="es-HN">
       <body>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessJsonLd).replace(/</g, "\\u003c")
+          }}
+          type="application/ld+json"
+        />
+        <AnalyticsListener />
         <SiteHeader />
         {children}
         <SiteFooter />

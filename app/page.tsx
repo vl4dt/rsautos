@@ -201,6 +201,8 @@ export default async function HomePage() {
         <form
           action="/inventory"
           className="glass-card neon-panel mx-auto grid max-w-7xl gap-4 p-4 md:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1fr_auto]"
+          data-analytics-event="filter_submit"
+          data-lead-source="home_filter"
         >
           {[
             ["make", "Marca", "Todas las marcas"],

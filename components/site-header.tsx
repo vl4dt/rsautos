@@ -6,7 +6,11 @@ export function SiteHeader() {
   return (
     <SiteHeaderClient
       businessName={env.businessName}
-      whatsappUrl={buildWhatsappUrl()}
+      whatsappUrl={buildWhatsappUrl({
+        leadSource: "header",
+        message:
+          "Hola RS Autos HN, quiero informacion sobre vehiculos importados."
+      })}
     />
   );
 }

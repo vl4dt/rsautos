@@ -59,7 +59,12 @@ export function SiteHeaderClient({
           ))}
         </div>
         <div className="flex items-center gap-3">
-          <a className="btn-primary min-h-10 px-4 text-sm" href={whatsappUrl}>
+          <a
+            className="btn-primary min-h-10 px-4 text-sm"
+            data-analytics-event="whatsapp_click"
+            data-lead-source="header"
+            href={whatsappUrl}
+          >
             <MessageCircle aria-hidden size={18} />
             <span className="hidden sm:inline">WhatsApp</span>
           </a>

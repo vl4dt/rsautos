@@ -104,6 +104,8 @@ export function ImportQuoteFlow() {
     <div className="grid gap-5 lg:grid-cols-[1fr_22rem]">
       <form
         className="glass-card p-5"
+        data-analytics-event="form_submit"
+        data-lead-source="import_quote"
         onSubmit={(event) => {
           event.preventDefault();
           setSubmitted(true);

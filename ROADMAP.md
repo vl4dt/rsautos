@@ -56,12 +56,12 @@ Core trust promise: every public vehicle experience should help the buyer compar
 
 ## Phase 6: Integrations
 
-- [ ] VIN decode route using NHTSA with typed fallback behavior.
-- [ ] Honduran import tax estimate utility.
-- [ ] Analytics and local SEO instrumentation.
-- [ ] Add event tracking for WhatsApp clicks, filter submits, detail views, report downloads, and form starts/completions.
-- [ ] Add sitemap/robots metadata and local business structured data.
-- [ ] Add Sanity webhook revalidation for inventory/detail/content updates.
+- [x] VIN decode route using NHTSA with typed fallback behavior.
+- [x] Honduran import tax estimate utility.
+- [x] Analytics and local SEO instrumentation.
+- [x] Add event tracking for WhatsApp clicks, filter submits, detail views, report downloads, and form starts/completions.
+- [x] Add sitemap/robots metadata and local business structured data.
+- [x] Add Sanity webhook revalidation for inventory/detail/content updates.
 
 ## Phase 7: Operations and QA
 

@@ -3,7 +3,13 @@ import { NextResponse } from "next/server";
 
 import { env } from "@/lib/env";
 
-const inventoryPaths = ["/", "/inventory"];
+const basePaths = [
+  "/",
+  "/inventory",
+  "/importamos-tu-auto",
+  "/sobre-nosotros",
+  "/contacto"
+];
 
 export async function POST(request: Request) {
   const secret =
@@ -29,11 +35,39 @@ export async function POST(request: Request) {
     });
   }
 
-  inventoryPaths.forEach((path) => revalidatePath(path));
+  const slug = resolveSlug(body);
+  const paths = slug
+    ? [...basePaths, `/inventory/${slug}`, `/inventory/${slug}/report`]
+    : basePaths;
+
+  paths.forEach((path) => revalidatePath(path));
 
   return NextResponse.json({
     revalidated: true,
-    paths: inventoryPaths,
+    paths,
     now: new Date().toISOString()
   });
+}
+
+function resolveSlug(body: unknown): string | null {
+  if (!body || typeof body !== "object") {
+    return null;
+  }
+
+  const record = body as Record<string, unknown>;
+  const slug = record.slug;
+
+  if (typeof slug === "string") {
+    return slug;
+  }
+
+  if (slug && typeof slug === "object") {
+    const current = (slug as Record<string, unknown>).current;
+
+    return typeof current === "string" ? current : null;
+  }
+
+  const current = record["slug.current"];
+
+  return typeof current === "string" ? current : null;
 }
