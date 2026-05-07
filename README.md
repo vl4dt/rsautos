@@ -9,7 +9,7 @@ Spanish-first vehicle import transparency platform for Honduras, built with Next
 3. Install dependencies with `npm install`.
 4. Run `npm run dev`.
 
-Implemented public routes include `/inventory` with SEO-friendly server filtering, `/inventory/[slug]` transparency detail pages, `/inventory/[slug]/report` buyer-facing PDF reports generated from public data only, `/importamos-tu-auto` guided import quote flow, and `/contacto` WhatsApp contact options.
+Implemented public routes include `/inventory` with SEO-friendly server filtering, `/inventory/[slug]` transparency detail pages, `/inventory/[slug]/report` buyer-facing PDF reports generated from public data only, `/importamos-tu-auto` guided import quote flow, `/sobre-nosotros` transparency and trust content, and `/contacto` WhatsApp contact options.
 
 ## Production Deployment
 

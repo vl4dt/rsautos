@@ -8,9 +8,9 @@ import { buildWhatsappUrl } from "@/lib/whatsapp";
 const quickLinks = [
   { href: "/", label: "Inicio" },
   { href: "/inventory", label: "Inventario" },
-  { href: "/#proceso", label: "Importamos tu auto" },
-  { href: "/#respaldo", label: "Nosotros" },
-  { href: "/#contacto", label: "Contacto" }
+  { href: "/importamos-tu-auto", label: "Importamos tu auto" },
+  { href: "/sobre-nosotros", label: "Nosotros" },
+  { href: "/contacto", label: "Contacto" }
 ];
 
 export function SiteFooter() {

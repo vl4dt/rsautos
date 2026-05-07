@@ -48,11 +48,11 @@ Core trust promise: every public vehicle experience should help the buyer compar
 
 ## Phase 5: Content and Trust Pages
 
-- [ ] Build `Sobre nosotros` page around transparency, process, verification, and Honduras-focused service.
-- [ ] Add process sections: choose vehicle, verify and buy, import safely, deliver with documentation.
-- [ ] Add trust modules for VIN verification, mechanical review, documentation clarity, and personalized attention.
-- [ ] Add customer testimonials with name, city, vehicle/context, and rating.
-- [ ] Add a public explanation of what buyers can verify and what data remains internal.
+- [x] Build `Sobre nosotros` page around transparency, process, verification, and Honduras-focused service.
+- [x] Add process sections: choose vehicle, verify and buy, import safely, deliver with documentation.
+- [x] Add trust modules for VIN verification, mechanical review, documentation clarity, and personalized attention.
+- [x] Add customer testimonials with name, city, vehicle/context, and rating.
+- [x] Add a public explanation of what buyers can verify and what data remains internal.
 
 ## Phase 6: Integrations
 

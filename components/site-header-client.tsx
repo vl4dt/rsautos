@@ -10,7 +10,7 @@ const navItems = [
   { href: "/", label: "Inicio" },
   { href: "/inventory", label: "Inventario" },
   { href: "/importamos-tu-auto", label: "Importamos tu auto" },
-  { href: "/#respaldo", label: "Nosotros" },
+  { href: "/sobre-nosotros", label: "Nosotros" },
   { href: "/contacto", label: "Contacto" }
 ];
 
