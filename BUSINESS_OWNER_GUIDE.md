@@ -672,23 +672,86 @@ Vercel -> Project Settings -> Environment Variables -> NEXT_PUBLIC_BUSINESS_LOCA
 
 ## 24. Current Website Status
 
-Current completed foundation:
+Current completed platform:
 
 - Website scaffold is built.
 - Sanity Studio is embedded at `/studio`.
 - Vehicle schema exists in Sanity code.
-- Inventory page exists.
-- Inventory filters exist.
-- WhatsApp CTAs exist.
+- Inventory page and filters exist.
+- Vehicle detail pages exist with Transparency Toggle.
+- Inspection checklist, repair logs, document cards, and public PDF reports exist.
+- Import quote and contact pages exist with WhatsApp handoff.
+- Sobre nosotros page explains process, trust, and public vs internal data.
+- VIN decoder integration exists in Studio and API routes.
+- Honduras import estimate API exists for lead guidance.
+- Sitemap, robots, analytics intake, and webhook revalidation exist.
 - Public queries avoid internal pricing fields.
 
-Planned next features:
+## 25. New Pages and Forms
 
-- Vehicle detail pages.
-- Transparency Toggle.
-- Inspection dashboard.
-- Repair log display.
-- Technical condition report download.
-- VIN decoder integration.
-- Honduran import tax estimate.
+### Importamos tu auto
 
+This page collects a guided import quote request. The visitor chooses vehicle preference, budget, fuel type, use case, timeline, name, and city. The form does not store the lead in the website database. It opens WhatsApp with a structured message and source tag.
+
+### Contacto
+
+This page separates contact reasons:
+
+- Inventory available.
+- Importing a vehicle.
+- Documents or reports.
+
+Each button opens WhatsApp with a source tag so the sales team understands the context.
+
+### Sobre nosotros
+
+This page explains RS Autos HN's transparency process, trust modules, testimonials, and what buyers can verify.
+
+## 26. Vehicle Detail and Reports
+
+Each public vehicle detail page can show:
+
+- Auction-origin condition.
+- Current local condition.
+- Public specs.
+- Inspection checklist.
+- Repair log.
+- Public document cards.
+- Buyer-facing PDF technical report.
+
+The PDF report only includes public buyer-facing data. It must never include acquisition costs, operational cost breakdowns, or margins.
+
+## 27. VIN Prefill in Studio
+
+When editing a `Car Listing`, the `VIN` field includes a button:
+
+```text
+Decodificar VIN y llenar ficha
+```
+
+Use it after entering a VIN. It calls NHTSA and can fill public specs such as:
+
+- Title.
+- Make.
+- Model.
+- Year.
+- Fuel type.
+- Drivetrain.
+- Transmission.
+
+Always review the generated fields before publishing. NHTSA data is helpful, but the business team remains responsible for final accuracy.
+
+## 28. QA Routine
+
+Before publishing major updates or after editing many vehicles, technical support should run:
+
+```text
+npm run typecheck
+npm run lint
+npm run build
+npm run qa:privacy
+npm run qa:images
+npm run qa:smoke
+```
+
+Use `VISUAL_QA_CHECKLIST.md` for desktop and mobile visual review.

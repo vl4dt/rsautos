@@ -65,8 +65,8 @@ Core trust promise: every public vehicle experience should help the buyer compar
 
 ## Phase 7: Operations and QA
 
-- [ ] Add business owner CMS guide updates for new pages, forms, reports, and trust content.
-- [ ] Add smoke tests for homepage, inventory filters, detail pages, and key CTA links.
-- [ ] Add visual QA checklist for desktop/mobile against the curated reference images in `chatgpt-sessions/imagenes`.
-- [ ] Add performance pass for image sizes, priority loading, and layout shift.
-- [ ] Add privacy/safety review to ensure public inventory queries never expose acquisition/internal pricing fields.
+- [x] Add business owner CMS guide updates for new pages, forms, reports, and trust content.
+- [x] Add smoke tests for homepage, inventory filters, detail pages, and key CTA links.
+- [x] Add visual QA checklist for desktop/mobile against the curated reference images in `chatgpt-sessions/imagenes`.
+- [x] Add performance pass for image sizes, priority loading, and layout shift.
+- [x] Add privacy/safety review to ensure public inventory queries never expose acquisition/internal pricing fields.

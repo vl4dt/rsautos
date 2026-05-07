@@ -672,23 +672,86 @@ Vercel -> Project Settings -> Environment Variables -> NEXT_PUBLIC_BUSINESS_LOCA
 
 ## 24. Estado Actual del Sitio
 
-Base completada actualmente:
+Plataforma actual completada:
 
 - El sitio web base esta construido.
 - Sanity Studio esta integrado en `/studio`.
 - El esquema de vehiculos existe en el codigo de Sanity.
-- La pagina de inventario existe.
-- Los filtros de inventario existen.
-- Los botones de WhatsApp existen.
-- Las consultas publicas evitan campos internos de precios.
+- La pagina de inventario y los filtros existen.
+- Las paginas de detalle de vehiculo existen con Transparency Toggle.
+- Existen checklist de inspeccion, registros de reparacion, tarjetas de documentos y reportes PDF publicos.
+- Existen las paginas Importamos tu auto y Contacto con entrega por WhatsApp.
+- La pagina Sobre nosotros explica proceso, confianza e informacion publica vs interna.
+- La integracion de decodificador VIN existe en Studio y en rutas API.
+- La API de estimacion de importacion para Honduras existe como guia comercial.
+- Existen sitemap, robots, analitica basica y revalidacion por webhook.
+- Las consultas publicas evitan campos internos de precio.
 
-Funciones planeadas:
+## 25. Nuevas Paginas y Formularios
 
-- Paginas de detalle de vehiculo.
-- Transparency Toggle.
-- Panel de inspeccion.
-- Visualizacion de registros de reparacion.
-- Descarga de reporte tecnico.
-- Integracion de decodificador VIN.
-- Estimacion de impuestos de importacion en Honduras.
+### Importamos tu auto
 
+Esta pagina recoge una solicitud guiada para cotizar importacion. El visitante elige preferencia de vehiculo, presupuesto, combustible, uso principal, tiempo esperado, nombre y ciudad. El formulario no guarda el lead en la base de datos del sitio. Abre WhatsApp con un mensaje estructurado y etiqueta de origen.
+
+### Contacto
+
+Esta pagina separa motivos de contacto:
+
+- Inventario disponible.
+- Importar un vehiculo.
+- Documentos o reportes.
+
+Cada boton abre WhatsApp con una etiqueta de origen para que el equipo de ventas entienda el contexto.
+
+### Sobre nosotros
+
+Esta pagina explica el proceso de transparencia de RS Autos HN, modulos de confianza, testimonios y que puede verificar un comprador.
+
+## 26. Detalle de Vehiculo y Reportes
+
+Cada pagina publica de detalle puede mostrar:
+
+- Condicion de origen de subasta.
+- Condicion actual local.
+- Especificaciones publicas.
+- Checklist de inspeccion.
+- Registro de reparaciones.
+- Tarjetas de documentos publicos.
+- Reporte tecnico PDF para comprador.
+
+El reporte PDF solo incluye datos publicos para compradores. Nunca debe incluir costos de adquisicion, desgloses operativos ni margenes.
+
+## 27. Prefill VIN en Studio
+
+Al editar un `Car Listing`, el campo `VIN` incluye un boton:
+
+```text
+Decodificar VIN y llenar ficha
+```
+
+Uselo despues de ingresar un VIN. Consulta NHTSA y puede llenar especificaciones publicas como:
+
+- Titulo.
+- Marca.
+- Modelo.
+- Ano.
+- Combustible.
+- Traccion.
+- Transmision.
+
+Siempre revise los campos generados antes de publicar. La informacion de NHTSA ayuda, pero el equipo del negocio sigue siendo responsable de la exactitud final.
+
+## 28. Rutina QA
+
+Antes de publicar cambios importantes o despues de editar muchos vehiculos, soporte tecnico debe ejecutar:
+
+```text
+npm run typecheck
+npm run lint
+npm run build
+npm run qa:privacy
+npm run qa:images
+npm run qa:smoke
+```
+
+Use `VISUAL_QA_CHECKLIST.md` para revision visual en escritorio y movil.

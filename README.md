@@ -15,6 +15,23 @@ Integration routes include `/api/vin/decode` for NHTSA vPIC VIN decoding, `/api/
 
 In Sanity Studio, the `VIN` field on `Car Listing` includes a NHTSA prefill helper. Enter a VIN, then click `Decodificar VIN y llenar ficha` to patch buyer-facing specs such as title, make, model, year, fuel type, drivetrain, and transmission.
 
+## QA Commands
+
+- `npm run typecheck` - TypeScript validation.
+- `npm run lint` - ESLint validation.
+- `npm run build` - Production build.
+- `npm run qa:privacy` - Scans public app code for internal acquisition fields.
+- `npm run qa:images` - Checks local image size budget.
+- `npm run qa:smoke` - Runs smoke tests against `SMOKE_BASE_URL` or `http://localhost:3000`.
+
+Optional smoke-test detail coverage:
+
+```text
+SMOKE_DETAIL_SLUG=toyota-hilux-sr5-2020 npm run qa:smoke
+```
+
+Visual QA guidance lives in `VISUAL_QA_CHECKLIST.md`.
+
 ## Production Deployment
 
 Deploy the app on Vercel from this repository. `vercel.json` uses `npm run build:production`, which validates the required production environment before `next build`.
