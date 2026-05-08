@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 
 import { env } from "@/lib/env";
-import { formatMileage, formatUsd } from "@/lib/format";
-import { importStatusLabels } from "@/lib/inventory";
+import { getUsdHnlRate } from "@/lib/exchange-rate";
+import { formatMileagePair, formatPricePair } from "@/lib/format";
+import { legacyImportStatusLabels } from "@/lib/inventory";
 import {
   publicVehicleDetailQuery,
   type PublicVehicleDetail
@@ -41,7 +42,8 @@ export async function GET(_request: Request, { params }: ReportRouteProps) {
     return NextResponse.json({ error: "Vehicle not found." }, { status: 404 });
   }
 
-  const pdf = buildPublicReportPdf(vehicle);
+  const usdHnlRate = await getUsdHnlRate();
+  const pdf = buildPublicReportPdf(vehicle, usdHnlRate.rate);
   const filename = `${vehicle.slug}-reporte-publico.pdf`;
 
   return new Response(pdf, {
@@ -56,15 +58,20 @@ export async function GET(_request: Request, { params }: ReportRouteProps) {
   });
 }
 
-function buildPublicReportPdf(vehicle: PublicVehicleDetail): string {
+function buildPublicReportPdf(
+  vehicle: PublicVehicleDetail,
+  usdToHnlRate: number
+): string {
+  const price = formatPricePair(vehicle.priceUsd, usdToHnlRate);
+  const mileage = formatMileagePair(vehicle.mileage);
   const lines = [
     `${env.businessName} - Reporte publico de vehiculo`,
     vehicle.title,
     "",
-    `Precio publico: ${formatUsd(vehicle.priceUsd)}`,
-    `Estado de importacion: ${importStatusLabels[vehicle.importStatus]}`,
+    `Precio publico: ${price.usd} / ${price.hnl} aprox.`,
+    `Estado de importacion: ${legacyImportStatusLabels[vehicle.importStatus]}`,
     `VIN publico: ${vehicle.vin ?? "Disponible por consulta"}`,
-    `Millaje: ${formatMileage(vehicle.mileage)} mi`,
+    `Millaje: ${mileage.miles} / ${mileage.kilometers}`,
     `Transmision: ${vehicle.transmission ?? "Pendiente"}`,
     `Traccion: ${vehicle.drivetrain ?? "Pendiente"}`,
     `Combustible: ${vehicle.fuelType ?? "Pendiente"}`,

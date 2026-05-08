@@ -8,6 +8,7 @@ export const env = {
   instagramUrl: process.env.NEXT_PUBLIC_INSTAGRAM_URL ?? "",
   youtubeUrl: process.env.NEXT_PUBLIC_YOUTUBE_URL ?? "",
   tiktokUrl: process.env.NEXT_PUBLIC_TIKTOK_URL ?? "",
+  usdHnlFallbackRate: Number(process.env.USD_HNL_FALLBACK_RATE ?? "26.25"),
   sanityProjectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   sanityDataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production",
   sanityApiVersion:

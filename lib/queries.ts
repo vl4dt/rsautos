@@ -1,14 +1,16 @@
 import { groq } from "next-sanity";
 
 export const importStatusOptions = [
-  "auctionWon",
   "inTransit",
-  "customsClearance",
-  "atWorkshop",
   "readyForSale"
 ] as const;
 
 export type ImportStatus = (typeof importStatusOptions)[number];
+export type LegacyImportStatus =
+  | ImportStatus
+  | "auctionWon"
+  | "customsClearance"
+  | "atWorkshop";
 
 export const sortOptions = [
   "newest",
@@ -21,6 +23,9 @@ export type InventorySort = (typeof sortOptions)[number];
 
 export type InventorySearchParams = {
   make?: string;
+  makeSearch?: string;
+  model?: string;
+  modelSearch?: string;
   minYear?: number;
   maxYear?: number;
   minPrice?: number;
@@ -43,6 +48,7 @@ export type SiteVisualSettings = {
   homeCtaImage?: VehicleImage;
   homeCta?: HomeCtaContent;
   aboutHeroImage?: VehicleImage;
+  footerContactItems?: FooterContactItem[];
   socialLinks?: SocialLink[];
   testimonials?: Testimonial[];
 };
@@ -53,6 +59,16 @@ export type HomeCtaContent = {
   body?: string;
   buttonLabel?: string;
   buttonHref?: string;
+};
+
+export type FooterContactKind = "phone" | "whatsapp" | "email" | "location" | "custom";
+
+export type FooterContactItem = {
+  _key?: string;
+  kind: FooterContactKind;
+  label: string;
+  value?: string;
+  href?: string;
 };
 
 export type SocialPlatform = "facebook" | "instagram" | "youtube" | "tiktok";
@@ -82,7 +98,7 @@ export type PublicVehicleCard = {
   priceUsd: number;
   mileage: number;
   vin?: string;
-  importStatus: ImportStatus;
+  importStatus: LegacyImportStatus;
   heroImage?: VehicleImage;
   transmission?: string;
   drivetrain?: string;
@@ -163,6 +179,7 @@ export const siteVisualSettingsQuery = groq`
     homeCtaImage{alt, asset},
     homeCta{eyebrow, title, body, buttonLabel, buttonHref},
     aboutHeroImage{alt, asset},
+    footerContactItems[]{_key, kind, label, value, href},
     socialLinks[]{_key, platform, url},
     testimonials[]{_key, quote, name, city, vehicle, rating}
   }
@@ -175,8 +192,12 @@ export function buildInventoryQuery(params: InventorySearchParams): string {
     `isPublic == true`
   ];
 
-  if (params.make) {
-    filters.push(`make == $make`);
+  if (params.makeSearch) {
+    filters.push(`lower(make) match $makeSearch`);
+  }
+
+  if (params.modelSearch) {
+    filters.push(`lower(model) match $modelSearch`);
   }
 
   if (typeof params.minYear === "number") {

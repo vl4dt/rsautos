@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import {
   BadgeCheck,
   CalendarCheck,
@@ -21,9 +22,15 @@ import { notFound } from "next/navigation";
 import { TrackPageView } from "@/components/track-page-view";
 import { VehicleTransparencyView } from "@/components/vehicle-transparency-view";
 import { env } from "@/lib/env";
-import { formatDate, formatMileage, formatUsd } from "@/lib/format";
+import { getUsdHnlRate } from "@/lib/exchange-rate";
 import {
-  importStatusLabels,
+  formatDate,
+  formatMileagePair,
+  formatPricePair
+} from "@/lib/format";
+import {
+  legacyImportStatusLabels,
+  publicImportStatus,
   inspectionStatusLabels
 } from "@/lib/inventory";
 import {
@@ -92,7 +99,10 @@ export default async function VehicleDetailPage({
     notFound();
   }
 
-  const statusLabel = importStatusLabels[vehicle.importStatus];
+  const statusLabel = legacyImportStatusLabels[vehicle.importStatus];
+  const usdHnlRate = await getUsdHnlRate();
+  const mileage = formatMileagePair(vehicle.mileage);
+  const price = formatPricePair(vehicle.priceUsd, usdHnlRate.rate);
   const whatsappUrl = buildWhatsappUrl({
     title: vehicle.title,
     vin: vehicle.vin,
@@ -102,11 +112,20 @@ export default async function VehicleDetailPage({
   });
   const specItems: Array<{
     label: string;
-    value: string;
+    value: ReactNode;
     Icon: LucideIcon;
   }> = [
     { label: "VIN", value: vehicle.vin ?? "Disponible por consulta", Icon: ShieldCheck },
-    { label: "Millaje", value: `${formatMileage(vehicle.mileage)} mi`, Icon: Gauge },
+    {
+      label: "Millaje",
+      value: (
+        <span className="grid leading-tight">
+          <span>{mileage.miles}</span>
+          <span className="text-sm text-muted">{mileage.kilometers}</span>
+        </span>
+      ),
+      Icon: Gauge
+    },
     { label: "Traccion", value: vehicle.drivetrain ?? "Pendiente", Icon: Route },
     { label: "Combustible", value: vehicle.fuelType ?? "Pendiente", Icon: Fuel },
     { label: "Transmision", value: vehicle.transmission ?? "Pendiente", Icon: Settings },
@@ -152,7 +171,13 @@ export default async function VehicleDetailPage({
             <div className="glass-card p-5">
               <p className="text-sm font-bold text-muted">Precio publico</p>
               <p className="mt-1 text-4xl font-black text-brandRed">
-                {formatUsd(vehicle.priceUsd)}
+                {price.usd}
+              </p>
+              <p className="mt-1 text-sm font-bold text-muted">
+                {price.hnl} aprox.
+              </p>
+              <p className="mt-1 text-xs text-muted">
+                Tasa USD/HNL actualizada diariamente.
               </p>
               <a
                 className="btn-primary mt-5 w-full px-4"
@@ -339,6 +364,7 @@ function buildPublicDocuments(
   vehicle: PublicVehicleDetail
 ): PublicVehicleDocument[] {
   const cmsDocuments = vehicle.documents ?? [];
+  const publicStatus = publicImportStatus(vehicle.importStatus);
   const defaults: PublicVehicleDocument[] = [
     {
       _key: "public-technical-report",
@@ -372,8 +398,7 @@ function buildPublicDocuments(
       title: "Documentos de importacion",
       description: "Soportes publicos de embarque, aduana o entrega.",
       status:
-        vehicle.importStatus === "readyForSale" ||
-        vehicle.importStatus === "customsClearance"
+        publicStatus === "readyForSale"
           ? "available"
           : "pending"
     }

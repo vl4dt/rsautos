@@ -2,33 +2,22 @@ import type { Metadata } from "next";
 import { BadgeCheck, CarFront, LayoutGrid, ShieldCheck } from "lucide-react";
 
 import { EmptyInventory } from "@/components/empty-inventory";
-import { InventoryFilterBar } from "@/components/inventory-filter-bar";
 import { VehicleCard } from "@/components/vehicle-card";
 import { env } from "@/lib/env";
+import { getUsdHnlRate } from "@/lib/exchange-rate";
 import { parseInventorySearchParams } from "@/lib/inventory";
-import {
-  buildInventoryQuery,
-  inventoryFiltersQuery,
-  type InventoryFiltersData,
-  type PublicVehicleCard
-} from "@/lib/queries";
+import { buildInventoryQuery, type PublicVehicleCard } from "@/lib/queries";
 import { getSanityClient, isSanityConfigured } from "@/lib/sanity/client";
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Inventario",
-  description:
-    "Inventario de vehiculos importados en Honduras con filtros por marca, ano, precio y estado de importacion."
+  description: "Inventario de vehiculos importados en Honduras."
 };
 
 type InventoryPageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
-};
-
-const emptyFilters: InventoryFiltersData = {
-  makes: [],
-  bounds: {}
 };
 
 const sanityFetchOptions =
@@ -43,20 +32,16 @@ export default async function InventoryPage({
   const filters = parseInventorySearchParams(resolvedSearchParams);
   const sanityClient = isSanityConfigured ? getSanityClient() : null;
 
-  const [vehicles, filterData] = sanityClient
-    ? await Promise.all([
-        sanityClient.fetch<PublicVehicleCard[]>(
+  const [vehicles, usdHnlRate] = await Promise.all([
+    sanityClient
+      ? sanityClient.fetch<PublicVehicleCard[]>(
           buildInventoryQuery(filters),
           filters,
           sanityFetchOptions
-        ),
-        sanityClient.fetch<InventoryFiltersData>(
-          inventoryFiltersQuery,
-          {},
-          sanityFetchOptions
         )
-      ])
-    : [[], emptyFilters];
+      : Promise.resolve([]),
+    getUsdHnlRate()
+  ]);
 
   return (
     <main className="px-4 py-10 sm:px-6 lg:px-8">
@@ -71,9 +56,9 @@ export default async function InventoryPage({
                 Vehiculos importados verificados
               </h1>
               <p className="mt-4 max-w-3xl text-muted">
-                Filtra por marca, ano, precio y estado de importacion. Cada
-                vehiculo publicado esta preparado para mostrar condicion de
-                subasta y estado actual cuando abras su ficha tecnica.
+                Explora las unidades disponibles con precio en dolares y
+                lempiras, millaje en millas y kilometros, y ficha transparente
+                para consultar por WhatsApp.
               </p>
             </div>
             <div className="glass-card p-5">
@@ -89,8 +74,6 @@ export default async function InventoryPage({
             </div>
           </div>
         </section>
-
-        <InventoryFilterBar filters={filterData} values={filters} />
 
         <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="flex items-center gap-3 text-lg font-black text-white">
@@ -109,7 +92,11 @@ export default async function InventoryPage({
           className="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-3"
         >
           {vehicles.map((vehicle) => (
-            <VehicleCard key={vehicle._id} vehicle={vehicle} />
+            <VehicleCard
+              key={vehicle._id}
+              usdToHnlRate={usdHnlRate.rate}
+              vehicle={vehicle}
+            />
           ))}
         </section>
 
@@ -121,9 +108,18 @@ export default async function InventoryPage({
 
         <section className="mt-10 grid gap-5 lg:grid-cols-3">
           {[
-            ["VIN verificable", "Historial y datos visibles para comparar antes de comprar."],
-            ["Revision clara", "Estado mecanico, kilometraje y condicion actual en una ficha simple."],
-            ["Asesoria por WhatsApp", "Coordinacion directa para inventario, importacion o venta."]
+            [
+              "VIN verificable",
+              "Historial y datos visibles para comparar antes de comprar."
+            ],
+            [
+              "Revision clara",
+              "Estado mecanico, kilometraje y condicion actual en una ficha simple."
+            ],
+            [
+              "Asesoria por WhatsApp",
+              "Coordinacion directa para inventario, importacion o venta."
+            ]
           ].map(([title, text]) => (
             <div className="glass-card p-5" key={title}>
               <BadgeCheck aria-hidden className="text-brandRed" size={26} />

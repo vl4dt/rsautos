@@ -36,13 +36,31 @@ export const carListing = defineType({
       name: "make",
       title: "Make",
       type: "string",
-      validation: (rule) => rule.required()
+      description:
+        "Use one consistent brand name, for example Toyota, Honda, Ford, Hyundai or BMW. Avoid duplicates such as TOYOTA/Toyota.",
+      validation: (rule) =>
+        rule.required().custom((value) => {
+          if (!value || value === value.trim()) {
+            return true;
+          }
+
+          return "Remove leading or trailing spaces from the make.";
+        })
     }),
     defineField({
       name: "model",
       title: "Model",
       type: "string",
-      validation: (rule) => rule.required()
+      description:
+        "Use consistent model capitalization, for example Corolla LE or Civic Sport.",
+      validation: (rule) =>
+        rule.required().custom((value) => {
+          if (!value || value === value.trim()) {
+            return true;
+          }
+
+          return "Remove leading or trailing spaces from the model.";
+        })
     }),
     defineField({
       name: "year",
@@ -78,11 +96,8 @@ export const carListing = defineType({
       type: "string",
       options: {
         list: [
-          { title: "Auction won", value: "auctionWon" },
-          { title: "In transit", value: "inTransit" },
-          { title: "Customs clearance", value: "customsClearance" },
-          { title: "At workshop", value: "atWorkshop" },
-          { title: "Ready for sale", value: "readyForSale" }
+          { title: "En tránsito", value: "inTransit" },
+          { title: "Listo para venta", value: "readyForSale" }
         ],
         layout: "radio"
       },

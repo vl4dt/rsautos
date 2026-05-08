@@ -6,6 +6,7 @@ import {
   MapPin,
   Music2,
   Phone,
+  MessageCircle,
   Youtube,
   type LucideIcon
 } from "lucide-react";
@@ -15,6 +16,8 @@ import Link from "next/link";
 import { env } from "@/lib/env";
 import {
   siteVisualSettingsQuery,
+  type FooterContactItem,
+  type FooterContactKind,
   type SiteVisualSettings,
   type SocialLink,
   type SocialPlatform
@@ -44,12 +47,32 @@ const socialLabelMap: Record<SocialPlatform, string> = {
   youtube: "YouTube"
 };
 
+const contactIconMap: Record<FooterContactKind, LucideIcon> = {
+  custom: ExternalLink,
+  email: Mail,
+  location: MapPin,
+  phone: Phone,
+  whatsapp: MessageCircle
+};
+
 const envSocialLinks: SocialLink[] = [
   { platform: "facebook" as const, url: env.facebookUrl },
   { platform: "instagram" as const, url: env.instagramUrl },
   { platform: "youtube" as const, url: env.youtubeUrl },
   { platform: "tiktok" as const, url: env.tiktokUrl }
 ].filter((link) => link.url);
+
+const fallbackContactItems: FooterContactItem[] = [
+  {
+    kind: "whatsapp",
+    label: env.contactPhone || "WhatsApp directo",
+    href: buildWhatsappUrl()
+  },
+  {
+    kind: "location",
+    label: env.businessLocation
+  }
+];
 
 const sanityFetchOptions =
   process.env.NODE_ENV === "development"
@@ -68,6 +91,10 @@ export async function SiteFooter() {
     siteVisuals?.socialLinks && siteVisuals.socialLinks.length > 0
       ? siteVisuals.socialLinks
       : envSocialLinks;
+  const footerContactItems =
+    siteVisuals?.footerContactItems && siteVisuals.footerContactItems.length > 0
+      ? siteVisuals.footerContactItems
+      : fallbackContactItems;
 
   return (
     <footer className="mt-14 border-t border-white/10 bg-black/55 px-4 py-10 sm:px-6 lg:px-8">
@@ -101,21 +128,44 @@ export async function SiteFooter() {
 
         <div>
           <h2 className="text-sm font-black uppercase tracking-wide text-white">
-            Contactanos
+            Contáctanos
           </h2>
           <div className="mt-4 grid gap-3 text-sm text-muted">
-            <a className="flex items-center gap-3 transition hover:text-white" href={buildWhatsappUrl()}>
-              <Phone aria-hidden className="text-brandRed" size={18} />
-              {env.contactPhone || "WhatsApp directo"}
-            </a>
-            <span className="flex items-center gap-3">
-              <Mail aria-hidden className="text-brandBlue" size={18} />
-              Atencion por mensaje
-            </span>
-            <span className="flex items-center gap-3">
-              <MapPin aria-hidden className="text-silver" size={18} />
-              {env.businessLocation}
-            </span>
+            {footerContactItems.map((item) => {
+              const Icon = contactIconMap[item.kind] ?? ExternalLink;
+              const content = (
+                <>
+                  <Icon
+                    aria-hidden
+                    className={item.kind === "location" ? "text-silver" : "text-brandRed"}
+                    size={18}
+                  />
+                  <span className="grid">
+                    <span>{item.label}</span>
+                    {item.value ? (
+                      <span className="text-xs text-muted/80">{item.value}</span>
+                    ) : null}
+                  </span>
+                </>
+              );
+
+              return item.href ? (
+                <a
+                  className="flex items-center gap-3 transition hover:text-white"
+                  href={item.href}
+                  key={item._key ?? `${item.kind}-${item.label}`}
+                >
+                  {content}
+                </a>
+              ) : (
+                <span
+                  className="flex items-center gap-3"
+                  key={item._key ?? `${item.kind}-${item.label}`}
+                >
+                  {content}
+                </span>
+              );
+            })}
           </div>
         </div>
 

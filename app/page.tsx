@@ -16,6 +16,7 @@ import Link from "next/link";
 
 import { VehicleCard } from "@/components/vehicle-card";
 import { env } from "@/lib/env";
+import { getUsdHnlRate } from "@/lib/exchange-rate";
 import {
   publicVehicleProjection,
   siteVisualSettingsQuery,
@@ -144,6 +145,7 @@ export default async function HomePage() {
         )
       ])
     : [[], null];
+  const usdHnlRate = await getUsdHnlRate();
   const homeHeroImageUrl = siteVisuals?.homeHeroImage
     ? urlForImage(siteVisuals.homeHeroImage)
     : "/images/rs-autos/hero-car.png";
@@ -227,42 +229,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="relative z-10 -mt-6 px-4 sm:px-6 lg:px-8">
-        <form
-          action="/inventory"
-          className="glass-card neon-panel mx-auto grid max-w-7xl gap-4 p-4 md:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1fr_auto]"
-          data-analytics-event="filter_submit"
-          data-lead-source="home_filter"
-        >
-          {[
-            ["make", "Marca", "Todas las marcas"],
-            ["minYear", "Ano", "Cualquier ano"],
-            ["maxPrice", "Precio", "Cualquier precio"],
-            ["status", "Estado", "Todos"]
-          ].map(([name, label, placeholder]) => (
-            <label
-              className="relative z-10 flex items-center gap-3 rounded-xl border border-white/10 bg-black/35 px-4 py-3"
-              key={name}
-            >
-              <Search aria-hidden className="text-silver" size={20} />
-              <span className="grid">
-                <span className="text-sm font-black text-white">{label}</span>
-                <input
-                  className="w-full bg-transparent text-sm text-muted outline-none placeholder:text-muted"
-                  inputMode={name.includes("Year") || name.includes("Price") ? "numeric" : undefined}
-                  name={name}
-                  placeholder={placeholder}
-                />
-              </span>
-            </label>
-          ))}
-          <button className="btn-primary relative z-10 px-8" type="submit">
-            <Search aria-hidden size={19} />
-            Buscar
-          </button>
-        </form>
-      </section>
-
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -275,7 +241,12 @@ export default async function HomePage() {
           {featuredVehicles.length > 0 ? (
             <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
               {featuredVehicles.map((vehicle) => (
-                <VehicleCard compact key={vehicle._id} vehicle={vehicle} />
+                <VehicleCard
+                  compact
+                  key={vehicle._id}
+                  usdToHnlRate={usdHnlRate.rate}
+                  vehicle={vehicle}
+                />
               ))}
             </div>
           ) : (

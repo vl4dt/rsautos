@@ -58,6 +58,7 @@ Set these Vercel environment variables for Production, Preview, and Development 
 - `NEXT_PUBLIC_INSTAGRAM_URL`
 - `NEXT_PUBLIC_YOUTUBE_URL`
 - `NEXT_PUBLIC_TIKTOK_URL`
+- `USD_HNL_FALLBACK_RATE=26.25`
 - `SANITY_REVALIDATE_SECRET`
 
 Sanity Studio is embedded at `/studio` and uses the same `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET` values as the public site. Add the final Vercel domain to the Sanity project CORS origins with credentials enabled so Studio can authenticate in production.

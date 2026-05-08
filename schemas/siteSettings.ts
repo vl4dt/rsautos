@@ -88,6 +88,66 @@ export const siteSettings = defineType({
       ]
     }),
     defineField({
+      name: "footerContactItems",
+      title: "Footer contact items",
+      type: "array",
+      of: [
+        defineField({
+          name: "footerContactItem",
+          title: "Footer contact item",
+          type: "object",
+          fields: [
+            defineField({
+              name: "kind",
+              title: "Kind",
+              type: "string",
+              options: {
+                list: [
+                  { title: "Phone", value: "phone" },
+                  { title: "WhatsApp", value: "whatsapp" },
+                  { title: "Email", value: "email" },
+                  { title: "Location", value: "location" },
+                  { title: "Custom", value: "custom" }
+                ]
+              },
+              validation: (Rule) => Rule.required()
+            }),
+            defineField({
+              name: "label",
+              title: "Label",
+              type: "string",
+              description:
+                "Visible text, for example a phone number or business location.",
+              validation: (Rule) => Rule.required()
+            }),
+            defineField({
+              name: "value",
+              title: "Secondary value",
+              type: "string",
+              description: "Optional supporting text."
+            }),
+            defineField({
+              name: "href",
+              title: "Link",
+              type: "string",
+              description:
+                "Optional. Use tel:, mailto:, https://, or an internal route."
+            })
+          ],
+          preview: {
+            select: {
+              kind: "kind",
+              title: "label"
+            },
+            prepare: ({ kind, title }) => ({
+              title,
+              subtitle: kind
+            })
+          }
+        })
+      ]
+    }),
+    defineField({
       name: "socialLinks",
       title: "Social links",
       type: "array",

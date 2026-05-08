@@ -12,6 +12,7 @@ import Link from "next/link";
 import { FaqSection, type FaqItem } from "@/components/faq-section";
 import { ImportQuoteFlow } from "@/components/import-quote-flow";
 import { env } from "@/lib/env";
+import { getUsdHnlRate } from "@/lib/exchange-rate";
 import { buildWhatsappUrl } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
@@ -48,12 +49,26 @@ const flowHighlights: Array<{
   text: string;
   Icon: LucideIcon;
 }> = [
-  { title: "Busqueda", text: "Opciones por presupuesto, ano, uso y condicion.", Icon: Search },
-  { title: "Verificacion", text: "Revision de informacion visible antes de avanzar.", Icon: FileSearch },
-  { title: "Handoff", text: "Resumen claro para seguimiento directo por WhatsApp.", Icon: ArrowRight }
+  {
+    title: "Busqueda",
+    text: "Opciones por presupuesto, año, uso y condicion.",
+    Icon: Search
+  },
+  {
+    title: "Verificacion",
+    text: "Revision de informacion visible antes de avanzar.",
+    Icon: FileSearch
+  },
+  {
+    title: "Handoff",
+    text: "Resumen claro para seguimiento directo por WhatsApp.",
+    Icon: ArrowRight
+  }
 ];
 
-export default function ImportamosTuAutoPage() {
+export default async function ImportamosTuAutoPage() {
+  const usdHnlRate = await getUsdHnlRate();
+
   return (
     <main className="px-4 py-10 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -103,7 +118,7 @@ export default function ImportamosTuAutoPage() {
           ))}
         </section>
 
-        <ImportQuoteFlow />
+        <ImportQuoteFlow usdToHnlRate={usdHnlRate.rate} />
 
         <FaqSection items={importFaqs} title="Preguntas de importacion" />
 

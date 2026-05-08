@@ -24,11 +24,11 @@ export function InventoryFilterBar({
   return (
     <form
       action="/inventory"
-      className="glass-card neon-panel grid gap-4 p-4 md:grid-cols-2 lg:grid-cols-[1.1fr_0.85fr_0.85fr_1.35fr_1.2fr_auto_auto]"
+      className="glass-card neon-panel grid gap-4 p-4 md:grid-cols-2 lg:grid-cols-[1fr_1fr_0.8fr_0.8fr_1.2fr_1fr_auto_auto]"
       data-analytics-event="filter_submit"
       data-lead-source="inventory_filter"
     >
-      <div className="relative z-10 flex items-center gap-2 md:col-span-2 lg:col-span-7">
+      <div className="relative z-10 flex items-center gap-2 md:col-span-2 lg:col-span-8">
         <Filter aria-hidden className="text-brandRed" size={20} />
         <h2 className="text-lg font-black">Filtros de inventario</h2>
       </div>
@@ -46,7 +46,17 @@ export function InventoryFilterBar({
       </label>
 
       <label className="relative z-10 space-y-2">
-        <span className="text-xs font-bold uppercase text-muted">Ano minimo</span>
+        <span className="text-xs font-bold uppercase text-muted">Modelo</span>
+        <input
+          className="field px-3"
+          defaultValue={values.model ?? ""}
+          name="model"
+          placeholder="RAV4, Civic..."
+        />
+      </label>
+
+      <label className="relative z-10 space-y-2">
+        <span className="text-xs font-bold uppercase text-muted">Año mínimo</span>
         <input
           className="field px-3"
           defaultValue={values.minYear ?? ""}
@@ -60,7 +70,7 @@ export function InventoryFilterBar({
       </label>
 
       <label className="relative z-10 space-y-2">
-        <span className="text-xs font-bold uppercase text-muted">Ano maximo</span>
+        <span className="text-xs font-bold uppercase text-muted">Año máximo</span>
         <input
           className="field px-3"
           defaultValue={values.maxYear ?? ""}

@@ -34,7 +34,7 @@ const contactFaqs: FaqItem[] = [
   {
     question: "Atienden importaciones por encargo?",
     answer:
-      "Si. La pagina Importamos tu auto organiza presupuesto, uso, ano esperado y tiempo de compra."
+      "Si. La pagina Importamos tu auto organiza presupuesto, uso, año esperado y tiempo de compra."
   },
   {
     question: "Que datos no son publicos?",

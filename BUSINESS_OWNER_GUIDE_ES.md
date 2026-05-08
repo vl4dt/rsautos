@@ -101,6 +101,7 @@ El contenido de marca tambien viene del documento `Site Settings` en Sanity:
 
 - Imagenes hero para inicio y sobre nosotros.
 - Contenido del CTA de inicio, incluyendo titulo, texto, etiqueta del boton y enlace del boton.
+- Filas de contacto del footer, incluyendo telefono, WhatsApp, correo, ubicacion o enlaces personalizados.
 - Enlaces sociales de Facebook, Instagram, YouTube y TikTok. Si Sanity no tiene enlaces, el sitio puede usar `NEXT_PUBLIC_FACEBOOK_URL`, `NEXT_PUBLIC_INSTAGRAM_URL`, `NEXT_PUBLIC_YOUTUBE_URL` y `NEXT_PUBLIC_TIKTOK_URL`.
 - Testimonios con cita, nombre, ciudad, vehiculo/contexto y calificacion. Los ejemplos de respaldo se muestran solo cuando no hay testimonios en CMS.
 - Una imagen Open Graph de marca se genera automaticamente para vistas previas al compartir enlaces.
@@ -223,10 +224,7 @@ Cada vehiculo tiene un estado de importacion. Esto ayuda al cliente a entender e
 Estados disponibles:
 
 ```text
-auctionWon
 inTransit
-customsClearance
-atWorkshop
 readyForSale
 ```
 
@@ -234,10 +232,7 @@ Significado:
 
 | Estado | Significado |
 |---|---|
-| auctionWon | El vehiculo fue comprado en subasta en USA. |
 | inTransit | El vehiculo esta en camino a Honduras. |
-| customsClearance | El vehiculo esta en tramite de aduana. |
-| atWorkshop | El vehiculo esta en inspeccion o reparacion. |
 | readyForSale | El vehiculo esta listo para venta. |
 
 Use el estado de forma honesta. Esto es parte de la promesa de transparencia.

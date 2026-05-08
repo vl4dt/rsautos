@@ -122,7 +122,7 @@ export function VinPrefillInput(props: StringInputProps) {
           }}
         >
           {message ||
-            "Completa VIN y usa NHTSA para prellenar marca, modelo, ano y specs publicas."}
+            "Completa VIN y usa NHTSA para prellenar marca, modelo, año y specs publicas."}
         </p>
       </div>
     </div>

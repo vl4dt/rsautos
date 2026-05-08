@@ -2,24 +2,37 @@ import { Gauge, MessageCircle, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { formatMileage, formatUsd } from "@/lib/format";
-import { importStatusLabels } from "@/lib/inventory";
+import { formatMileagePair, formatPricePair } from "@/lib/format";
+import { legacyImportStatusLabels } from "@/lib/inventory";
 import type { PublicVehicleCard } from "@/lib/queries";
 import { urlForImage } from "@/lib/sanity/image";
+import {
+  formatVehicleMake,
+  formatVehicleModel
+} from "@/lib/vehicle-normalization";
 import { buildWhatsappUrl } from "@/lib/whatsapp";
 
 type VehicleCardProps = {
   vehicle: PublicVehicleCard;
   compact?: boolean;
+  usdToHnlRate: number;
 };
 
-export function VehicleCard({ compact = false, vehicle }: VehicleCardProps) {
+export function VehicleCard({
+  compact = false,
+  usdToHnlRate,
+  vehicle
+}: VehicleCardProps) {
   const imageUrl = vehicle.heroImage ? urlForImage(vehicle.heroImage) : "";
+  const make = formatVehicleMake(vehicle.make);
+  const model = formatVehicleModel(vehicle.model);
+  const mileage = formatMileagePair(vehicle.mileage);
+  const price = formatPricePair(vehicle.priceUsd, usdToHnlRate);
   const leadVehicle = {
     title: vehicle.title,
     vin: vehicle.vin,
     slug: vehicle.slug,
-    importStatusLabel: importStatusLabels[vehicle.importStatus],
+    importStatusLabel: legacyImportStatusLabels[vehicle.importStatus],
     leadSource: "inventory"
   };
 
@@ -40,7 +53,7 @@ export function VehicleCard({ compact = false, vehicle }: VehicleCardProps) {
           </div>
         )}
         <div className="absolute left-4 top-4 rounded-full border border-brandBlue/45 bg-black/65 px-3 py-1 text-xs font-black text-silver shadow-blueGlow">
-          {importStatusLabels[vehicle.importStatus]}
+          {legacyImportStatusLabels[vehicle.importStatus]}
         </div>
       </div>
 
@@ -48,21 +61,27 @@ export function VehicleCard({ compact = false, vehicle }: VehicleCardProps) {
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-sm font-bold text-muted">
-              {vehicle.year} {vehicle.make}
+              {vehicle.year} {make}
             </p>
             <h2 className={compact ? "mt-1 text-lg font-black text-white" : "mt-1 text-xl font-black text-white"}>
-              {vehicle.model}
+              {model}
             </h2>
           </div>
-          <p className={compact ? "text-right text-lg font-black text-brandRed" : "text-right text-xl font-black text-brandRed"}>
-            {formatUsd(vehicle.priceUsd)}
-          </p>
+          <div className="text-right">
+            <p className={compact ? "text-lg font-black text-brandRed" : "text-xl font-black text-brandRed"}>
+              {price.usd}
+            </p>
+            <p className="mt-1 text-xs font-bold text-muted">{price.hnl}</p>
+          </div>
         </div>
 
         <div className="mt-5 grid grid-cols-2 gap-3 text-sm text-silver">
           <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] p-3">
             <Gauge aria-hidden className="text-brandBlue" size={18} />
-            {formatMileage(vehicle.mileage)} mi
+            <span className="grid leading-tight">
+              <span>{mileage.miles}</span>
+              <span className="text-xs text-muted">{mileage.kilometers}</span>
+            </span>
           </div>
           <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] p-3">
             <ShieldCheck aria-hidden className="text-brandRed" size={18} />

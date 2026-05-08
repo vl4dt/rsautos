@@ -4,18 +4,28 @@ import {
   sortOptions,
   type ImportStatus,
   type InventorySearchParams,
-  type InventorySort
+  type InventorySort,
+  type LegacyImportStatus
 } from "@/lib/queries";
 
 type RawSearchParams = Record<string, string | string[] | undefined>;
 
 export const importStatusLabels: Record<ImportStatus, string> = {
-  auctionWon: "Subasta ganada",
-  inTransit: "En transito",
-  customsClearance: "En aduana",
-  atWorkshop: "En taller",
+  inTransit: "En tránsito",
   readyForSale: "Listo para venta"
 };
+
+export const legacyImportStatusLabels: Record<LegacyImportStatus, string> = {
+  auctionWon: "En tránsito",
+  atWorkshop: "En tránsito",
+  customsClearance: "En tránsito",
+  inTransit: "En tránsito",
+  readyForSale: "Listo para venta"
+};
+
+export function publicImportStatus(status: LegacyImportStatus): ImportStatus {
+  return status === "readyForSale" ? "readyForSale" : "inTransit";
+}
 
 export const sortLabels: Record<InventorySort, string> = {
   newest: "Mas recientes",
@@ -35,9 +45,14 @@ export function parseInventorySearchParams(
 ): InventorySearchParams {
   const status = firstValue(searchParams.status);
   const sort = firstValue(searchParams.sort);
+  const make = cleanText(firstValue(searchParams.make));
+  const model = cleanText(firstValue(searchParams.model));
 
   return {
-    make: cleanText(firstValue(searchParams.make)),
+    make,
+    makeSearch: toSearchToken(make),
+    model,
+    modelSearch: toSearchToken(model),
     minYear: toNumber(firstValue(searchParams.minYear)),
     maxYear: toNumber(firstValue(searchParams.maxYear)),
     minPrice: toNumber(firstValue(searchParams.minPrice)),
@@ -54,6 +69,17 @@ function firstValue(value: string | string[] | undefined): string | undefined {
 function cleanText(value: string | undefined): string | undefined {
   const trimmed = value?.trim();
   return trimmed ? trimmed : undefined;
+}
+
+function toSearchToken(value: string | undefined): string | undefined {
+  const normalized = value
+    ?.normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+
+  return normalized ? `${normalized}*` : undefined;
 }
 
 function toNumber(value: string | undefined): number | undefined {

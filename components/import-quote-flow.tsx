@@ -22,6 +22,7 @@ import {
   SuccessState,
   UploadDropzone
 } from "@/components/glass-form-controls";
+import { formatPricePair } from "@/lib/format";
 import { buildWhatsappUrl } from "@/lib/whatsapp";
 
 type ImportQuoteForm = {
@@ -52,11 +53,11 @@ const yearOptions = [
   { label: "2023 o mas reciente", value: "2023+" }
 ];
 
-const budgetOptions = [
-  { label: "USD 15,000 - 20,000", value: "15000-20000" },
-  { label: "USD 20,000 - 30,000", value: "20000-30000" },
-  { label: "USD 30,000 - 45,000", value: "30000-45000" },
-  { label: "Mas de USD 45,000", value: "45000+" }
+const budgetRanges = [
+  { max: 20000, min: 15000, value: "15000-20000" },
+  { max: 30000, min: 20000, value: "20000-30000" },
+  { max: 45000, min: 30000, value: "30000-45000" },
+  { min: 45000, value: "45000+" }
 ];
 
 const fuelOptions = [
@@ -80,9 +81,17 @@ const timelineOptions = [
   { label: "Estoy comparando", value: "Estoy comparando" }
 ];
 
-export function ImportQuoteFlow() {
+export function ImportQuoteFlow({
+  usdToHnlRate
+}: {
+  usdToHnlRate: number;
+}) {
   const [form, setForm] = useState<ImportQuoteForm>(initialForm);
   const [submitted, setSubmitted] = useState(false);
+  const budgetOptions = useMemo(
+    () => buildBudgetOptions(usdToHnlRate),
+    [usdToHnlRate]
+  );
 
   const completedFields = Object.values(form).filter(Boolean).length;
   const progress = Math.round((completedFields / Object.keys(form).length) * 100);
@@ -90,7 +99,7 @@ export function ImportQuoteFlow() {
     () =>
       buildWhatsappUrl({
         leadSource: "import_quote",
-        message: `Hola RS Autos HN, quiero cotizar una importacion. Nombre: ${form.name || "pendiente"}. Ciudad: ${form.city || "pendiente"}. Vehiculo buscado: ${form.makeModel || "pendiente"}. Ano: ${form.yearRange}. Presupuesto: ${form.budget}. Combustible: ${form.fuelType}. Uso: ${form.useCase}. Tiempo esperado: ${form.timeline}.`
+        message: `Hola RS Autos HN, quiero cotizar una importacion. Nombre: ${form.name || "pendiente"}. Ciudad: ${form.city || "pendiente"}. Vehiculo buscado: ${form.makeModel || "pendiente"}. Año: ${form.yearRange}. Presupuesto: ${form.budget}. Combustible: ${form.fuelType}. Uso: ${form.useCase}. Tiempo esperado: ${form.timeline}.`
       }),
     [form]
   );
@@ -138,7 +147,7 @@ export function ImportQuoteFlow() {
           />
           <IconSelect
             icon={CalendarDays}
-            label="Ano objetivo"
+            label="Año objetivo"
             onChange={(event) => updateField("yearRange", event.target.value)}
             options={yearOptions}
             value={form.yearRange}
@@ -215,6 +224,26 @@ export function ImportQuoteFlow() {
       </ProgressSummary>
     </div>
   );
+}
+
+function buildBudgetOptions(usdToHnlRate: number) {
+  return budgetRanges.map((range) => {
+    const min = formatPricePair(range.min, usdToHnlRate);
+
+    if (!range.max) {
+      return {
+        label: `Mas de ${min.usd} / ${min.hnl}`,
+        value: range.value
+      };
+    }
+
+    const max = formatPricePair(range.max, usdToHnlRate);
+
+    return {
+      label: `${min.usd} - ${max.usd} / ${min.hnl} - ${max.hnl}`,
+      value: range.value
+    };
+  });
 }
 
 function SummaryItem({ label, value }: { label: string; value: string }) {

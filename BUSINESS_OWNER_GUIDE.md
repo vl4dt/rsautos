@@ -101,6 +101,7 @@ Brand content also comes from the `Site Settings` document in Sanity:
 
 - Hero images for the home and about pages.
 - Home CTA content, including title, body text, button label, and button link.
+- Footer contact rows, including phone, WhatsApp, email, location, or custom contact links.
 - Social links for Facebook, Instagram, YouTube, and TikTok. If Sanity has no social links, the site can use `NEXT_PUBLIC_FACEBOOK_URL`, `NEXT_PUBLIC_INSTAGRAM_URL`, `NEXT_PUBLIC_YOUTUBE_URL`, and `NEXT_PUBLIC_TIKTOK_URL`.
 - Testimonials with quote, name, city, vehicle/context, and rating. Fallback examples are shown only when no CMS testimonials exist.
 - A branded Open Graph image is generated automatically for link previews.
@@ -223,10 +224,7 @@ Each vehicle has an import status. This helps customers understand where the veh
 Available statuses:
 
 ```text
-auctionWon
 inTransit
-customsClearance
-atWorkshop
 readyForSale
 ```
 
@@ -234,10 +232,7 @@ Plain-language meaning:
 
 | Status | Meaning |
 |---|---|
-| auctionWon | The vehicle was bought at auction in the USA. |
 | inTransit | The vehicle is on the way to Honduras. |
-| customsClearance | The vehicle is going through customs. |
-| atWorkshop | The vehicle is being inspected or repaired. |
 | readyForSale | The vehicle is ready for a buyer. |
 
 Use the status honestly. This is part of the transparency promise.
