@@ -92,10 +92,18 @@ Customers visit the website and see pages such as:
 
 - **Home page**: Introduces RS Autos HN and the transparency promise.
 - **Inventory page**: Shows available vehicles with filters.
-- **Vehicle detail pages**: Planned next phase. These will show full transparency details for each car.
+- **Vehicle detail pages**: Shows transparency details, inspection, documents, and public reports for each car.
 - **Sanity Studio**: Private management area for the business team.
 
 The inventory page gets vehicle data from Sanity. When a vehicle is added and published in Sanity, it can appear on the website.
+
+Brand content also comes from the `Site Settings` document in Sanity:
+
+- Hero images for the home and about pages.
+- Home CTA content, including title, body text, button label, and button link.
+- Social links for Facebook, Instagram, YouTube, and TikTok. If Sanity has no social links, the site can use `NEXT_PUBLIC_FACEBOOK_URL`, `NEXT_PUBLIC_INSTAGRAM_URL`, `NEXT_PUBLIC_YOUTUBE_URL`, and `NEXT_PUBLIC_TIKTOK_URL`.
+- Testimonials with quote, name, city, vehicle/context, and rating. Fallback examples are shown only when no CMS testimonials exist.
+- A branded Open Graph image is generated automatically for link previews.
 
 ## 5. How Sanity Works
 

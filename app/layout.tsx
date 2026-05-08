@@ -18,9 +18,24 @@ export const metadata: Metadata = {
     title: env.businessName,
     description:
       "Vehiculos importados desde subastas de USA con informacion clara antes y despues de reparacion.",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: `${env.businessName} inventario verificado`
+      }
+    ],
     locale: "es_HN",
     siteName: env.businessName,
     type: "website"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: env.businessName,
+    description:
+      "Vehiculos importados con condicion, inspeccion y documentacion clara.",
+    images: ["/opengraph-image"]
   }
 };
 

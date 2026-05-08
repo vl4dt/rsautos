@@ -92,10 +92,18 @@ Los clientes visitan el sitio y pueden ver paginas como:
 
 - **Pagina de inicio**: Presenta RS Autos HN y la promesa de transparencia.
 - **Pagina de inventario**: Muestra vehiculos disponibles con filtros.
-- **Paginas de detalle de vehiculo**: Planeadas para la siguiente fase. Mostraran toda la informacion de transparencia por vehiculo.
+- **Paginas de detalle de vehiculo**: Muestran transparencia, inspeccion, documentos y reportes publicos por vehiculo.
 - **Sanity Studio**: Area privada de administracion para el equipo del negocio.
 
 La pagina de inventario obtiene los datos desde Sanity. Cuando un vehiculo se agrega y se publica en Sanity, puede aparecer en el sitio web.
+
+El contenido de marca tambien viene del documento `Site Settings` en Sanity:
+
+- Imagenes hero para inicio y sobre nosotros.
+- Contenido del CTA de inicio, incluyendo titulo, texto, etiqueta del boton y enlace del boton.
+- Enlaces sociales de Facebook, Instagram, YouTube y TikTok. Si Sanity no tiene enlaces, el sitio puede usar `NEXT_PUBLIC_FACEBOOK_URL`, `NEXT_PUBLIC_INSTAGRAM_URL`, `NEXT_PUBLIC_YOUTUBE_URL` y `NEXT_PUBLIC_TIKTOK_URL`.
+- Testimonios con cita, nombre, ciudad, vehiculo/contexto y calificacion. Los ejemplos de respaldo se muestran solo cuando no hay testimonios en CMS.
+- Una imagen Open Graph de marca se genera automaticamente para vistas previas al compartir enlaces.
 
 ## 5. Como Funciona Sanity
 

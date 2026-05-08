@@ -22,7 +22,8 @@ import { FaqSection, type FaqItem } from "@/components/faq-section";
 import { env } from "@/lib/env";
 import {
   siteVisualSettingsQuery,
-  type SiteVisualSettings
+  type SiteVisualSettings,
+  type Testimonial
 } from "@/lib/queries";
 import { getSanityClient, isSanityConfigured } from "@/lib/sanity/client";
 import { urlForImage } from "@/lib/sanity/image";
@@ -80,12 +81,12 @@ const trustModules = [
   }
 ];
 
-const testimonials = [
+const fallbackTestimonials: Testimonial[] = [
   {
     name: "Carlos M.",
     city: "Tegucigalpa",
     vehicle: "Toyota RAV4 importada",
-    rating: "5.0",
+    rating: 5,
     quote:
       "Pude revisar fotos, estado y documentos antes de decidir. El seguimiento fue claro desde el primer mensaje."
   },
@@ -93,7 +94,7 @@ const testimonials = [
     name: "Andrea P.",
     city: "San Pedro Sula",
     vehicle: "Honda CR-V en inventario",
-    rating: "5.0",
+    rating: 5,
     quote:
       "Me ayudaron a comparar opciones sin presion. La ficha del vehiculo tenia la informacion que necesitaba."
   },
@@ -101,7 +102,7 @@ const testimonials = [
     name: "Jose R.",
     city: "La Ceiba",
     vehicle: "Pickup para trabajo",
-    rating: "5.0",
+    rating: 5,
     quote:
       "La diferencia fue entender que podia verificar y que datos eran internos. Eso me dio confianza."
   }
@@ -158,6 +159,10 @@ export default async function SobreNosotrosPage() {
   const aboutHeroImageUrl = siteVisuals?.aboutHeroImage
     ? urlForImage(siteVisuals.aboutHeroImage)
     : "/images/rs-autos/hero-car.png";
+  const testimonials =
+    siteVisuals?.testimonials && siteVisuals.testimonials.length > 0
+      ? siteVisuals.testimonials
+      : fallbackTestimonials;
 
   return (
     <main className="px-4 py-10 sm:px-6 lg:px-8">
@@ -303,7 +308,7 @@ export default async function SobreNosotrosPage() {
           <h2 className="section-title">Clientes y casos</h2>
           <div className="mt-6 grid gap-5 lg:grid-cols-3">
             {testimonials.map((testimonial) => (
-              <article className="glass-card p-6" key={testimonial.name}>
+              <article className="glass-card p-6" key={testimonial._key ?? testimonial.name}>
                 <Sparkles aria-hidden className="text-brandRed" size={24} />
                 <p className="mt-4 min-h-24 text-sm leading-6 text-silver">
                   &ldquo;{testimonial.quote}&rdquo;
@@ -312,10 +317,10 @@ export default async function SobreNosotrosPage() {
                 <div className="mt-3">
                   <p className="font-black text-white">{testimonial.name}</p>
                   <p className="text-sm text-muted">
-                    {testimonial.city} / {testimonial.vehicle}
+                    {[testimonial.city, testimonial.vehicle].filter(Boolean).join(" / ")}
                   </p>
                   <p className="mt-2 text-sm font-black text-brandBlue">
-                    Rating {testimonial.rating}
+                    Rating {(testimonial.rating ?? 5).toFixed(1)}
                   </p>
                 </div>
               </article>

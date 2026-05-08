@@ -20,7 +20,8 @@ import {
   publicVehicleProjection,
   siteVisualSettingsQuery,
   type PublicVehicleCard,
-  type SiteVisualSettings
+  type SiteVisualSettings,
+  type Testimonial
 } from "@/lib/queries";
 import { getSanityClient, isSanityConfigured } from "@/lib/sanity/client";
 import { urlForImage } from "@/lib/sanity/image";
@@ -101,7 +102,7 @@ const processSteps = [
   }
 ];
 
-const testimonials = [
+const fallbackTestimonials: Testimonial[] = [
   {
     quote:
       "Proceso claro desde la primera consulta. Me explicaron cada paso y el carro llego como se habia revisado.",
@@ -149,6 +150,19 @@ export default async function HomePage() {
   const homeCtaImageUrl = siteVisuals?.homeCtaImage
     ? urlForImage(siteVisuals.homeCtaImage)
     : "/images/rs-autos/cta-car.png";
+  const homeCta = {
+    body:
+      siteVisuals?.homeCta?.body ||
+      "Escribenos por WhatsApp y recibe asesoria personalizada con opciones disponibles, importacion o documentacion.",
+    buttonHref: siteVisuals?.homeCta?.buttonHref || "/contacto",
+    buttonLabel: siteVisuals?.homeCta?.buttonLabel || "Ir a contacto",
+    eyebrow: siteVisuals?.homeCta?.eyebrow,
+    title: siteVisuals?.homeCta?.title || "Listo para tu proximo auto?"
+  };
+  const testimonials =
+    siteVisuals?.testimonials && siteVisuals.testimonials.length > 0
+      ? siteVisuals.testimonials
+      : fallbackTestimonials;
 
   return (
     <main>
@@ -341,7 +355,7 @@ export default async function HomePage() {
           <h2 className="section-title">Lo que dicen nuestros clientes</h2>
           <div className="mt-6 grid gap-5 lg:grid-cols-3">
             {testimonials.map((testimonial) => (
-              <article className="glass-card p-6" key={testimonial.name}>
+              <article className="glass-card p-6" key={testimonial._key ?? testimonial.name}>
                 <Sparkles aria-hidden className="text-brandRed" size={24} />
                 <p className="mt-4 min-h-24 text-sm leading-6 text-silver">
                   &ldquo;{testimonial.quote}&rdquo;
@@ -349,7 +363,9 @@ export default async function HomePage() {
                 <p className="mt-5 text-brandRed">*****</p>
                 <div className="mt-3">
                   <p className="font-black text-white">{testimonial.name}</p>
-                  <p className="text-sm text-muted">{testimonial.city}</p>
+                  <p className="text-sm text-muted">
+                    {[testimonial.city, testimonial.vehicle].filter(Boolean).join(" / ")}
+                  </p>
                 </div>
               </article>
             ))}
@@ -363,14 +379,18 @@ export default async function HomePage() {
             <MessageCircle aria-hidden size={38} />
           </div>
           <div className="relative z-10">
-            <h2 className="text-3xl font-black">Listo para tu proximo auto?</h2>
+            {homeCta.eyebrow ? (
+              <p className="mb-2 text-xs font-black uppercase tracking-[0.18em] text-brandRed">
+                {homeCta.eyebrow}
+              </p>
+            ) : null}
+            <h2 className="text-3xl font-black">{homeCta.title}</h2>
             <p className="mt-2 max-w-2xl text-muted">
-              Escribenos por WhatsApp y recibe asesoria personalizada con
-              opciones disponibles, importacion o documentacion.
+              {homeCta.body}
             </p>
           </div>
-          <Link className="btn-primary relative z-10 px-7" href="/contacto">
-            Ir a contacto <ArrowRight aria-hidden size={20} />
+          <Link className="btn-primary relative z-10 px-7" href={homeCta.buttonHref}>
+            {homeCta.buttonLabel} <ArrowRight aria-hidden size={20} />
           </Link>
           <Image
             alt=""

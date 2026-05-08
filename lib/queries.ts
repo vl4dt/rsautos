@@ -41,7 +41,35 @@ export type VehicleImage = {
 export type SiteVisualSettings = {
   homeHeroImage?: VehicleImage;
   homeCtaImage?: VehicleImage;
+  homeCta?: HomeCtaContent;
   aboutHeroImage?: VehicleImage;
+  socialLinks?: SocialLink[];
+  testimonials?: Testimonial[];
+};
+
+export type HomeCtaContent = {
+  eyebrow?: string;
+  title?: string;
+  body?: string;
+  buttonLabel?: string;
+  buttonHref?: string;
+};
+
+export type SocialPlatform = "facebook" | "instagram" | "youtube" | "tiktok";
+
+export type SocialLink = {
+  _key?: string;
+  platform: SocialPlatform;
+  url: string;
+};
+
+export type Testimonial = {
+  _key?: string;
+  quote: string;
+  name: string;
+  city?: string;
+  vehicle?: string;
+  rating?: number;
 };
 
 export type PublicVehicleCard = {
@@ -133,7 +161,10 @@ export const siteVisualSettingsQuery = groq`
   *[_type == "siteSettings" && _id == "siteSettings"][0]{
     homeHeroImage{alt, asset},
     homeCtaImage{alt, asset},
-    aboutHeroImage{alt, asset}
+    homeCta{eyebrow, title, body, buttonLabel, buttonHref},
+    aboutHeroImage{alt, asset},
+    socialLinks[]{_key, platform, url},
+    testimonials[]{_key, quote, name, city, vehicle, rating}
   }
 `;
 

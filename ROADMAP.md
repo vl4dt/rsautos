@@ -20,12 +20,12 @@ Core trust promise: every public vehicle experience should help the buyer compar
 
 ## Phase 2: Brand System and UI Polish
 
-- [ ] Formalize the RS Autos HN design system in shared components/classes: glass panels, neon panels, section titles, badges, stat cards, CTA bands, and form fields.
-- [ ] Audit all pages for responsive layout, text clipping, button fit, and accessible contrast on mobile and desktop.
-- [ ] Add consistent active navigation states for route and in-page sections.
-- [ ] Add social icons/links and business metadata from env or Sanity site settings.
-- [ ] Add Open Graph images using the RS Autos visual identity.
-- [ ] Replace placeholder testimonial/social content with CMS-managed content.
+- [x] Formalize the RS Autos HN design system in shared components/classes: glass panels, neon panels, section titles, badges, stat cards, CTA bands, and form fields.
+- [x] Audit all pages for responsive layout, text clipping, button fit, and accessible contrast on mobile and desktop.
+- [x] Add consistent active navigation states for route and in-page sections.
+- [x] Add social icons/links and business metadata from env or Sanity site settings.
+- [x] Add Open Graph images using the RS Autos visual identity.
+- [x] Replace placeholder testimonial/social content with CMS-managed content.
 
 ## Phase 3: Vehicle Transparency Detail
 

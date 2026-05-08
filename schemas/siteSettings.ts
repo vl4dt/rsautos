@@ -39,6 +39,42 @@ export const siteSettings = defineType({
       ]
     }),
     defineField({
+      name: "homeCta",
+      title: "Home CTA content",
+      type: "object",
+      fields: [
+        defineField({
+          name: "eyebrow",
+          title: "Eyebrow",
+          type: "string",
+          description: "Optional short label above the title."
+        }),
+        defineField({
+          name: "title",
+          title: "Title",
+          type: "string"
+        }),
+        defineField({
+          name: "body",
+          title: "Body",
+          type: "text",
+          rows: 2
+        }),
+        defineField({
+          name: "buttonLabel",
+          title: "Button label",
+          type: "string"
+        }),
+        defineField({
+          name: "buttonHref",
+          title: "Button link",
+          type: "string",
+          description:
+            "Use an internal route like /contacto or a full external URL."
+        })
+      ]
+    }),
+    defineField({
       name: "aboutHeroImage",
       title: "About page hero image",
       type: "image",
@@ -48,6 +84,100 @@ export const siteSettings = defineType({
           name: "alt",
           title: "Alt text",
           type: "string"
+        })
+      ]
+    }),
+    defineField({
+      name: "socialLinks",
+      title: "Social links",
+      type: "array",
+      of: [
+        defineField({
+          name: "socialLink",
+          title: "Social link",
+          type: "object",
+          fields: [
+            defineField({
+              name: "platform",
+              title: "Platform",
+              type: "string",
+              options: {
+                list: [
+                  { title: "Facebook", value: "facebook" },
+                  { title: "Instagram", value: "instagram" },
+                  { title: "YouTube", value: "youtube" },
+                  { title: "TikTok", value: "tiktok" }
+                ]
+              },
+              validation: (Rule) => Rule.required()
+            }),
+            defineField({
+              name: "url",
+              title: "URL",
+              type: "url",
+              validation: (Rule) => Rule.required()
+            })
+          ],
+          preview: {
+            select: {
+              platform: "platform",
+              url: "url"
+            },
+            prepare: ({ platform, url }) => ({
+              title: platform,
+              subtitle: url
+            })
+          }
+        })
+      ]
+    }),
+    defineField({
+      name: "testimonials",
+      title: "Testimonials",
+      type: "array",
+      of: [
+        defineField({
+          name: "testimonial",
+          title: "Testimonial",
+          type: "object",
+          fields: [
+            defineField({
+              name: "quote",
+              title: "Quote",
+              type: "text",
+              rows: 3,
+              validation: (Rule) => Rule.required()
+            }),
+            defineField({
+              name: "name",
+              title: "Name",
+              type: "string",
+              validation: (Rule) => Rule.required()
+            }),
+            defineField({
+              name: "city",
+              title: "City",
+              type: "string"
+            }),
+            defineField({
+              name: "vehicle",
+              title: "Vehicle or context",
+              type: "string"
+            }),
+            defineField({
+              name: "rating",
+              title: "Rating",
+              type: "number",
+              initialValue: 5,
+              validation: (Rule) => Rule.min(1).max(5)
+            })
+          ],
+          preview: {
+            select: {
+              title: "name",
+              subtitle: "quote"
+            }
+          }
         })
       ]
     })
