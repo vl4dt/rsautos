@@ -1,15 +1,17 @@
 import {
   ArrowRight,
-  BadgeCheck,
+  Camera,
   ClipboardCheck,
+  BookOpenCheck,
+  FileCheck2,
   FileSearch,
   Gauge,
   KeyRound,
+  ListChecks,
   MessageCircle,
   Search,
   ShieldCheck,
-  Sparkles,
-  Wrench
+  Sparkles
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -59,47 +61,78 @@ const featuredFallback = [
 
 const trustItems = [
   {
-    icon: ShieldCheck,
-    title: "VIN verificable",
-    text: "Historial claro, fotos de origen y datos publicos para validar el lote."
+    icon: FileCheck2,
+    title: "Historial visible",
+    text: "VIN, titulo, origen y documentos publicos cuando estan disponibles."
   },
   {
-    icon: Wrench,
-    title: "Revision mecanica",
-    text: "Inspeccion del estado actual antes de que tomes una decision."
+    icon: Camera,
+    title: "Fotos como evidencia",
+    text: "Galeria del estado de origen, estado actual y detalles relevantes."
   },
   {
-    icon: BadgeCheck,
-    title: "Importados verificados",
-    text: "Cada unidad publicada pasa por control de documentacion y condicion."
+    icon: ListChecks,
+    title: "Condicion explicada",
+    text: "Checklist simple para saber que esta verificado, pendiente o reparado."
   },
   {
     icon: MessageCircle,
-    title: "Asesoria directa",
-    text: "Un asesor te guia por WhatsApp desde la busqueda hasta la entrega."
+    title: "Decision acompanada",
+    text: "Asesoria directa para revisar la ficha antes de coordinar una visita."
   }
 ];
 
 const processSteps = [
   {
     icon: Search,
-    title: "Elegis tu auto",
-    text: "Buscamos opciones por presupuesto, uso, marca y estado esperado."
+    title: "Entendemos tu caso",
+    text: "Partimos de presupuesto, uso, ciudad, tiempo esperado y tolerancia al riesgo."
   },
   {
     icon: ClipboardCheck,
-    title: "Verificacion y compra",
-    text: "Revisamos informacion disponible y confirmamos el proceso contigo."
+    title: "Revisamos evidencia",
+    text: "Comparamos VIN, fotos, titulo, condicion de origen y estado actual."
   },
   {
     icon: FileSearch,
-    title: "Importacion segura",
-    text: "Coordinamos traslado, documentacion y avances hasta Honduras."
+    title: "Explicamos pendientes",
+    text: "Separamos lo verificado, lo pendiente, reparaciones y documentos disponibles."
   },
   {
     icon: KeyRound,
-    title: "Entrega y respaldo",
-    text: "Recibes tu vehiculo con informacion clara del estado final."
+    title: "Guiamos el siguiente paso",
+    text: "Te orientamos para visitar, reservar, pedir documentos o buscar una opcion mejor."
+  }
+];
+
+const decisionRoutes = [
+  {
+    icon: Search,
+    title: "Quiero ver unidades disponibles",
+    text: "Explora vehiculos publicados con precio, millaje, estado y ficha transparente.",
+    href: "/inventory",
+    label: "Ver inventario"
+  },
+  {
+    icon: BookOpenCheck,
+    title: "Quiero entender como comprar",
+    text: "Aprende sobre titulos, salvage, rebuilt, estado de subasta y preguntas clave.",
+    href: "/guia-compra-importados",
+    label: "Leer guia"
+  },
+  {
+    icon: FileSearch,
+    title: "Quiero importar un vehiculo",
+    text: "Completa un perfil guiado con presupuesto, uso, riesgo aceptable y prioridades.",
+    href: "/importamos-tu-auto",
+    label: "Cotizar importacion"
+  },
+  {
+    icon: MessageCircle,
+    title: "Quiero hablar con RS Autos",
+    text: "Elige el motivo correcto y envia un WhatsApp con contexto desde el inicio.",
+    href: "/contacto",
+    label: "Ir a contacto"
   }
 ];
 
@@ -165,37 +198,37 @@ export default async function HomePage() {
     siteVisuals?.testimonials && siteVisuals.testimonials.length > 0
       ? siteVisuals.testimonials
       : fallbackTestimonials;
+  const featuredVehicle = featuredVehicles[0];
 
   return (
     <main>
-      <section className="relative overflow-hidden border-b border-white/10 px-4 pb-10 pt-12 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,7,11,0.96)_0%,rgba(5,7,11,0.88)_38%,rgba(5,7,11,0.22)_70%,rgba(5,7,11,0.88)_100%)]" />
-        <div className="absolute -right-24 top-8 h-[34rem] w-[20rem] rotate-[28deg] border-r-4 border-brandRed/70 shadow-redGlow" />
-        <div className="absolute left-[48%] top-0 h-[34rem] w-1 rotate-[34deg] bg-gradient-to-b from-transparent via-brandBlue to-transparent shadow-blueGlow" />
+      <section className="relative overflow-hidden border-b border-white/10 px-4 pb-8 pt-10 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,4,5,0.96)_0%,rgba(9,11,14,0.9)_42%,rgba(9,11,14,0.34)_72%,rgba(3,4,5,0.92)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-brandRed/70 to-transparent" />
 
         <div className="relative mx-auto grid max-w-7xl items-center gap-8 lg:grid-cols-[0.9fr_1.15fr]">
           <div className="max-w-2xl">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-silver">
-              Confianza <span className="px-2 text-brandRed">/</span>
-              Transparencia <span className="px-2 text-brandRed">/</span>
-              Calidad
+            <p className="inline-flex rounded-full border border-white/15 bg-black/45 px-3 py-2 text-xs font-black uppercase tracking-[0.18em] text-silver">
+              Importados USA con informacion clara
             </p>
-            <h1 className="metal-heading mt-6 text-5xl uppercase leading-[0.9] sm:text-6xl lg:text-7xl">
-              Vehiculos importados
-              <span className="block text-brandRed [background:none]">
-                verificados
-              </span>
+            <h1 className="metal-heading mt-6 text-5xl uppercase leading-[0.92] sm:text-6xl lg:text-7xl">
+              Compra con evidencia,
+              <span className="block text-brandRed [background:none]">no con promesas</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-8 text-silver">
-              Importamos y publicamos vehiculos con informacion visible, estado
-              documentado y asesoria directa para comprar con confianza en
+              RS Autos presenta cada vehiculo con condicion, fotos, documentos
+              y contexto suficiente para tomar una decision responsable en
               {` ${env.primaryMarket}`}.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link className="btn-primary px-6" href="/inventory">
+              <Link className="btn-primary whitespace-nowrap px-6" href="/inventory">
                 Ver inventario <ArrowRight aria-hidden size={20} />
               </Link>
-              <Link className="btn-secondary px-6" href="/importamos-tu-auto">
+              <Link className="btn-secondary whitespace-nowrap px-6" href="/guia-compra-importados">
+                <BookOpenCheck aria-hidden size={19} />
+                Guia de compra
+              </Link>
+              <Link className="btn-secondary whitespace-nowrap px-6" href="/importamos-tu-auto">
                 <MessageCircle aria-hidden size={19} />
                 Cotizar importacion
               </Link>
@@ -203,33 +236,111 @@ export default async function HomePage() {
             <div className="mt-7 flex flex-wrap gap-4 text-sm font-extrabold text-silver">
               <span className="flex items-center gap-2">
                 <ShieldCheck aria-hidden className="text-brandRed" size={18} />
-                100% verificables
+                VIN e historial
               </span>
               <span className="flex items-center gap-2">
                 <FileSearch aria-hidden className="text-brandBlue" size={18} />
-                Documentacion clara
+                Estado antes y despues
               </span>
               <span className="flex items-center gap-2">
                 <Gauge aria-hidden className="text-silver" size={18} />
-                Proceso seguro
+                Checklist publico
               </span>
             </div>
           </div>
 
-          <div className="relative min-h-[17rem] sm:min-h-[24rem] lg:min-h-[29rem]">
+          <div className="relative min-h-[19rem] overflow-hidden rounded-[var(--radius)] border border-white/10 bg-black sm:min-h-[25rem] lg:min-h-[31rem]">
             <Image
-              alt="SUV negro en showroom RS Autos HN"
+              alt={featuredVehicle?.heroImage?.alt || "Vehiculo importado RS Autos HN"}
               className="object-cover object-right drop-shadow-[0_34px_44px_rgba(0,0,0,0.8)]"
               fill
               priority
               sizes="(min-width: 1024px) 54vw, 100vw"
-              src={homeHeroImageUrl}
+              src={
+                featuredVehicle?.heroImage
+                  ? urlForImage(featuredVehicle.heroImage)
+                  : homeHeroImageUrl
+              }
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/82 via-transparent to-black/20" />
+            <div className="absolute bottom-4 left-4 right-4 grid gap-3 rounded-[var(--radius)] border border-white/12 bg-black/72 p-4 backdrop-blur md:grid-cols-[1fr_auto] md:items-end">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-brandRed">
+                  Vehiculo destacado
+                </p>
+                <h2 className="mt-1 text-2xl font-black text-white">
+                  {featuredVehicle?.title ?? "Inventario RS Autos"}
+                </h2>
+                <p className="mt-1 text-sm font-semibold text-muted">
+                  {featuredVehicle
+                    ? `${featuredVehicle.year} / ${featuredVehicle.transmission ?? "Transmision pendiente"} / ${featuredVehicle.drivetrain ?? "Traccion pendiente"}`
+                    : "Ficha transparente, fotos y asesoria directa."}
+                </p>
+              </div>
+              <Link
+                className="btn-secondary px-4 text-sm"
+                href={featuredVehicle ? `/inventory/${featuredVehicle.slug}` : "/inventory"}
+              >
+                Revisar ficha <ArrowRight aria-hidden size={17} />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
+      <section className="border-b border-white/10 bg-white/[0.025] px-4 py-5 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-3 md:grid-cols-4">
+          {[
+            ["Origen", "Subasta USA o dealer verificado"],
+            ["Estado", "Como ingreso y como se entrega"],
+            ["Revision", "Puntos mecanicos y visuales clave"],
+            ["Soporte", "Consulta directa por WhatsApp"]
+          ].map(([label, value]) => (
+            <div className="border-l border-brandRed/55 pl-4" key={label}>
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-muted">
+                {label}
+              </p>
+              <p className="mt-1 font-black text-silver">{value}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section className="px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-6 max-w-3xl">
+            <p className="text-sm font-black uppercase tracking-[0.18em] text-brandRed">
+              Empieza por tu necesidad
+            </p>
+            <h2 className="mt-2 text-3xl font-black text-white sm:text-4xl">
+              Elige el camino correcto antes de escribir
+            </h2>
+            <p className="mt-3 leading-7 text-muted">
+              RS Autos funciona como un centro de decision: inventario
+              documentado, guia de compra, importacion por encargo y contacto
+              con contexto.
+            </p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {decisionRoutes.map((route) => (
+              <article className="glass-card p-5" key={route.title}>
+                <route.icon aria-hidden className="text-brandRed" size={28} />
+                <h3 className="mt-4 text-xl font-black text-white">
+                  {route.title}
+                </h3>
+                <p className="mt-2 min-h-24 text-sm leading-6 text-muted">
+                  {route.text}
+                </p>
+                <Link className="btn-secondary mt-5 w-full px-4 text-sm" href={route.href}>
+                  {route.label} <ArrowRight aria-hidden size={17} />
+                </Link>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 pb-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <h2 className="section-title">Inventario destacado</h2>
@@ -301,9 +412,83 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <section className="px-4 pb-12 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-5 lg:grid-cols-[1fr_1fr]">
+          <div className="glass-card p-6">
+            <ShieldCheck aria-hidden className="text-brandRed" size={32} />
+            <p className="mt-4 text-sm font-black uppercase tracking-[0.18em] text-brandRed">
+              Inventario curado
+            </p>
+            <h2 className="mt-2 text-3xl font-black text-white">
+              Pocas unidades, mejor documentadas
+            </h2>
+            <p className="mt-4 leading-7 text-muted">
+              Preferimos publicar menos vehiculos con mejor contexto: estado,
+              fotos, documentos, revision y preguntas utiles para el comprador.
+              Eso convierte la baja cantidad en curacion, no en falta de
+              opciones.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {[
+              ["Condicion", "Que se sabe del estado de origen y actual."],
+              ["Documentos", "Que reportes o soportes se pueden revisar."],
+              ["Preguntas", "Que validar antes de reservar o visitar."],
+              ["Asesoria", "Que camino conviene segun presupuesto y riesgo."]
+            ].map(([title, text]) => (
+              <article
+                className="rounded-[var(--radius)] border border-white/10 bg-white/[0.035] p-5"
+                key={title}
+              >
+                <h3 className="font-black text-white">{title}</h3>
+                <p className="mt-2 text-sm leading-6 text-muted">{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 pb-12 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-5 lg:grid-cols-[0.85fr_1.15fr]">
+          <div className="glass-card p-6">
+            <BookOpenCheck aria-hidden className="text-brandRed" size={32} />
+            <p className="mt-4 text-sm font-black uppercase tracking-[0.18em] text-brandRed">
+              Compra informado
+            </p>
+            <h2 className="mt-2 text-3xl font-black text-white">
+              Entiende titulos, danos y reparaciones antes de decidir
+            </h2>
+            <p className="mt-4 leading-7 text-muted">
+              Una guia practica para leer condicion de subasta, estado actual,
+              titulos de USA, documentos disponibles y preguntas importantes
+              antes de comprar un importado.
+            </p>
+            <Link className="btn-secondary mt-6 px-6" href="/guia-compra-importados">
+              Leer guia de compra <ArrowRight aria-hidden size={18} />
+            </Link>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {[
+              ["Clean / salvage / rebuilt", "Que significa cada titulo y que riesgo implica."],
+              ["Subasta vs actual", "Como comparar el estado de origen contra el estado final."],
+              ["Vendido como ingreso", "Que preguntar cuando el vehiculo no se entrega reparado."],
+              ["Documentos y VIN", "Que evidencias pedir antes de reservar o visitar."]
+            ].map(([title, text]) => (
+              <article
+                className="rounded-[var(--radius)] border border-white/10 bg-white/[0.035] p-5"
+                key={title}
+              >
+                <h3 className="font-black text-white">{title}</h3>
+                <p className="mt-2 text-sm leading-6 text-muted">{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section id="proceso" className="px-4 pb-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <h2 className="section-title">Como trabajamos</h2>
+          <h2 className="section-title">Como te ayudamos a decidir</h2>
           <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {processSteps.map((step, index) => (
               <article className="glass-card p-6" key={step.title}>
@@ -323,7 +508,11 @@ export default async function HomePage() {
 
       <section className="px-4 pb-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <h2 className="section-title">Lo que dicen nuestros clientes</h2>
+          <h2 className="section-title">Prueba social</h2>
+          <p className="mt-3 max-w-3xl leading-7 text-muted">
+            La confianza principal viene de fichas claras. Los testimonios
+            complementan esa evidencia cuando hay casos publicados.
+          </p>
           <div className="mt-6 grid gap-5 lg:grid-cols-3">
             {testimonials.map((testimonial) => (
               <article className="glass-card p-6" key={testimonial._key ?? testimonial.name}>

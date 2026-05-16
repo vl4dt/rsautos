@@ -1,6 +1,6 @@
-import { MessageCircle } from "lucide-react";
+import { Bell, MessageCircle, SearchCheck } from "lucide-react";
 
-import { buildWhatsappUrl } from "@/lib/whatsapp";
+import { WhatsappIntentActions } from "@/components/whatsapp-intent-actions";
 
 export function EmptyInventory() {
   return (
@@ -11,10 +11,37 @@ export function EmptyInventory() {
           No hay vehiculos publicados con estos filtros. Escribenos por WhatsApp
           para recibir opciones disponibles o asistencia de importacion.
         </p>
-        <a className="btn-primary mt-6 px-6" href={buildWhatsappUrl()}>
-          <MessageCircle aria-hidden size={18} />
-          Consultar por WhatsApp
-        </a>
+        <div className="mt-6 text-left">
+          <WhatsappIntentActions
+            compact
+            eyebrow="Siguiente paso"
+            framed={false}
+            intents={[
+              {
+                icon: Bell,
+                label: "Avisarme de nuevos ingresos",
+                leadSource: "empty_inventory_notify",
+                message:
+                  "Hola RS Autos HN, quiero que me avisen cuando publiquen nuevos vehiculos disponibles."
+              },
+              {
+                icon: SearchCheck,
+                label: "Ayudenme a buscar uno",
+                leadSource: "empty_inventory_search_help",
+                message:
+                  "Hola RS Autos HN, no encontre lo que buscaba en inventario y quiero ayuda para buscar una opcion."
+              },
+              {
+                icon: MessageCircle,
+                label: "Consulta general",
+                leadSource: "empty_inventory_general",
+                message:
+                  "Hola RS Autos HN, quiero informacion sobre vehiculos importados disponibles."
+              }
+            ]}
+            title="Que quieres hacer?"
+          />
+        </div>
       </div>
     </section>
   );

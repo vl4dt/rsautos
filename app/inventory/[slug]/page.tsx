@@ -1,19 +1,26 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import {
+  ArrowRight,
   BadgeCheck,
+  BookOpenCheck,
   CalendarCheck,
+  Camera,
   CarFront,
   ClipboardCheck,
+  Eye,
   FileCheck2,
   FileText,
   Fuel,
   Gauge,
+  Info,
   MapPin,
   MessageCircle,
   Route,
   Settings,
   ShieldCheck,
+  Video,
+  Wrench,
   type LucideIcon
 } from "lucide-react";
 import Link from "next/link";
@@ -21,6 +28,7 @@ import { notFound } from "next/navigation";
 
 import { TrackPageView } from "@/components/track-page-view";
 import { VehicleTransparencyView } from "@/components/vehicle-transparency-view";
+import { WhatsappIntentActions } from "@/components/whatsapp-intent-actions";
 import { env } from "@/lib/env";
 import { getUsdHnlRate } from "@/lib/exchange-rate";
 import {
@@ -136,9 +144,12 @@ export default async function VehicleDetailPage({
   const repairLogs = vehicle.currentState?.repairLogs ?? [];
   const inspection = vehicle.inspection ?? [];
   const documents = buildPublicDocuments(vehicle);
+  const decisionSummary = buildDecisionSummary(vehicle, documents);
+  const confidence = buildConditionConfidence(vehicle, documents);
+  const recommendedQuestions = buildRecommendedQuestions(vehicle);
 
   return (
-    <main className="px-4 py-8 sm:px-6 lg:px-8">
+    <main className="px-4 pb-28 pt-8 sm:px-6 lg:px-8 lg:pb-8">
       <TrackPageView event="detail_view" source="vehicle_detail" />
       <div className="mx-auto max-w-7xl">
         <nav aria-label="Migas de pan" className="mb-6 text-sm text-muted">
@@ -164,8 +175,9 @@ export default async function VehicleDetailPage({
                 {vehicle.title}
               </h1>
               <p className="mt-4 max-w-3xl text-lg leading-8 text-muted">
-                Compara condicion de subasta, estado actual, revision mecanica
-                y documentos publicos antes de coordinar una visita o compra.
+                Una ficha pensada para revisar evidencia: condicion de origen,
+                estado actual, reparaciones, inspeccion y documentos publicos
+                antes de coordinar una visita o compra.
               </p>
             </div>
             <div className="glass-card p-5">
@@ -192,7 +204,134 @@ export default async function VehicleDetailPage({
           </div>
         </section>
 
+        <section className="mb-5 grid gap-3 md:grid-cols-3">
+          {[
+            ["Estado de origen", "Fotos y resumen del ingreso o subasta."],
+            ["Estado actual", "Como se encuentra despues de revision o reparacion."],
+            ["Decision responsable", "Datos claros para preguntar, comparar y validar."]
+          ].map(([title, text]) => (
+            <div
+              className="rounded-[var(--radius)] border border-white/10 bg-white/[0.035] p-4"
+              key={title}
+            >
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-brandRed">
+                {title}
+              </p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-silver">
+                {text}
+              </p>
+            </div>
+          ))}
+        </section>
+
+        <section className="mb-5 grid gap-5 lg:grid-cols-[1fr_0.72fr]">
+          <div className="glass-card p-5">
+            <div className="flex flex-col gap-3 border-b border-white/10 pb-4 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-brandRed">
+                  Resumen de decision
+                </p>
+                <h2 className="mt-1 text-2xl font-black text-white">
+                  Lo que deberias revisar antes de comprar
+                </h2>
+              </div>
+              <span className={confidence.className}>
+                <confidence.Icon aria-hidden size={16} />
+                {confidence.label}
+              </span>
+            </div>
+            <div className="mt-5 grid gap-3 md:grid-cols-2">
+              {decisionSummary.map(({ Icon, label, text, tone }) => (
+                <article
+                  className="rounded-[var(--radius)] border border-white/10 bg-white/[0.035] p-4"
+                  key={label}
+                >
+                  <div className="flex items-center gap-2">
+                    <Icon
+                      aria-hidden
+                      className={tone === "red" ? "text-brandRed" : "text-brandBlue"}
+                      size={20}
+                    />
+                    <h3 className="font-black text-white">{label}</h3>
+                  </div>
+                  <p className="mt-2 text-sm leading-6 text-muted">{text}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <aside className="glass-card p-5">
+            <div className="flex items-center gap-3">
+              <Info aria-hidden className="text-brandRed" size={23} />
+              <h2 className="text-xl font-black">Como leer esta ficha</h2>
+            </div>
+            <div className="mt-5 grid gap-4 text-sm leading-6 text-muted">
+              <p>
+                La ficha separa evidencia de origen y estado actual para que
+                puedas comparar lo que ingreso, lo que se reviso y lo que esta
+                disponible para validar.
+              </p>
+              <div className="rounded-[var(--radius)] border border-white/10 bg-black/35 p-4">
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-brandRed">
+                  Pregunta recomendada
+                </p>
+                <div className="mt-2 grid gap-2">
+                  {recommendedQuestions.map((question) => (
+                    <p className="font-semibold text-silver" key={question}>
+                      &ldquo;{question}&rdquo;
+                    </p>
+                  ))}
+                </div>
+              </div>
+              <Link
+                className="flex items-center justify-between gap-3 rounded-[var(--radius)] border border-brandBlue/25 bg-brandBlue/10 p-4 font-black text-silver transition hover:border-brandBlue/60 hover:text-white"
+                href="/guia-compra-importados"
+              >
+                <span className="flex items-center gap-2">
+                  <BookOpenCheck aria-hidden className="text-brandBlue" size={19} />
+                  Guia para comprar importados
+                </span>
+                <ArrowRight aria-hidden size={17} />
+              </Link>
+            </div>
+          </aside>
+        </section>
+
         <VehicleTransparencyView vehicle={vehicle} />
+
+        <section className="mt-5">
+          <WhatsappIntentActions
+            compact
+            description="Elige exactamente que quieres validar de este vehiculo."
+            intents={[
+              {
+                icon: Video,
+                label: "Solicitar video del motor",
+                leadSource: "detail_engine_video_intent",
+                message: `Hola RS Autos HN, quiero solicitar un video del motor de ${vehicle.title}${vehicle.vin ? ` VIN ${vehicle.vin}` : ""}. Enlace: ${env.siteUrl}/inventory/${vehicle.slug}`
+              },
+              {
+                icon: Camera,
+                label: "Pedir fotos de imperfecciones",
+                leadSource: "detail_imperfection_photos_intent",
+                message: `Hola RS Autos HN, quiero pedir fotos de imperfecciones o detalles pendientes de ${vehicle.title}${vehicle.vin ? ` VIN ${vehicle.vin}` : ""}. Enlace: ${env.siteUrl}/inventory/${vehicle.slug}`
+              },
+              {
+                icon: FileText,
+                label: "Pedir documentos disponibles",
+                leadSource: "detail_documents_intent",
+                message: `Hola RS Autos HN, quiero consultar documentos disponibles de ${vehicle.title}${vehicle.vin ? ` VIN ${vehicle.vin}` : ""}. Enlace: ${env.siteUrl}/inventory/${vehicle.slug}`
+              },
+              {
+                icon: MapPin,
+                label: "Coordinar visita",
+                leadSource: "detail_visit_intent",
+                message: `Hola RS Autos HN, quiero coordinar una visita o revision de ${vehicle.title}${vehicle.vin ? ` VIN ${vehicle.vin}` : ""}. Enlace: ${env.siteUrl}/inventory/${vehicle.slug}`
+              }
+            ]}
+            title="Que quieres validar?"
+          />
+        </section>
 
         <section className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {specItems.map(({ Icon, label, value }) => (
@@ -330,6 +469,28 @@ export default async function VehicleDetailPage({
           </div>
         </section>
       </div>
+
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-black/90 px-4 py-3 shadow-[0_-18px_40px_rgba(0,0,0,0.45)] backdrop-blur lg:hidden">
+        <div className="mx-auto flex max-w-7xl items-center gap-3">
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-sm font-black text-white">
+              {vehicle.title}
+            </p>
+            <p className="text-xs font-bold text-muted">
+              {price.usd} / {statusLabel}
+            </p>
+          </div>
+          <a
+            className="btn-primary min-h-11 px-4 text-sm"
+            data-analytics-event="whatsapp_click"
+            data-lead-source="inventory_detail_mobile_sticky"
+            href={whatsappUrl}
+          >
+            <MessageCircle aria-hidden size={18} />
+            WhatsApp
+          </a>
+        </div>
+      </div>
     </main>
   );
 }
@@ -413,4 +574,171 @@ function buildPublicDocuments(
   );
 
   return hasReport ? cmsDocuments : [defaults[0], ...cmsDocuments];
+}
+
+function buildDecisionSummary(
+  vehicle: PublicVehicleDetail,
+  documents: PublicVehicleDocument[]
+): Array<{
+  Icon: LucideIcon;
+  label: string;
+  text: string;
+  tone: "blue" | "red";
+}> {
+  const verifiedInspection = vehicle.inspection?.filter(
+    (item) => item.status === "verified"
+  ).length ?? 0;
+  const pendingInspection = vehicle.inspection?.filter(
+    (item) => item.status !== "verified"
+  ).length ?? 0;
+  const availableDocuments = documents.filter(
+    (document) => document.status === "available" || document.url
+  ).length;
+  const repairCount = vehicle.currentState?.repairLogs?.length ?? 0;
+  const guidance = vehicle.buyerGuidance;
+
+  return [
+    {
+      Icon: ShieldCheck,
+      label: "Lo bueno",
+      text: guidance?.goodSummary
+        ? guidance.goodSummary
+        : verifiedInspection > 0
+          ? `${verifiedInspection} puntos de inspeccion aparecen como verificados en la ficha publica.`
+          : "La ficha publica centraliza VIN, estado, millaje y precio para revisar antes de consultar.",
+      tone: "blue"
+    },
+    {
+      Icon: Eye,
+      label: "Lo pendiente",
+      text: guidance?.pendingSummary
+        ? guidance.pendingSummary
+        : pendingInspection > 0
+          ? `${pendingInspection} puntos de inspeccion aun requieren confirmacion, servicio o publicacion.`
+          : "No hay alertas pendientes publicadas en el checklist actual.",
+      tone: pendingInspection > 0 ? "red" : "blue"
+    },
+    {
+      Icon: Wrench,
+      label: "Reparaciones realizadas",
+      text: guidance?.repairSummary
+        ? guidance.repairSummary
+        : repairCount > 0
+          ? `${repairCount} registro(s) de trabajo estan publicados en la bitacora del estado actual.`
+          : "No hay reparaciones publicadas para este vehiculo; conviene preguntar por el estado actual.",
+      tone: repairCount > 0 ? "blue" : "red"
+    },
+    {
+      Icon: FileText,
+      label: "Documentos disponibles",
+      text: guidance?.documentSummary
+        ? guidance.documentSummary
+        : availableDocuments > 0
+          ? `${availableDocuments} documento(s) o reporte(s) estan disponibles o listos para solicitar.`
+          : "Los documentos publicos aun estan pendientes de publicacion.",
+      tone: availableDocuments > 0 ? "blue" : "red"
+    }
+  ];
+}
+
+function buildConditionConfidence(
+  vehicle: PublicVehicleDetail,
+  documents: PublicVehicleDocument[]
+): {
+  Icon: LucideIcon;
+  className: string;
+  label: string;
+} {
+  const pendingInspection = vehicle.inspection?.some(
+    (item) => item.status !== "verified"
+  );
+  const hasDocuments = documents.some(
+    (document) => document.status === "available" || document.url
+  );
+  const disclosure = vehicle.buyerGuidance?.conditionDisclosure;
+
+  switch (disclosure) {
+    case "soldAsArrived":
+      return {
+        Icon: Eye,
+        className:
+          "inline-flex items-center gap-2 rounded-full border border-amber-300/30 bg-amber-300/10 px-3 py-2 text-xs font-black uppercase tracking-[0.12em] text-amber-100",
+        label: "Vendido como ingreso"
+      };
+    case "inRepair":
+      return {
+        Icon: Wrench,
+        className:
+          "inline-flex items-center gap-2 rounded-full border border-amber-300/30 bg-amber-300/10 px-3 py-2 text-xs font-black uppercase tracking-[0.12em] text-amber-100",
+        label: "En reparacion"
+      };
+    case "repairedDocumented":
+      return {
+        Icon: BadgeCheck,
+        className:
+          "inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-2 text-xs font-black uppercase tracking-[0.12em] text-emerald-100",
+        label: "Reparado con documentacion"
+      };
+    case "readyForSale":
+      return {
+        Icon: BadgeCheck,
+        className:
+          "inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-2 text-xs font-black uppercase tracking-[0.12em] text-emerald-100",
+        label: "Listo para venta"
+      };
+    case "underReview":
+      return {
+        Icon: CalendarCheck,
+        className:
+          "inline-flex items-center gap-2 rounded-full border border-brandBlue/35 bg-brandBlue/10 px-3 py-2 text-xs font-black uppercase tracking-[0.12em] text-silver",
+        label: "En revision"
+      };
+    default:
+      break;
+  }
+
+  if (vehicle.importStatus !== "readyForSale") {
+    return {
+      Icon: CalendarCheck,
+      className:
+        "inline-flex items-center gap-2 rounded-full border border-amber-300/30 bg-amber-300/10 px-3 py-2 text-xs font-black uppercase tracking-[0.12em] text-amber-100",
+      label: "En revision"
+    };
+  }
+
+  if (pendingInspection || !hasDocuments) {
+    return {
+      Icon: ClipboardCheck,
+      className:
+        "inline-flex items-center gap-2 rounded-full border border-brandBlue/35 bg-brandBlue/10 px-3 py-2 text-xs font-black uppercase tracking-[0.12em] text-silver",
+      label: "Listo con puntos a validar"
+    };
+  }
+
+  return {
+    Icon: BadgeCheck,
+    className:
+      "inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-2 text-xs font-black uppercase tracking-[0.12em] text-emerald-100",
+    label: "Listo para venta"
+  };
+}
+
+function buildRecommendedQuestions(vehicle: PublicVehicleDetail): string[] {
+  const customQuestions = vehicle.recommendedQuestions
+    ?.map((item) => item.question?.trim())
+    .filter(Boolean);
+
+  if (customQuestions?.length) {
+    return customQuestions.slice(0, 3);
+  }
+
+  const recommendation = vehicle.buyerGuidance?.recommendation?.trim();
+
+  if (recommendation) {
+    return [recommendation];
+  }
+
+  return [
+    "Que documentos, fotos o revisiones puedo ver antes de apartar este vehiculo?"
+  ];
 }

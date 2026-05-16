@@ -11,6 +11,7 @@ import { cn } from "@/lib/cn";
 const navItems = [
   { href: "/", label: "Inicio" },
   { href: "/inventory", label: "Inventario" },
+  { href: "/guia-compra-importados", label: "Guia" },
   { href: "/importamos-tu-auto", label: "Importamos tu auto" },
   { href: "/sobre-nosotros", label: "Nosotros" },
   { href: "/contacto", label: "Contacto" }
@@ -30,6 +31,8 @@ export function SiteHeaderClient({
   const isActive = (href: string) =>
     (href === "/" && pathname === "/") ||
     (href === "/inventory" && pathname.startsWith("/inventory")) ||
+    (href === "/guia-compra-importados" &&
+      pathname.startsWith("/guia-compra-importados")) ||
     (href !== "/" && pathname === href);
 
   return (
@@ -48,7 +51,7 @@ export function SiteHeaderClient({
             width={240}
           />
         </Link>
-        <div className="hidden items-center gap-7 lg:flex">
+        <div className="hidden items-center gap-5 lg:flex">
           {navItems.map((item) => (
             <Link
               aria-current={isActive(item.href) ? "page" : undefined}

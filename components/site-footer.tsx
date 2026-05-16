@@ -28,6 +28,7 @@ import { buildWhatsappUrl } from "@/lib/whatsapp";
 const quickLinks = [
   { href: "/", label: "Inicio" },
   { href: "/inventory", label: "Inventario" },
+  { href: "/guia-compra-importados", label: "Guia de compra" },
   { href: "/importamos-tu-auto", label: "Importamos tu auto" },
   { href: "/sobre-nosotros", label: "Nosotros" },
   { href: "/contacto", label: "Contacto" }

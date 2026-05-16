@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import {
   ArrowRight,
   Clock,
+  ClipboardCheck,
   FileText,
   MapPin,
   MessageCircle,
   Phone,
+  SearchCheck,
   ShieldCheck
 } from "lucide-react";
 import Link from "next/link";
@@ -46,31 +48,67 @@ const contactFaqs: FaqItem[] = [
 const contactOptions = [
   {
     icon: MessageCircle,
-    title: "Inventario disponible",
-    text: "Consulta disponibilidad, visita, precio publico y documentos.",
+    title: "Consultar vehiculo publicado",
+    text: "Usa esta opcion si tienes una ficha, enlace o screenshot de inventario.",
+    details: "Envia el enlace, ciudad, disponibilidad para visita y que quieres validar.",
     href: buildWhatsappUrl({
-      leadSource: "contact_inventory",
-      message: "Hola RS Autos HN, quiero informacion sobre inventario disponible."
+      leadSource: "contact_published_vehicle",
+      message:
+        "Hola RS Autos HN, quiero consultar un vehiculo publicado. Tengo enlace o captura y quiero validar disponibilidad, estado y documentos."
+    })
+  },
+  {
+    icon: ShieldCheck,
+    title: "Entender documentos o VIN",
+    text: "Elige esto si quieres revisar titulo, VIN, historial, reporte o documentos.",
+    details: "Comparte VIN, foto del titulo, reporte o la duda concreta que quieres aclarar.",
+    href: buildWhatsappUrl({
+      leadSource: "contact_vin_documents",
+      message:
+        "Hola RS Autos HN, quiero entender documentos, titulo, VIN o reporte de un vehiculo antes de decidir."
     })
   },
   {
     icon: FileText,
     title: "Importar un vehiculo",
-    text: "Comparte presupuesto, tipo de vehiculo y tiempo esperado.",
+    text: "Comparte presupuesto, tipo de vehiculo, ciudad y tiempo esperado.",
+    details: "Ideal si buscas una unidad especifica o quieres que RS Autos te oriente.",
     href: buildWhatsappUrl({
       leadSource: "contact_import",
-      message: "Hola RS Autos HN, quiero asesorarme para importar un vehiculo."
+      message: "Hola RS Autos HN, quiero asesorarme para importar un vehiculo. Tengo presupuesto, uso esperado y ciudad de entrega."
     })
   },
   {
-    icon: ShieldCheck,
-    title: "Documentos o reportes",
-    text: "Solicita contexto sobre VIN, inspeccion o importacion.",
+    icon: SearchCheck,
+    title: "Buscar algo parecido",
+    text: "Si viste un vehiculo similar o no encontraste el ideal en inventario.",
+    details: "Envia modelo deseado, presupuesto, uso principal y nivel de reparacion aceptable.",
     href: buildWhatsappUrl({
-      leadSource: "contact_documents",
-      message: "Hola RS Autos HN, quiero consultar documentos o reportes de un vehiculo."
+      leadSource: "contact_find_similar",
+      message:
+        "Hola RS Autos HN, quiero buscar un vehiculo parecido a una opcion que vi o a una necesidad especifica."
+    })
+  },
+  {
+    icon: ClipboardCheck,
+    title: "No se que necesito",
+    text: "Para compradores que quieren asesoria antes de elegir o reservar.",
+    details: "Comparte presupuesto aproximado, ciudad, uso esperado y si prefieres listo o como ingreso.",
+    href: buildWhatsappUrl({
+      leadSource: "contact_guided_help",
+      message:
+        "Hola RS Autos HN, quiero comprar un vehiculo importado pero no se que necesito revisar primero. Quiero asesoria."
     })
   }
+];
+
+const beforeMessaging = [
+  "Enlace, screenshot o nombre del vehiculo si ya tienes uno.",
+  "VIN o documento si la duda es sobre titulo, historial o reporte.",
+  "Presupuesto aproximado en USD o lempiras.",
+  "Ciudad donde quieres coordinar visita o entrega.",
+  "Tiempo esperado de compra: inmediato, semanas o explorando.",
+  "Preferencia: listo/reparado o vendido como ingreso."
 ];
 
 export default function ContactoPage() {
@@ -84,12 +122,12 @@ export default function ContactoPage() {
                 Contacto directo
               </p>
               <h1 className="metal-heading mt-3 text-4xl uppercase leading-tight sm:text-5xl lg:text-6xl">
-                Hablemos de tu proximo vehiculo
+                Contacto segun tu decision
               </h1>
               <p className="mt-4 max-w-3xl text-lg leading-8 text-muted">
-                Elige el motivo de contacto para que WhatsApp llegue con fuente
-                y contexto. Asi se separan consultas de inventario, importacion
-                y documentos.
+                Elige el motivo correcto para que WhatsApp llegue con contexto:
+                vehiculo publicado, documentos, importacion, busqueda parecida
+                o asesoria inicial.
               </p>
             </div>
             <div className="glass-card p-5">
@@ -105,7 +143,7 @@ export default function ContactoPage() {
           </div>
         </section>
 
-        <section className="grid gap-5 lg:grid-cols-3">
+        <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {contactOptions.map((option) => (
             <article className="glass-card p-5" key={option.title}>
               <option.icon aria-hidden className="text-brandBlue" size={28} />
@@ -115,6 +153,14 @@ export default function ContactoPage() {
               <p className="mt-2 min-h-12 text-sm leading-6 text-muted">
                 {option.text}
               </p>
+              <div className="mt-4 rounded-[var(--radius)] border border-white/10 bg-black/35 p-3">
+                <p className="text-xs font-black uppercase tracking-[0.14em] text-brandRed">
+                  Que enviar
+                </p>
+                <p className="mt-1 text-sm leading-6 text-silver">
+                  {option.details}
+                </p>
+              </div>
               <a className="btn-primary mt-5 w-full px-4" href={option.href}>
                 <MessageCircle aria-hidden size={18} />
                 Escribir por WhatsApp
@@ -123,7 +169,32 @@ export default function ContactoPage() {
           ))}
         </section>
 
-        <section className="mt-6 grid gap-5 lg:grid-cols-[0.8fr_1.2fr]">
+        <section className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="glass-card p-5">
+            <ClipboardCheck aria-hidden className="text-brandRed" size={28} />
+            <h2 className="mt-4 text-xl font-black text-white">
+              Antes de escribir
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-muted">
+              Entre mas contexto envies, mas precisa sera la respuesta.
+            </p>
+            <div className="mt-5 grid gap-3">
+              {beforeMessaging.map((item) => (
+                <p
+                  className="flex gap-3 rounded-[var(--radius)] border border-white/10 bg-white/[0.03] p-3 text-sm font-bold leading-6 text-silver"
+                  key={item}
+                >
+                  <ShieldCheck
+                    aria-hidden
+                    className="mt-0.5 shrink-0 text-brandBlue"
+                    size={17}
+                  />
+                  {item}
+                </p>
+              ))}
+            </div>
+          </div>
+
           <div className="glass-card p-5">
             <Clock aria-hidden className="text-brandRed" size={28} />
             <h2 className="mt-4 text-xl font-black text-white">
@@ -133,10 +204,11 @@ export default function ContactoPage() {
               {[
                 ["Inventario", "Confirmacion de disponibilidad y siguiente paso."],
                 ["Importacion", "Revision inicial de presupuesto, uso y opciones."],
-                ["Documentos", "Orientacion sobre datos publicos disponibles."]
+                ["Documentos", "Orientacion sobre datos publicos disponibles."],
+                ["Asesoria", "Preguntas para definir que vehiculo conviene buscar."]
               ].map(([label, text]) => (
                 <div
-                  className="rounded-xl border border-white/10 bg-white/[0.03] p-3"
+                  className="rounded-[var(--radius)] border border-white/10 bg-white/[0.03] p-3"
                   key={label}
                 >
                   <p className="font-black text-white">{label}</p>
@@ -145,7 +217,9 @@ export default function ContactoPage() {
               ))}
             </div>
           </div>
+        </section>
 
+        <section className="mt-6">
           <div className="glass-card p-5">
             <Phone aria-hidden className="text-brandBlue" size={28} />
             <h2 className="mt-4 text-xl font-black text-white">
@@ -163,6 +237,9 @@ export default function ContactoPage() {
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
               <Link className="btn-secondary px-5" href="/inventory">
                 Ver inventario <ArrowRight aria-hidden size={18} />
+              </Link>
+              <Link className="btn-secondary px-5" href="/guia-compra-importados">
+                Guia de compra <ArrowRight aria-hidden size={18} />
               </Link>
               <Link className="btn-secondary px-5" href="/importamos-tu-auto">
                 Importar auto <ArrowRight aria-hidden size={18} />

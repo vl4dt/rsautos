@@ -21,9 +21,19 @@ const singletonStructure: StructureResolver = (S) =>
             .documentId("siteSettings")
             .title("Site Settings")
         ),
+      S.listItem()
+        .title("Buyer Guide")
+        .id("buyerGuideSettings")
+        .child(
+          S.document()
+            .schemaType("buyerGuideSettings")
+            .documentId("buyerGuideSettings")
+            .title("Buyer Guide")
+        ),
       S.divider(),
       ...S.documentTypeListItems().filter(
-        (item) => item.getId() !== "siteSettings"
+        (item) =>
+          !["siteSettings", "buyerGuideSettings"].includes(item.getId() ?? "")
       )
     ]);
 

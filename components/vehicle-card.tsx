@@ -1,4 +1,4 @@
-import { Gauge, MessageCircle, ShieldCheck } from "lucide-react";
+import { Camera, FileCheck2, Gauge, MessageCircle, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -76,17 +76,28 @@ export function VehicleCard({
         </div>
 
         <div className="mt-5 grid grid-cols-2 gap-3 text-sm text-silver">
-          <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] p-3">
+          <div className="flex min-h-16 items-center gap-2 rounded-[var(--radius)] border border-white/10 bg-white/[0.03] p-3">
             <Gauge aria-hidden className="text-brandBlue" size={18} />
             <span className="grid leading-tight">
               <span>{mileage.miles}</span>
               <span className="text-xs text-muted">{mileage.kilometers}</span>
             </span>
           </div>
-          <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] p-3">
+          <div className="flex min-h-16 items-center gap-2 rounded-[var(--radius)] border border-white/10 bg-white/[0.03] p-3">
             <ShieldCheck aria-hidden className="text-brandRed" size={18} />
             {vehicle.transmission ?? "Inspeccion"}
           </div>
+        </div>
+
+        <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-black uppercase tracking-[0.08em] text-muted">
+          <span className="inline-flex min-h-9 items-center gap-2 rounded-[var(--radius)] border border-white/10 bg-black/35 px-3">
+            <FileCheck2 aria-hidden className="text-brandRed" size={15} />
+            VIN / ficha
+          </span>
+          <span className="inline-flex min-h-9 items-center gap-2 rounded-[var(--radius)] border border-white/10 bg-black/35 px-3">
+            <Camera aria-hidden className="text-brandBlue" size={15} />
+            Fotos reales
+          </span>
         </div>
 
         <div className="mt-5 grid grid-cols-2 gap-3">

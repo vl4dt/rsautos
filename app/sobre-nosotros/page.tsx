@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import {
   ArrowRight,
   BadgeCheck,
+  BookOpenCheck,
+  Camera,
   ClipboardCheck,
-  FileCheck2,
+  Eye,
   FileSearch,
   Gauge,
   KeyRound,
@@ -11,7 +13,6 @@ import {
   Search,
   ShieldCheck,
   Sparkles,
-  UserCheck,
   Wrench,
   type LucideIcon
 } from "lucide-react";
@@ -38,46 +39,46 @@ export const metadata: Metadata = {
 const processSteps = [
   {
     icon: Search,
-    title: "Elegir vehiculo",
-    text: "Partimos de presupuesto, uso real, marca preferida y tolerancia al estado de origen."
+    title: "Revision VIN y specs",
+    text: "Confirmamos datos publicos basicos como VIN, año, marca, modelo, millaje y especificaciones."
   },
   {
     icon: FileSearch,
-    title: "Verificar y comprar",
-    text: "Comparamos VIN, fotos, condicion visible, documentos y estado antes de avanzar."
+    title: "Fotos y condicion de origen",
+    text: "Revisamos evidencia inicial para entender como ingreso el vehiculo y que debe explicarse."
   },
   {
     icon: ClipboardCheck,
-    title: "Importar con seguimiento",
-    text: "Damos contexto del traslado, aduana, preparacion y avances importantes del proceso."
+    title: "Estado actual e inspeccion",
+    text: "Separamos el estado actual del estado de origen para mostrar cambios, revision y pendientes."
   },
   {
     icon: KeyRound,
-    title: "Entregar documentado",
-    text: "El comprador recibe una explicacion clara del estado final y los soportes publicos disponibles."
+    title: "Ficha para el comprador",
+    text: "Preparamos precio, fotos, documentos, preguntas recomendadas y guia para decidir con criterio."
   }
 ];
 
 const trustModules = [
   {
-    icon: ShieldCheck,
-    title: "Verificacion VIN",
-    text: "El VIN publico ayuda a conectar ficha, documentos, inspeccion y seguimiento por WhatsApp."
+    icon: Camera,
+    title: "Mostramos condicion",
+    text: "La presentacion visual debe ayudar a evaluar el vehiculo, no solo hacerlo ver atractivo."
+  },
+  {
+    icon: Eye,
+    title: "Separamos origen y actual",
+    text: "El comprador puede distinguir como ingreso el vehiculo y como se encuentra hoy."
   },
   {
     icon: Wrench,
-    title: "Revision mecanica",
-    text: "Se presenta condicion de subasta, estado actual y bitacora cuando hay trabajos publicados."
+    title: "Explicamos reparaciones",
+    text: "Cuando hay trabajos publicados, se presentan como contexto para la decision de compra."
   },
   {
-    icon: FileCheck2,
-    title: "Claridad documental",
-    text: "Las fichas separan datos publicos de comprador de costos internos de operacion."
-  },
-  {
-    icon: UserCheck,
-    title: "Atencion personalizada",
-    text: "Cada lead llega con fuente y contexto para dar seguimiento segun inventario, importacion o documentos."
+    icon: BookOpenCheck,
+    title: "Guiamos preguntas",
+    text: "Cada ficha y guia orienta al comprador sobre que validar antes de reservar o visitar."
   }
 ];
 
@@ -186,14 +187,18 @@ export default async function SobreNosotrosPage() {
               Transparencia para comprar mejor
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-muted">
-              Somos una plataforma de inventario e importacion enfocada en que
-              el comprador en {env.primaryMarket} pueda entender condicion,
-              documentacion, revision y siguiente paso sin exponer costos
-              internos de operacion.
+              RS Autos existe para proteger mejor la decision del comprador:
+              mostrar condicion, explicar reparaciones, separar datos publicos
+              de costos internos y guiar las preguntas correctas antes de
+              reservar un vehiculo importado en {env.primaryMarket}.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link className="btn-primary px-6" href="/inventory">
                 Ver inventario <ArrowRight aria-hidden size={20} />
+              </Link>
+              <Link className="btn-secondary px-6" href="/guia-compra-importados">
+                <BookOpenCheck aria-hidden size={19} />
+                Guia de compra
               </Link>
               <a
                 className="btn-secondary px-6"
@@ -210,6 +215,39 @@ export default async function SobreNosotrosPage() {
           </div>
         </section>
 
+        <section className="mb-8 grid gap-5 lg:grid-cols-[0.92fr_1.08fr]">
+          <div className="glass-card p-6">
+            <p className="text-sm font-black uppercase tracking-[0.18em] text-brandRed">
+              Nuestra posicion
+            </p>
+            <h2 className="mt-2 text-3xl font-black text-white">
+              No vendemos solo una foto bonita
+            </h2>
+            <p className="mt-4 leading-7 text-muted">
+              En vehiculos importados, la confianza viene de entender el
+              contexto: titulo, condicion de origen, estado actual, revision,
+              documentos y preguntas pendientes. El objetivo es que el cliente
+              pueda comprar con criterio, no por impulso.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {[
+              ["Condicion antes que apariencia", "La ficha debe mostrar evidencia util, no solo fotografia comercial."],
+              ["Origen vs actual", "El comprador debe poder comparar como ingreso y como se entrega."],
+              ["Reparado o como ingreso", "Se debe explicar si esta listo, en revision o vendido como llego."],
+              ["Preguntas antes de reservar", "La guia ayuda a validar documentos, VIN, fotos y pendientes."]
+            ].map(([title, text]) => (
+              <article
+                className="rounded-[var(--radius)] border border-white/10 bg-white/[0.035] p-5"
+                key={title}
+              >
+                <h3 className="font-black text-white">{title}</h3>
+                <p className="mt-2 text-sm leading-6 text-muted">{text}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section className="mb-8 grid gap-4 md:grid-cols-3">
           {businessStats.map(({ Icon, label, value }) => (
             <article className="glass-card p-5" key={label}>
@@ -223,7 +261,7 @@ export default async function SobreNosotrosPage() {
         </section>
 
         <section className="mb-8">
-          <h2 className="section-title">Proceso de compra e importacion</h2>
+          <h2 className="section-title">Antes de publicar un vehiculo</h2>
           <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {processSteps.map((step, index) => (
               <article className="glass-card p-6" key={step.title}>
@@ -243,20 +281,21 @@ export default async function SobreNosotrosPage() {
         <section className="mb-8 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="glass-card p-6">
             <p className="text-sm font-black uppercase tracking-[0.18em] text-brandRed">
-              Que si se muestra
+              Informacion publica
             </p>
             <h2 className="mt-2 text-2xl font-black text-white">
-              Datos publicos para decidir
+              Lo que el comprador necesita para decidir
             </h2>
             <div className="mt-5 grid gap-3">
               {[
                 "VIN publico cuando aplica",
                 "Precio publico y estado de importacion",
                 "Fotos de origen y estado actual",
-                "Checklist, reparaciones y documentos disponibles"
+                "Checklist, reparaciones y documentos disponibles",
+                "Preguntas recomendadas antes de reservar"
               ].map((item) => (
                 <p
-                  className="rounded-xl border border-white/10 bg-white/[0.03] p-3 text-sm font-bold text-silver"
+                  className="rounded-[var(--radius)] border border-white/10 bg-white/[0.03] p-3 text-sm font-bold text-silver"
                   key={item}
                 >
                   {item}
@@ -288,7 +327,7 @@ export default async function SobreNosotrosPage() {
         </section>
 
         <section className="mb-8">
-          <h2 className="section-title">Modulos de confianza</h2>
+          <h2 className="section-title">Principios de proteccion al comprador</h2>
           <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {trustModules.map((module) => (
               <article className="glass-card p-5" key={module.title}>
@@ -305,7 +344,12 @@ export default async function SobreNosotrosPage() {
         </section>
 
         <section className="mb-8">
-          <h2 className="section-title">Clientes y casos</h2>
+          <h2 className="section-title">Prueba social</h2>
+          <p className="mt-3 max-w-3xl leading-7 text-muted">
+            Los testimonios complementan la evidencia. La confianza principal
+            debe venir de fichas claras, fotos, documentos y preguntas bien
+            guiadas.
+          </p>
           <div className="mt-6 grid gap-5 lg:grid-cols-3">
             {testimonials.map((testimonial) => (
               <article className="glass-card p-6" key={testimonial._key ?? testimonial.name}>
@@ -340,7 +384,7 @@ export default async function SobreNosotrosPage() {
                 Siguiente paso
               </p>
               <h2 className="mt-2 text-2xl font-black text-white">
-                Revisa inventario o cotiza una importacion
+                Revisa inventario, lee la guia o cotiza una importacion
               </h2>
               <p className="mt-2 max-w-3xl leading-7 text-muted">
                 Elige entre vehiculos publicados o una busqueda guiada con
@@ -350,6 +394,9 @@ export default async function SobreNosotrosPage() {
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link className="btn-primary px-6" href="/inventory">
                 Inventario <ArrowRight aria-hidden size={18} />
+              </Link>
+              <Link className="btn-secondary px-6" href="/guia-compra-importados">
+                Guia <ArrowRight aria-hidden size={18} />
               </Link>
               <Link className="btn-secondary px-6" href="/importamos-tu-auto">
                 Importar auto <ArrowRight aria-hidden size={18} />

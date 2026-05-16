@@ -88,6 +88,37 @@ export type Testimonial = {
   rating?: number;
 };
 
+export type BuyerGuideTextBlock = {
+  _key?: string;
+  title?: string;
+  label?: string;
+  text: string;
+};
+
+export type BuyerGuideQuestion = {
+  _key?: string;
+  question: string;
+};
+
+export type BuyerGuideFaq = {
+  _key?: string;
+  question: string;
+  answer: string;
+};
+
+export type BuyerGuideSettings = {
+  heroEyebrow?: string;
+  heroTitle?: string;
+  heroBody?: string;
+  ruleTitle?: string;
+  ruleText?: string;
+  terms?: BuyerGuideTextBlock[];
+  comparisonRows?: BuyerGuideTextBlock[];
+  checklist?: BuyerGuideTextBlock[];
+  responsibleQuestions?: BuyerGuideQuestion[];
+  faqs?: BuyerGuideFaq[];
+};
+
 export type PublicVehicleCard = {
   _id: string;
   title: string;
@@ -129,6 +160,25 @@ export type PublicVehicleDocument = {
   status?: "available" | "pending" | "notApplicable";
 };
 
+export type PublicBuyerGuidance = {
+  goodSummary?: string;
+  pendingSummary?: string;
+  repairSummary?: string;
+  documentSummary?: string;
+  recommendation?: string;
+  conditionDisclosure?:
+    | "readyForSale"
+    | "underReview"
+    | "inRepair"
+    | "repairedDocumented"
+    | "soldAsArrived";
+};
+
+export type PublicRecommendedQuestion = {
+  _key: string;
+  question: string;
+};
+
 export type PublicVehicleDetail = PublicVehicleCard & {
   titleStatus?: string;
   location?: string;
@@ -143,6 +193,8 @@ export type PublicVehicleDetail = PublicVehicleCard & {
   };
   inspection?: PublicVehicleInspectionItem[];
   documents?: PublicVehicleDocument[];
+  buyerGuidance?: PublicBuyerGuidance;
+  recommendedQuestions?: PublicRecommendedQuestion[];
 };
 
 export type InventoryFiltersData = {
@@ -182,6 +234,21 @@ export const siteVisualSettingsQuery = groq`
     footerContactItems[]{_key, kind, label, value, href},
     socialLinks[]{_key, platform, url},
     testimonials[]{_key, quote, name, city, vehicle, rating}
+  }
+`;
+
+export const buyerGuideSettingsQuery = groq`
+  *[_type == "buyerGuideSettings" && _id == "buyerGuideSettings"][0]{
+    heroEyebrow,
+    heroTitle,
+    heroBody,
+    ruleTitle,
+    ruleText,
+    terms[]{_key, title, text},
+    comparisonRows[]{_key, label, text},
+    checklist[]{_key, title, text},
+    responsibleQuestions[]{_key, question},
+    faqs[]{_key, question, answer}
   }
 `;
 
@@ -256,7 +323,16 @@ export const publicVehicleDetailQuery = groq`
       repairLogs[]{_key, date, summary, details}
     },
     inspection[]{_key, label, status},
-    documents[]{_key, title, description, url, status}
+    documents[]{_key, title, description, url, status},
+    buyerGuidance{
+      goodSummary,
+      pendingSummary,
+      repairSummary,
+      documentSummary,
+      recommendation,
+      conditionDisclosure
+    },
+    recommendedQuestions[]{_key, question}
   }
 `;
 
