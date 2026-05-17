@@ -261,8 +261,10 @@ export default async function HomePage() {
                   : homeHeroImageUrl
               }
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/84 via-black/8 to-black/12" />
-            <div className="absolute bottom-4 left-4 right-4 grid gap-3 rounded-[var(--radius)] border border-white/12 bg-black/78 p-4 md:grid-cols-[1fr_auto] md:items-end">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/88 via-black/10 to-black/12" />
+            <div className="absolute bottom-4 left-4 right-4 overflow-hidden rounded-[var(--radius)] border border-white/16 bg-black/86 shadow-[0_18px_44px_rgba(0,0,0,0.42)] backdrop-blur-md">
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
+              <div className="relative grid gap-3 p-4 md:grid-cols-[1fr_auto] md:items-end">
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.16em] text-brandRed">
                   Vehiculo destacado
@@ -282,6 +284,7 @@ export default async function HomePage() {
               >
                 Revisar ficha <ArrowRight aria-hidden size={17} />
               </Link>
+              </div>
             </div>
           </div>
         </div>
