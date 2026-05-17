@@ -10,8 +10,7 @@ import {
   ListChecks,
   MessageCircle,
   Search,
-  ShieldCheck,
-  Sparkles
+  ShieldCheck
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -203,19 +202,19 @@ export default async function HomePage() {
   return (
     <main>
       <section className="relative overflow-hidden border-b border-white/10 px-4 pb-8 pt-10 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,4,5,0.96)_0%,rgba(9,11,14,0.9)_42%,rgba(9,11,14,0.34)_72%,rgba(3,4,5,0.92)_100%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-brandRed/70 to-transparent" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,6,7,0.98)_0%,rgba(12,14,16,0.9)_50%,rgba(7,8,10,0.72)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-px bg-white/10" />
 
         <div className="relative mx-auto grid max-w-7xl items-center gap-8 lg:grid-cols-[0.9fr_1.15fr]">
           <div className="max-w-2xl">
-            <p className="inline-flex rounded-full border border-white/15 bg-black/45 px-3 py-2 text-xs font-black uppercase tracking-[0.18em] text-silver">
+            <p className="inline-flex border-l-2 border-brandRed pl-3 text-xs font-extrabold uppercase tracking-[0.16em] text-silver">
               Importados USA con informacion clara
             </p>
-            <h1 className="metal-heading mt-6 text-5xl uppercase leading-[0.92] sm:text-6xl lg:text-7xl">
+            <h1 className="metal-heading mt-6 max-w-2xl text-4xl leading-[1.02] sm:text-5xl lg:text-6xl">
               Compra con evidencia,
               <span className="block text-brandRed [background:none]">no con promesas</span>
             </h1>
-            <p className="mt-6 max-w-xl text-lg leading-8 text-silver">
+            <p className="mt-6 max-w-xl text-base leading-8 text-silver sm:text-lg">
               RS Autos presenta cada vehiculo con condicion, fotos, documentos
               y contexto suficiente para tomar una decision responsable en
               {` ${env.primaryMarket}`}.
@@ -233,7 +232,7 @@ export default async function HomePage() {
                 Cotizar importacion
               </Link>
             </div>
-            <div className="mt-7 flex flex-wrap gap-4 text-sm font-extrabold text-silver">
+            <div className="mt-7 flex flex-wrap gap-4 text-sm font-bold text-silver">
               <span className="flex items-center gap-2">
                 <ShieldCheck aria-hidden className="text-brandRed" size={18} />
                 VIN e historial
@@ -252,7 +251,7 @@ export default async function HomePage() {
           <div className="relative min-h-[19rem] overflow-hidden rounded-[var(--radius)] border border-white/10 bg-black sm:min-h-[25rem] lg:min-h-[31rem]">
             <Image
               alt={featuredVehicle?.heroImage?.alt || "Vehiculo importado RS Autos HN"}
-              className="object-cover object-right drop-shadow-[0_34px_44px_rgba(0,0,0,0.8)]"
+              className="object-cover object-right"
               fill
               priority
               sizes="(min-width: 1024px) 54vw, 100vw"
@@ -262,8 +261,8 @@ export default async function HomePage() {
                   : homeHeroImageUrl
               }
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/82 via-transparent to-black/20" />
-            <div className="absolute bottom-4 left-4 right-4 grid gap-3 rounded-[var(--radius)] border border-white/12 bg-black/72 p-4 backdrop-blur md:grid-cols-[1fr_auto] md:items-end">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/84 via-black/8 to-black/12" />
+            <div className="absolute bottom-4 left-4 right-4 grid gap-3 rounded-[var(--radius)] border border-white/12 bg-black/78 p-4 md:grid-cols-[1fr_auto] md:items-end">
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.16em] text-brandRed">
                   Vehiculo destacado
@@ -312,7 +311,7 @@ export default async function HomePage() {
             <p className="text-sm font-black uppercase tracking-[0.18em] text-brandRed">
               Empieza por tu necesidad
             </p>
-            <h2 className="mt-2 text-3xl font-black text-white sm:text-4xl">
+            <h2 className="mt-2 text-3xl font-extrabold text-white sm:text-4xl">
               Elige el camino correcto antes de escribir
             </h2>
             <p className="mt-3 leading-7 text-muted">
@@ -323,15 +322,15 @@ export default async function HomePage() {
           </div>
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {decisionRoutes.map((route) => (
-              <article className="glass-card p-5" key={route.title}>
-                <route.icon aria-hidden className="text-brandRed" size={28} />
-                <h3 className="mt-4 text-xl font-black text-white">
+              <article className="glass-card flex min-h-[17rem] flex-col border-t-2 border-t-white/10 p-5" key={route.title}>
+                <route.icon aria-hidden className="text-silver" size={26} />
+                <h3 className="mt-4 text-xl font-extrabold text-white">
                   {route.title}
                 </h3>
-                <p className="mt-2 min-h-24 text-sm leading-6 text-muted">
+                <p className="mt-2 text-sm leading-6 text-muted">
                   {route.text}
                 </p>
-                <Link className="btn-secondary mt-5 w-full px-4 text-sm" href={route.href}>
+                <Link className="btn-secondary mt-auto w-full px-4 text-sm" href={route.href}>
                   {route.label} <ArrowRight aria-hidden size={17} />
                 </Link>
               </article>
@@ -415,7 +414,7 @@ export default async function HomePage() {
       <section className="px-4 pb-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-5 lg:grid-cols-[1fr_1fr]">
           <div className="glass-card p-6">
-            <ShieldCheck aria-hidden className="text-brandRed" size={32} />
+            <ShieldCheck aria-hidden className="text-silver" size={32} />
             <p className="mt-4 text-sm font-black uppercase tracking-[0.18em] text-brandRed">
               Inventario curado
             </p>
@@ -451,7 +450,7 @@ export default async function HomePage() {
       <section className="px-4 pb-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-5 lg:grid-cols-[0.85fr_1.15fr]">
           <div className="glass-card p-6">
-            <BookOpenCheck aria-hidden className="text-brandRed" size={32} />
+            <BookOpenCheck aria-hidden className="text-silver" size={32} />
             <p className="mt-4 text-sm font-black uppercase tracking-[0.18em] text-brandRed">
               Compra informado
             </p>
@@ -492,8 +491,8 @@ export default async function HomePage() {
           <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {processSteps.map((step, index) => (
               <article className="glass-card p-6" key={step.title}>
-                <div className="flex items-center justify-between">
-                  <span className="text-3xl font-black italic text-brandRed">
+                <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                  <span className="text-2xl font-black tabular-nums text-brandRed">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <step.icon aria-hidden className="text-silver" size={34} />
@@ -516,11 +515,10 @@ export default async function HomePage() {
           <div className="mt-6 grid gap-5 lg:grid-cols-3">
             {testimonials.map((testimonial) => (
               <article className="glass-card p-6" key={testimonial._key ?? testimonial.name}>
-                <Sparkles aria-hidden className="text-brandRed" size={24} />
                 <p className="mt-4 min-h-24 text-sm leading-6 text-silver">
                   &ldquo;{testimonial.quote}&rdquo;
                 </p>
-                <p className="mt-5 text-brandRed">*****</p>
+                <p className="mt-5 text-xs font-black tracking-[0.18em] text-brandRed">RS AUTOS</p>
                 <div className="mt-3">
                   <p className="font-black text-white">{testimonial.name}</p>
                   <p className="text-sm text-muted">
@@ -535,7 +533,7 @@ export default async function HomePage() {
 
       <section id="contacto" className="px-4 pb-4 sm:px-6 lg:px-8">
         <div className="glass-card neon-panel relative mx-auto grid max-w-7xl gap-6 overflow-hidden p-6 sm:p-8 lg:grid-cols-[auto_1fr_auto] lg:items-center">
-          <div className="relative z-10 grid h-20 w-20 place-items-center rounded-full bg-brandRed shadow-redGlow">
+          <div className="relative z-10 grid h-16 w-16 place-items-center rounded-[var(--radius)] border border-white/10 bg-brandRed">
             <MessageCircle aria-hidden size={38} />
           </div>
           <div className="relative z-10">

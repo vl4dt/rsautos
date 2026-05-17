@@ -36,7 +36,7 @@ export function SiteHeaderClient({
     (href !== "/" && pathname === href);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-black/72 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-black/82 backdrop-blur-md">
       <nav
         aria-label="Navegacion principal"
         className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
@@ -64,7 +64,7 @@ export function SiteHeaderClient({
             >
               {item.label}
               {isActive(item.href) ? (
-                <span className="absolute bottom-0 left-0 h-0.5 w-full rounded-full bg-brandRed shadow-redGlow" />
+                <span className="absolute bottom-0 left-0 h-0.5 w-full bg-brandRed" />
               ) : null}
             </Link>
           ))}
@@ -81,7 +81,7 @@ export function SiteHeaderClient({
           </a>
           <button
             aria-label="Abrir menu"
-            className="grid h-10 w-10 place-items-center rounded-xl border border-white/15 bg-white/[0.04] text-white lg:hidden"
+            className="grid h-10 w-10 place-items-center rounded-[var(--radius)] border border-white/15 bg-white/[0.04] text-white lg:hidden"
             onClick={() => setIsOpen((value) => !value)}
             type="button"
           >
@@ -90,14 +90,14 @@ export function SiteHeaderClient({
         </div>
       </nav>
       {isOpen ? (
-        <div className="mx-4 mb-4 grid gap-1 rounded-2xl border border-white/12 bg-black/90 p-3 shadow-glass backdrop-blur-xl lg:hidden">
+        <div className="mx-4 mb-4 grid gap-1 rounded-[var(--radius)] border border-white/12 bg-black/92 p-3 shadow-glass backdrop-blur-md lg:hidden">
           {navItems.map((item) => (
             <Link
               aria-current={isActive(item.href) ? "page" : undefined}
               className={cn(
-                "rounded-xl px-3 py-3 text-sm font-bold transition hover:bg-white/[0.05] hover:text-white",
+                "rounded-[var(--radius)] px-3 py-3 text-sm font-bold transition hover:bg-white/[0.05] hover:text-white",
                 isActive(item.href)
-                  ? "bg-brandRed/12 text-white shadow-redGlow"
+                  ? "bg-brandRed/12 text-white"
                   : "text-silver"
               )}
               href={item.href}

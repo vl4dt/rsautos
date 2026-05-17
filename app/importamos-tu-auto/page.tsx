@@ -78,7 +78,7 @@ export default async function ImportamosTuAutoPage() {
               <p className="text-sm font-black uppercase tracking-[0.18em] text-brandRed">
                 Importacion guiada
               </p>
-              <h1 className="metal-heading mt-3 text-4xl uppercase leading-tight sm:text-5xl lg:text-6xl">
+              <h1 className="metal-heading mt-3 text-4xl leading-tight sm:text-5xl lg:text-6xl">
                 Importamos tu auto a Honduras
               </h1>
               <p className="mt-4 max-w-3xl text-lg leading-8 text-muted">

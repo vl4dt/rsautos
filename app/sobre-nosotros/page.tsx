@@ -183,7 +183,7 @@ export default async function SobreNosotrosPage() {
             <p className="text-sm font-black uppercase tracking-[0.18em] text-brandRed">
               Sobre RS Autos HN
             </p>
-            <h1 className="metal-heading mt-3 text-4xl uppercase leading-tight sm:text-5xl lg:text-6xl">
+            <h1 className="metal-heading mt-3 text-4xl leading-tight sm:text-5xl lg:text-6xl">
               Transparencia para comprar mejor
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-muted">

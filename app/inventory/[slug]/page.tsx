@@ -49,6 +49,10 @@ import {
   type PublicVehicleDetail
 } from "@/lib/queries";
 import { getSanityClient, isSanityConfigured } from "@/lib/sanity/client";
+import {
+  formatVehicleMake,
+  formatVehicleModel
+} from "@/lib/vehicle-normalization";
 import { buildWhatsappUrl } from "@/lib/whatsapp";
 
 export const revalidate = 3600;
@@ -108,6 +112,7 @@ export default async function VehicleDetailPage({
   }
 
   const statusLabel = legacyImportStatusLabels[vehicle.importStatus];
+  const displayTitle = `${vehicle.year} ${formatVehicleMake(vehicle.make)} ${formatVehicleModel(vehicle.model)}`;
   const usdHnlRate = await getUsdHnlRate();
   const mileage = formatMileagePair(vehicle.mileage);
   const price = formatPricePair(vehicle.priceUsd, usdHnlRate.rate);
@@ -157,22 +162,22 @@ export default async function VehicleDetailPage({
             Inventario
           </Link>
           <span className="mx-2 text-white/30">/</span>
-          <span className="text-silver">{vehicle.title}</span>
+          <span className="text-silver">{displayTitle}</span>
         </nav>
 
         <section className="mb-6 overflow-hidden rounded-[var(--radius)] border border-white/10 bg-black/35 p-6 shadow-glass">
           <div className="grid gap-6 lg:grid-cols-[1fr_22rem] lg:items-end">
             <div>
               <div className="flex flex-wrap items-center gap-3">
-                <span className="rounded-full border border-brandBlue/45 bg-black/65 px-3 py-1 text-xs font-black uppercase tracking-[0.14em] text-silver shadow-blueGlow">
+                <span className="rounded-[var(--radius)] border border-white/15 bg-black/65 px-3 py-1 text-xs font-black uppercase tracking-[0.14em] text-silver">
                   {statusLabel}
                 </span>
-                <span className="rounded-full border border-brandRed/40 bg-brandRed/10 px-3 py-1 text-xs font-black uppercase tracking-[0.14em] text-brandRed">
+                <span className="rounded-[var(--radius)] border border-brandRed/40 bg-brandRed/10 px-3 py-1 text-xs font-black uppercase tracking-[0.14em] text-brandRed">
                   Ficha transparente
                 </span>
               </div>
-              <h1 className="metal-heading mt-4 text-4xl uppercase leading-tight sm:text-5xl lg:text-6xl">
-                {vehicle.title}
+              <h1 className="metal-heading mt-4 text-4xl leading-tight sm:text-5xl lg:text-6xl">
+                {displayTitle}
               </h1>
               <p className="mt-4 max-w-3xl text-lg leading-8 text-muted">
                 Una ficha pensada para revisar evidencia: condicion de origen,

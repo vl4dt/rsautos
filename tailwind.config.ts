@@ -30,9 +30,9 @@ const config: Config = {
         ]
       },
       boxShadow: {
-        glass: "0 24px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
-        redGlow: "0 0 22px rgba(227, 6, 19, 0.32)",
-        blueGlow: "0 0 22px rgba(11, 83, 215, 0.32)"
+        glass: "0 18px 44px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.045)",
+        redGlow: "0 10px 24px rgba(0, 0, 0, 0.24)",
+        blueGlow: "0 10px 24px rgba(0, 0, 0, 0.2)"
       }
     }
   },

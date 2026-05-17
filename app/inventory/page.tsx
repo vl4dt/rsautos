@@ -85,7 +85,7 @@ export default async function InventoryPage({
               <p className="text-sm font-black uppercase tracking-[0.18em] text-brandRed">
                 Showroom transparente
               </p>
-              <h1 className="metal-heading mt-3 text-4xl uppercase leading-tight sm:text-5xl">
+              <h1 className="metal-heading mt-3 text-4xl leading-tight sm:text-5xl">
                 Pocas unidades, fichas completas
               </h1>
               <p className="mt-4 max-w-3xl text-muted">
@@ -136,8 +136,8 @@ export default async function InventoryPage({
           ))}
         </section>
 
-        <section className="mt-5 rounded-[var(--radius)] border border-brandBlue/20 bg-brandBlue/10 p-5">
-          <p className="text-sm font-black uppercase tracking-[0.16em] text-brandBlue">
+        <section className="mt-5 rounded-[var(--radius)] border border-white/10 bg-white/[0.035] p-5">
+          <p className="text-sm font-black uppercase tracking-[0.16em] text-brandRed">
             Inventario curado
           </p>
           <p className="mt-2 max-w-4xl leading-7 text-silver">

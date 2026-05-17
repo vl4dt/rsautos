@@ -53,9 +53,9 @@ export function BrandBadge({
   return (
     <span
       className={cn(
-        "inline-flex min-h-8 items-center rounded-full border bg-black/55 px-3 py-1 text-xs font-black uppercase text-silver",
-        tone === "blue" && "border-brandBlue/45 shadow-blueGlow",
-        tone === "red" && "border-brandRed/45 shadow-redGlow",
+        "inline-flex min-h-8 items-center rounded-[var(--radius)] border bg-black/45 px-3 py-1 text-xs font-black uppercase text-silver",
+        tone === "blue" && "border-brandBlue/35",
+        tone === "red" && "border-brandRed/40",
         tone === "silver" && "border-white/15"
       )}
     >
@@ -75,7 +75,7 @@ export function StatCard({
 }) {
   return (
     <GlassPanel as="article" className="p-5">
-      <Icon aria-hidden className="text-brandBlue" size={24} />
+      <Icon aria-hidden className="text-silver" size={24} />
       <p className="mt-4 text-xs font-black uppercase tracking-[0.16em] text-muted">
         {label}
       </p>
@@ -95,7 +95,7 @@ export function CtaBand({
     <NeonPanel
       as="section"
       className={cn(
-        "rounded-[var(--radius)] border border-white/10 bg-black/50 p-6 shadow-glass",
+        "rounded-[var(--radius)] border border-white/10 bg-black/45 p-6 shadow-glass",
         className
       )}
     >
