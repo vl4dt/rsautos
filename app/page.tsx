@@ -183,7 +183,7 @@ export default async function HomePage() {
     : "/images/rs-autos/hero-car.png";
   const homeCtaImageUrl = siteVisuals?.homeCtaImage
     ? urlForImage(siteVisuals.homeCtaImage)
-    : "/images/rs-autos/cta-car.png";
+    : "/images/rs-autos/cta-vehicle-banner.png";
   const homeCta = {
     body:
       siteVisuals?.homeCta?.body ||
@@ -553,7 +553,7 @@ export default async function HomePage() {
           <Image
             alt=""
             aria-hidden
-            className="absolute bottom-0 right-0 hidden h-full w-[44%] object-cover opacity-45 [mask-image:linear-gradient(90deg,transparent,#000_35%)] lg:block"
+            className="absolute bottom-0 right-0 hidden h-full w-[44%] object-cover object-left opacity-42 [mask-image:linear-gradient(90deg,transparent,#000_35%)] lg:block"
             height={360}
             src={homeCtaImageUrl}
             width={760}
